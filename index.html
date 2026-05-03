@@ -157,6 +157,22 @@
       .card, .day-card { padding: 16px; }
       .flight-point .code { font-size: 22px; }
     }
+
+    /* DAY FILTER */
+    .day-filters { background: white; padding: 12px 16px; border-radius: 14px 14px 0 0; box-shadow: var(--card-shadow); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .day-filter-btn {
+      padding: 5px 12px; border-radius: 20px; border: 2px solid var(--gray-200);
+      background: white; font-size: 12px; font-weight: 600; cursor: pointer;
+      transition: all 0.18s; color: var(--gray-700); white-space: nowrap;
+    }
+    .day-filter-btn:hover { border-color: var(--dc, var(--sky)); color: var(--dc, var(--sky)); }
+    .day-filter-btn.active { background: var(--dc, #64748b); border-color: var(--dc, #64748b); color: white; }
+    .route-info-bar {
+      display: none; padding: 7px 16px; font-size: 13px; font-weight: 600;
+      align-items: center; gap: 8px; background: var(--dc, #64748b); color: white;
+    }
+    .route-info-bar.visible { display: flex; }
+    .route-info-bar .r-status { margin-left: auto; font-size: 11px; font-weight: 400; opacity: 0.85; }
   </style>
 </head>
 <body>
@@ -190,20 +206,36 @@
 
   <!-- ═══════════════ MAP ═══════════════ -->
   <div id="tab-map" class="tab-content active">
-    <div class="card" style="padding:0;overflow:hidden;">
-      <div id="map"></div>
+    <div class="day-filters">
+      <span style="font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;flex-shrink:0;margin-right:2px;">Day:</span>
+      <button class="day-filter-btn active" style="--dc:#64748b" onclick="filterDay('all',this)">All</button>
+      <button class="day-filter-btn" style="--dc:#6366f1" onclick="filterDay(0,this)">D0 · Arrival</button>
+      <button class="day-filter-btn" style="--dc:#0ea5e9" onclick="filterDay(1,this)">D1 · CBD Loop</button>
+      <button class="day-filter-btn" style="--dc:#3b82f6" onclick="filterDay(2,this)">D2 · Laneways</button>
+      <button class="day-filter-btn" style="--dc:#f97316" onclick="filterDay(3,this)">D3 · St Kilda</button>
+      <button class="day-filter-btn" style="--dc:#8b5cf6" onclick="filterDay(4,this)">D4 · Puffing Billy</button>
+      <button class="day-filter-btn" style="--dc:#dc2626" onclick="filterDay(5,this)">D5 · Yarra Valley</button>
+      <button class="day-filter-btn" style="--dc:#f59e0b" onclick="filterDay(6,this)">D6 · Shrine</button>
+      <button class="day-filter-btn" style="--dc:#14b8a6" onclick="filterDay(7,this)">D7 · Great Ocean Rd</button>
     </div>
-    <div class="grid-3">
+    <div id="route-info-bar" class="route-info-bar">
+      <span id="route-label"></span>
+      <span id="route-status" class="r-status"></span>
+    </div>
+    <div style="background:white;border-radius:0 0 14px 14px;overflow:hidden;box-shadow:var(--card-shadow);">
+      <div id="map" style="border-radius:0 0 14px 14px;"></div>
+    </div>
+    <div class="grid-3" style="margin-top:18px;">
       <div class="card" style="padding:16px;">
         <div class="section-label">Hotel Base</div>
         <strong style="font-size:14px;">Quay West Suites Southbank</strong>
         <p style="font-size:13px;color:var(--gray-400);margin-top:4px;">21 Riverside Ave, Southbank VIC 3006</p>
       </div>
       <div class="card" style="padding:16px;">
-        <div class="section-label">Legend</div>
-        <div style="font-size:12px;line-height:2;">
-          🟢 Hotel &nbsp; 🔵 CBD &nbsp; 🟣 Day Trips<br>
-          🔴 Shrine/St Kilda &nbsp; 🟡 Great Ocean Rd
+        <div class="section-label">Day Colors</div>
+        <div style="font-size:12px;line-height:2;display:flex;flex-wrap:wrap;gap:0 14px;">
+          <span>🔵 D1 CBD</span><span>🔵 D2 Laneways</span><span>🟠 D3 St Kilda</span>
+          <span>🟣 D4 Puffing Billy</span><span>🔴 D5 Wine</span><span>🟡 D6 Shrine</span><span>🟢 D7 GOR</span>
         </div>
       </div>
       <div class="card" style="padding:16px;">
@@ -994,93 +1026,200 @@
 // ─────────────────────────────────────────
 // TAB SWITCHING
 // ─────────────────────────────────────────
-function showTab(id, btn) {
+function showTab(id) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-' + id).classList.add('active');
-  // Find the button that was clicked (passed as 'this' string from onclick)
   event.currentTarget.classList.add('active');
-  if (id === 'map') { setTimeout(() => map.invalidateSize(), 100); }
+  if (id === 'map') setTimeout(() => map.invalidateSize(), 100);
 }
 
 // ─────────────────────────────────────────
-// LEAFLET MAP
+// DAY DEFINITIONS
+// ─────────────────────────────────────────
+const DAY_COLOR = {
+  all: '#64748b', 0: '#6366f1', 1: '#0ea5e9', 2: '#3b82f6',
+  3: '#f97316', 4: '#8b5cf6', 5: '#dc2626', 6: '#f59e0b', 7: '#14b8a6'
+};
+const DAY_LABEL = {
+  all: 'All Days',
+  0: 'Day 0 · Arrival — Aug 17',
+  1: 'Day 1 · CBD Walking Loop — Aug 18',
+  2: 'Day 2 · Melbourne Laneways — Aug 19',
+  3: 'Day 3 · St Kilda & Brighton — Aug 20',
+  4: 'Day 4 · Puffing Billy + Healesville — Aug 21',
+  5: 'Day 5 · Yarra Valley Wine Tour — Aug 22',
+  6: 'Day 6 · Shrine Sunrise + Penguins — Aug 23',
+  7: 'Day 7 · Great Ocean Road — Aug 24',
+};
+
+// ─────────────────────────────────────────
+// PINS DATA  (dayNum + order within day)
+// ─────────────────────────────────────────
+const H = { lat: -37.8213, lng: 144.9593, emoji: '🏨', title: 'Quay West Suites Southbank', sub: '21 Riverside Ave · Home Base' };
+
+const pinsData = [
+  // Day 0 — Arrival: Airport → Hotel
+  { lat: -37.6690, lng: 144.8410, emoji: '✈️', title: 'Melbourne Airport (MEL)', sub: 'Pick up Kia Carnival · Tullamarine', dayNum: 0, order: 0 },
+  { ...H, dayNum: 0, order: 1 },
+
+  // Day 1 — CBD Walking Loop
+  { ...H, dayNum: 1, order: 0 },
+  { lat: -37.8171, lng: 144.9671, emoji: '🏛', title: 'Federation Square', sub: 'Starting point', dayNum: 1, order: 1 },
+  { lat: -37.8170, lng: 144.9673, emoji: '⛪', title: "St Paul's Cathedral", sub: 'Gothic Revival · Free entry', dayNum: 1, order: 2 },
+  { lat: -37.8097, lng: 144.9646, emoji: '📚', title: 'State Library of Victoria', sub: 'La Trobe Reading Room · Free', dayNum: 1, order: 3 },
+  { lat: -37.8038, lng: 144.9711, emoji: '🌿', title: 'Carlton Gardens', sub: 'UNESCO World Heritage', dayNum: 1, order: 4 },
+  { lat: -37.8097, lng: 144.9730, emoji: '⛪', title: "St Patrick's Cathedral", sub: 'Tallest spire in Australia', dayNum: 1, order: 5 },
+  { lat: -37.8137, lng: 144.9793, emoji: '🌳', title: 'Fitzroy Gardens', sub: "Cook's Cottage · Free", dayNum: 1, order: 6 },
+  { lat: -37.8175, lng: 144.9689, emoji: '🎨', title: 'Hosier Lane', sub: 'Street art laneway', dayNum: 1, order: 7 },
+  { lat: -37.8201, lng: 144.9724, emoji: '🔔', title: 'Birrarung Marr', sub: 'Riverside park · Federation Bells', dayNum: 1, order: 8 },
+
+  // Day 2 — Laneways
+  { ...H, dayNum: 2, order: 0 },
+  { lat: -37.8066, lng: 144.9573, emoji: '🛒', title: 'Queen Victoria Market', sub: 'Fresh produce & breakfast stalls', dayNum: 2, order: 1 },
+  { lat: -37.8162, lng: 144.9665, emoji: '☕', title: 'Degraves St / Centre Place', sub: 'Melbourne laneways & cafés', dayNum: 2, order: 2 },
+  { lat: -37.8225, lng: 144.9692, emoji: '🎨', title: 'NGV International', sub: 'St Kilda Rd · Free collection', dayNum: 2, order: 3 },
+  { lat: -37.8217, lng: 144.9563, emoji: '🏙', title: 'Eureka Skydeck 88', sub: '297m views · $25 AUD', dayNum: 2, order: 4 },
+
+  // Day 3 — St Kilda & Brighton
+  { ...H, dayNum: 3, order: 0 },
+  { lat: -37.8662, lng: 144.9803, emoji: '🎡', title: 'St Kilda & Luna Park', sub: 'Beach, pier & heritage rides', dayNum: 3, order: 1 },
+  { lat: -37.9180, lng: 144.9885, emoji: '🏖', title: 'Brighton Beach Bathing Boxes', sub: '82 colourful Victorian boxes', dayNum: 3, order: 2 },
+
+  // Day 4 — Puffing Billy + Healesville
+  { ...H, dayNum: 4, order: 0 },
+  { lat: -37.9136, lng: 145.3567, emoji: '🚂', title: 'Puffing Billy — Belgrave', sub: 'Steam train · Dandenong Ranges', dayNum: 4, order: 1 },
+  { lat: -37.6858, lng: 145.5235, emoji: '🐨', title: 'Healesville Sanctuary', sub: 'Koalas, platypus, wombats · Book online', dayNum: 4, order: 2 },
+
+  // Day 5 — Yarra Valley Wine Tour
+  { ...H, dayNum: 5, order: 0 },
+  { lat: -37.6556, lng: 145.4956, emoji: '🍷', title: 'Yering Station', sub: 'First winery in Victoria', dayNum: 5, order: 1 },
+  { lat: -37.6756, lng: 145.6956, emoji: '🍯', title: 'De Bortoli Wines', sub: 'Noble One dessert wine', dayNum: 5, order: 2 },
+  { lat: -37.7049, lng: 145.3851, emoji: '🥂', title: 'Domaine Chandon', sub: 'Sparkling wine · stunning views', dayNum: 5, order: 3 },
+
+  // Day 6 — Shrine Sunrise + Penguins
+  { ...H, dayNum: 6, order: 0 },
+  { lat: -37.8306, lng: 144.9736, emoji: '🕊', title: 'Shrine of Remembrance', sub: 'Sunrise 06:45 · Free', dayNum: 6, order: 1 },
+  { lat: -37.8662, lng: 144.9803, emoji: '🎡', title: 'St Kilda Foreshore', sub: 'Afternoon walk', dayNum: 6, order: 2 },
+  { lat: -37.8678, lng: 144.9819, emoji: '🐧', title: 'St Kilda Breakwater — Penguins', sub: 'Little Penguins after sunset · FREE', dayNum: 6, order: 3 },
+
+  // Day 7 — Great Ocean Road
+  { ...H, dayNum: 7, order: 0 },
+  { lat: -38.4032, lng: 144.3227, emoji: '🏄', title: 'Bells Beach', sub: 'Legendary surf break', dayNum: 7, order: 1 },
+  { lat: -38.5510, lng: 143.9820, emoji: '🦘', title: 'Kennett River — Koalas', sub: 'Wild koalas in gum trees', dayNum: 7, order: 2 },
+  { lat: -38.7521, lng: 143.6743, emoji: '🐟', title: 'Apollo Bay', sub: 'Lunch · Fresh fish & chips', dayNum: 7, order: 3 },
+  { lat: -38.6643, lng: 143.1051, emoji: '🌊', title: 'Twelve Apostles', sub: 'Iconic limestone sea stacks', dayNum: 7, order: 4 },
+  { lat: -38.6650, lng: 143.1035, emoji: '🏖', title: 'Gibson Steps', sub: 'Base-level beach & cliff views', dayNum: 7, order: 5 },
+  { lat: -38.7101, lng: 143.0320, emoji: '🌉', title: 'London Bridge', sub: 'Dramatic coastal rock arch', dayNum: 7, order: 6 },
+];
+
+// ─────────────────────────────────────────
+// MAP SETUP
 // ─────────────────────────────────────────
 const map = L.map('map', { center: [-37.88, 144.95], zoom: 10 });
-
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   maxZoom: 19
 }).addTo(map);
 
-function makeIcon(color, emoji) {
+function makeEmojiIcon(color, emoji) {
   return L.divIcon({
-    html: `<div style="background:${color};width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.35);">${emoji}</div>`,
-    className: '',
-    iconSize: [32, 32],
-    iconAnchor: [16, 32],
-    popupAnchor: [0, -34]
+    html: `<div style="background:${color};width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.35);">${emoji}</div>`,
+    className: '', iconSize: [34, 34], iconAnchor: [17, 34], popupAnchor: [0, -36]
+  });
+}
+function makeNumberIcon(n, color) {
+  return L.divIcon({
+    html: `<div style="background:${color};width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:white;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.4);">${n}</div>`,
+    className: '', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -34]
   });
 }
 
-const pins = [
-  // Hotel
-  { lat: -37.8213, lng: 144.9593, emoji: '🏨', color: '#1b4f8a', title: 'Quay West Suites Southbank', sub: '21 Riverside Ave · Home Base', day: 'All nights' },
-  // Airport
-  { lat: -37.6690, lng: 144.8410, emoji: '✈️', color: '#6366f1', title: 'Melbourne Airport (MEL)', sub: 'Tullamarine · Pickup/Return rental car', day: 'Arrive Aug 17 · Depart Aug 24' },
-  // CBD landmarks
-  { lat: -37.8170, lng: 144.9673, emoji: '⛪', color: '#0ea5e9', title: "St Paul's Cathedral", sub: 'Flinders & Swanston St', day: 'Day 1' },
-  { lat: -37.8097, lng: 144.9646, emoji: '📚', color: '#0ea5e9', title: 'State Library of Victoria', sub: 'La Trobe St · Free entry', day: 'Day 1' },
-  { lat: -37.8038, lng: 144.9711, emoji: '🌿', color: '#10b981', title: 'Carlton Gardens', sub: 'UNESCO World Heritage', day: 'Day 1' },
-  { lat: -37.8097, lng: 144.9730, emoji: '⛪', color: '#0ea5e9', title: "St Patrick's Cathedral", sub: 'Tallest spire in Australia', day: 'Day 1' },
-  { lat: -37.8137, lng: 144.9793, emoji: '🌳', color: '#10b981', title: 'Fitzroy Gardens', sub: "Cook's Cottage · Free", day: 'Day 1' },
-  { lat: -37.8175, lng: 144.9689, emoji: '🎨', color: '#f59e0b', title: 'Hosier Lane', sub: 'Street art laneway · Near Fed Square', day: 'Day 1' },
-  { lat: -37.8201, lng: 144.9724, emoji: '🔔', color: '#0ea5e9', title: 'Birrarung Marr', sub: 'Riverside park · Federation Bells', day: 'Day 1' },
-  { lat: -37.8171, lng: 144.9671, emoji: '🏛', color: '#0ea5e9', title: 'Federation Square', sub: 'Flinders St · Starting point', day: 'Day 1' },
-  // Eureka
-  { lat: -37.8217, lng: 144.9563, emoji: '🏙', color: '#0ea5e9', title: 'Eureka Skydeck 88', sub: '297m · $25 AUD/adult', day: 'Day 2' },
-  // NGV
-  { lat: -37.8225, lng: 144.9692, emoji: '🎨', color: '#0ea5e9', title: 'NGV International', sub: 'St Kilda Rd · Free international collection', day: 'Day 2' },
-  // Shrine
-  { lat: -37.8306, lng: 144.9736, emoji: '🕊', color: '#ef4444', title: 'Shrine of Remembrance', sub: 'Sunrise from 06:45 · Free', day: 'Day 6 — Sunrise' },
-  // St Kilda
-  { lat: -37.8662, lng: 144.9803, emoji: '🎡', color: '#f97316', title: 'St Kilda Beach & Luna Park', sub: 'Penguin viewing at breakwater after sunset', day: 'Day 3 & Day 6' },
-  { lat: -37.8678, lng: 144.9819, emoji: '🐧', color: '#f97316', title: 'St Kilda Breakwater — Penguins', sub: 'Little Penguins · After sunset · FREE', day: 'Day 6' },
-  // Brighton
-  { lat: -37.9180, lng: 144.9885, emoji: '🏖', color: '#f97316', title: 'Brighton Beach Bathing Boxes', sub: '82 colourful boxes · Great for photos', day: 'Day 3' },
-  // Puffing Billy
-  { lat: -37.9136, lng: 145.3567, emoji: '🚂', color: '#8b5cf6', title: 'Puffing Billy — Belgrave Station', sub: 'Steam train through Dandenong Ranges', day: 'Day 4' },
-  // Healesville
-  { lat: -37.6858, lng: 145.5235, emoji: '🐨', color: '#8b5cf6', title: 'Healesville Sanctuary', sub: 'Koalas, platypus, wombats · Book online', day: 'Day 4' },
-  // Yarra Valley
-  { lat: -37.7888, lng: 145.5302, emoji: '🍷', color: '#dc2626', title: 'Yering Station — Yarra Valley', sub: 'Private wine tour · Day 5', day: 'Day 5' },
-  { lat: -37.8049, lng: 145.5316, emoji: '🥂', color: '#dc2626', title: 'Domaine Chandon', sub: 'Sparkling wine · stunning architecture', day: 'Day 5' },
-  // Great Ocean Road
-  { lat: -38.4032, lng: 144.3227, emoji: '🏄', color: '#14b8a6', title: 'Bells Beach', sub: 'Legendary surf break · Great Ocean Road', day: 'Day 7' },
-  { lat: -38.5510, lng: 143.9820, emoji: '🦘', color: '#14b8a6', title: 'Kennett River — Koalas', sub: 'Wild koalas in gum trees', day: 'Day 7' },
-  { lat: -38.7521, lng: 143.6743, emoji: '🐟', color: '#14b8a6', title: 'Apollo Bay', sub: 'Lunch stop · Fresh fish & chips', day: 'Day 7' },
-  { lat: -38.6643, lng: 143.1051, emoji: '🌊', color: '#14b8a6', title: 'Twelve Apostles', sub: 'Iconic limestone sea stacks', day: 'Day 7 — Highlight' },
-  { lat: -38.7101, lng: 143.0320, emoji: '🌉', color: '#14b8a6', title: 'London Bridge', sub: 'Dramatic coastal rock arch', day: 'Day 7' },
-  { lat: -38.6650, lng: 143.1035, emoji: '🏖', color: '#14b8a6', title: 'Gibson Steps', sub: 'Descend to beach · Base-level Apostles view', day: 'Day 7' },
-];
+let activeMarkers = [];
+let activeRoute = null;
 
-pins.forEach(p => {
-  const marker = L.marker([p.lat, p.lng], { icon: makeIcon(p.color, p.emoji) }).addTo(map);
-  marker.bindPopup(`
-    <div class="popup-title">${p.emoji} ${p.title}</div>
-    <div style="font-size:12px;color:#374151;margin:2px 0;">${p.sub}</div>
-    <div class="popup-day">📅 ${p.day}</div>
-  `);
-});
+function clearMap() {
+  activeMarkers.forEach(m => map.removeLayer(m));
+  activeMarkers = [];
+  if (activeRoute) { map.removeLayer(activeRoute); activeRoute = null; }
+}
 
-// Fix map rendering when tab becomes visible
+async function fetchOSRM(points) {
+  const coords = points.map(p => `${p.lng},${p.lat}`).join(';');
+  const r = await fetch(`https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson`);
+  const d = await r.json();
+  if (d.code === 'Ok' && d.routes[0])
+    return d.routes[0].geometry.coordinates.map(([ln, la]) => [la, ln]);
+  return null;
+}
+
+async function filterDay(day, btn) {
+  document.querySelectorAll('.day-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  clearMap();
+
+  const bar   = document.getElementById('route-info-bar');
+  const label = document.getElementById('route-label');
+  const status = document.getElementById('route-status');
+
+  if (day === 'all') {
+    bar.className = 'route-info-bar';
+    const seen = new Set();
+    pinsData.forEach(p => {
+      const k = `${p.lat.toFixed(4)},${p.lng.toFixed(4)}`;
+      if (seen.has(k)) return;
+      seen.add(k);
+      const color = p.emoji === '🏨' ? '#1b4f8a' : DAY_COLOR[p.dayNum];
+      const m = L.marker([p.lat, p.lng], { icon: makeEmojiIcon(color, p.emoji) }).addTo(map);
+      m.bindPopup(`<div class="popup-title">${p.emoji} ${p.title}</div><div style="font-size:12px;color:#374151;margin:2px 0;">${p.sub}</div><div class="popup-day">📅 ${DAY_LABEL[p.dayNum]}</div>`);
+      activeMarkers.push(m);
+    });
+    map.setView([-37.88, 144.95], 10);
+    return;
+  }
+
+  const dayPins = pinsData.filter(p => p.dayNum === day).sort((a, b) => a.order - b.order);
+  const color = DAY_COLOR[day];
+
+  // Numbered markers (hotel stays as 🏨, other stops get 1, 2, 3…)
+  let stopN = 0;
+  dayPins.forEach(p => {
+    const isHotel = p.emoji === '🏨';
+    const icon = isHotel ? makeEmojiIcon('#1b4f8a', '🏨') : makeNumberIcon(++stopN, color);
+    const titleLabel = isHotel ? `🏨 ${p.title}` : `${stopN}. ${p.title}`;
+    const m = L.marker([p.lat, p.lng], { icon }).addTo(map);
+    m.bindPopup(`<div class="popup-title">${titleLabel}</div><div style="font-size:12px;color:#374151;margin:2px 0;">${p.sub}</div><div class="popup-day">📅 ${DAY_LABEL[day]}</div>`);
+    activeMarkers.push(m);
+  });
+
+  map.fitBounds(L.latLngBounds(dayPins.map(p => [p.lat, p.lng])), { padding: [50, 50] });
+
+  // Route info bar
+  bar.style.setProperty('--dc', color);
+  label.textContent = DAY_LABEL[day];
+  status.textContent = 'Loading route…';
+  bar.className = 'route-info-bar visible';
+
+  try {
+    const latlngs = await fetchOSRM(dayPins);
+    if (!latlngs) throw new Error();
+    activeRoute = L.polyline(latlngs, { color, weight: 5, opacity: 0.78 }).addTo(map);
+    status.textContent = `${stopN} stop${stopN !== 1 ? 's' : ''} · Road route ✓`;
+  } catch {
+    activeRoute = L.polyline(dayPins.map(p => [p.lat, p.lng]), { color, weight: 3, opacity: 0.55, dashArray: '8 6' }).addTo(map);
+    status.textContent = `${stopN} stop${stopN !== 1 ? 's' : ''} · Straight-line`;
+  }
+}
+
+// Fix map when switching back to map tab
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    if (btn.textContent.includes('Map')) {
-      setTimeout(() => map.invalidateSize(), 150);
-    }
+    if (btn.textContent.trim().startsWith('🗺')) setTimeout(() => map.invalidateSize(), 150);
   });
 });
+
+// Initial render
+filterDay('all', document.querySelector('.day-filter-btn'));
 </script>
 </body>
 </html>
