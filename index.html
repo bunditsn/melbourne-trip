@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Melbourne Trip — August 2026</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root {
+      --navy: #0b2545;
+      --blue: #1b4f8a;
+      --sky: #2e86de;
+      --teal: #00b4d8;
+      --gold: #f4a261;
+      --cream: #fdf8f0;
+      --white: #ffffff;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-400: #9ca3af;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --text: #1e293b;
+      --card-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--gray-100); color: var(--text); line-height: 1.6; }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 60%, var(--sky) 100%);
+      color: white; padding: 28px 24px 20px; text-align: center; position: relative; overflow: hidden;
+    }
+    header::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    header .badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 4px 14px; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+    header h1 { font-size: clamp(24px, 5vw, 38px); font-weight: 700; letter-spacing: -0.5px; }
+    header p { font-size: 15px; opacity: 0.85; margin-top: 6px; }
+    .header-meta { display: flex; gap: 20px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+    .header-meta span { background: rgba(255,255,255,0.12); border-radius: 8px; padding: 6px 14px; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+
+    /* TABS */
+    .tabs-wrap { background: var(--navy); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
+    .tabs { display: flex; overflow-x: auto; scrollbar-width: none; max-width: 1100px; margin: 0 auto; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      flex-shrink: 0; padding: 14px 20px; background: none; border: none; color: rgba(255,255,255,0.6);
+      font-size: 13px; font-weight: 500; cursor: pointer; border-bottom: 3px solid transparent;
+      transition: all 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 7px;
+    }
+    .tab-btn:hover { color: white; }
+    .tab-btn.active { color: var(--teal); border-bottom-color: var(--teal); }
+
+    /* MAIN */
+    main { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* MAP */
+    #map { height: 480px; border-radius: 14px; box-shadow: var(--card-shadow); margin-bottom: 24px; }
+
+    /* CARDS */
+    .card { background: white; border-radius: 14px; padding: 22px 24px; box-shadow: var(--card-shadow); margin-bottom: 18px; }
+    .card h2 { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .card h3 { font-size: 15px; font-weight: 600; color: var(--blue); margin: 14px 0 8px; }
+    .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--teal); margin-bottom: 6px; }
+
+    /* GRID */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 700px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+    /* FLIGHTS */
+    .flight-card { background: linear-gradient(135deg, var(--navy), var(--blue)); color: white; border-radius: 14px; padding: 22px 24px; margin-bottom: 18px; }
+    .flight-card h2 { color: white; margin-bottom: 16px; }
+    .flight-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+    .flight-point { text-align: center; }
+    .flight-point .code { font-size: 28px; font-weight: 800; letter-spacing: -1px; }
+    .flight-point .city { font-size: 11px; opacity: 0.7; }
+    .flight-point .time { font-size: 16px; font-weight: 600; margin-top: 2px; }
+    .flight-point .date-label { font-size: 11px; opacity: 0.65; }
+    .flight-line { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 80px; }
+    .flight-line .arrow { width: 100%; height: 2px; background: rgba(255,255,255,0.3); position: relative; }
+    .flight-line .arrow::after { content: '▶'; position: absolute; right: -6px; top: -7px; font-size: 10px; opacity: 0.7; }
+    .flight-line .num { font-size: 12px; opacity: 0.8; font-weight: 600; }
+    .flight-line .dur { font-size: 11px; opacity: 0.6; }
+    .flight-badge { display: inline-block; background: rgba(255,255,255,0.12); border-radius: 6px; padding: 2px 8px; font-size: 11px; margin-right: 6px; }
+
+    /* ITINERARY */
+    .day-card { background: white; border-radius: 14px; padding: 20px 24px; box-shadow: var(--card-shadow); margin-bottom: 16px; border-left: 5px solid var(--sky); }
+    .day-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+    .day-num { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--sky); }
+    .day-date { font-size: 15px; font-weight: 700; color: var(--navy); }
+    .day-title { font-size: 14px; color: var(--gray-700); }
+    .timeline { list-style: none; position: relative; padding-left: 28px; }
+    .timeline::before { content: ''; position: absolute; left: 7px; top: 4px; bottom: 4px; width: 2px; background: var(--gray-200); }
+    .timeline li { position: relative; margin-bottom: 12px; font-size: 14px; }
+    .timeline li::before { content: ''; position: absolute; left: -21px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--sky); border: 2px solid white; box-shadow: 0 0 0 2px var(--sky); }
+    .timeline li .time { font-weight: 700; color: var(--blue); font-size: 13px; margin-right: 6px; }
+    .timeline li .note { display: block; font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-left: 6px; }
+    .tag-food { background: #fef3c7; color: #92400e; }
+    .tag-drive { background: #dbeafe; color: #1e40af; }
+    .tag-photo { background: #fce7f3; color: #9d174d; }
+    .tag-nature { background: #d1fae5; color: #065f46; }
+    .tag-culture { background: #ede9fe; color: #4c1d95; }
+    .tip-box { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 10px 14px; font-size: 13px; margin-top: 12px; color: #0369a1; }
+    .tip-box strong { display: block; margin-bottom: 2px; }
+
+    /* INFO ROWS */
+    .info-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-start; font-size: 14px; }
+    .info-row .label { font-weight: 600; color: var(--blue); min-width: 120px; flex-shrink: 0; }
+    .info-row .val { color: var(--gray-700); }
+
+    /* HIGHLIGHT BOX */
+    .highlight { background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+    .highlight .hl-title { font-weight: 700; color: var(--navy); font-size: 15px; margin-bottom: 4px; }
+    .highlight .hl-sub { font-size: 13px; color: var(--gray-700); }
+
+    /* PHOTO SPOTS */
+    .photo-spot { border: 1px solid var(--gray-200); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+    .photo-spot h3 { color: var(--navy); margin: 0 0 8px; font-size: 15px; display: flex; align-items: center; gap: 6px; }
+    .photo-spot .gear { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+    .gear-badge { background: var(--gray-100); border-radius: 6px; padding: 2px 8px; font-size: 11px; font-weight: 600; color: var(--gray-700); }
+    .gear-badge.drone { background: #fce7f3; color: #9d174d; }
+    .gear-badge.leica { background: #f3e8ff; color: #6d28d9; }
+    .photo-spot p { font-size: 13px; color: var(--gray-700); margin-bottom: 4px; }
+    .golden-hour { font-size: 12px; color: var(--gold); font-weight: 600; }
+
+    /* TIPS */
+    .tip-category { margin-bottom: 20px; }
+    .tip-category h3 { font-size: 15px; font-weight: 700; color: var(--navy); border-bottom: 2px solid var(--gray-200); padding-bottom: 6px; margin-bottom: 10px; }
+    .tip-item { display: flex; gap: 10px; margin-bottom: 8px; font-size: 14px; }
+    .tip-item .icon { font-size: 16px; flex-shrink: 0; }
+    .tip-item .text { color: var(--gray-700); }
+    .tip-item .text strong { color: var(--text); }
+
+    /* CAR */
+    .spec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .spec-item { background: var(--gray-100); border-radius: 10px; padding: 12px; text-align: center; }
+    .spec-item .s-val { font-size: 18px; font-weight: 800; color: var(--navy); }
+    .spec-item .s-lbl { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+
+    /* FOOTER */
+    footer { text-align: center; padding: 24px 16px; font-size: 12px; color: var(--gray-400); }
+
+    /* MAP POPUP */
+    .leaflet-popup-content { font-size: 13px; line-height: 1.5; }
+    .popup-title { font-weight: 700; color: var(--navy); font-size: 14px; }
+    .popup-day { color: var(--sky); font-size: 12px; }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      header { padding: 20px 16px 16px; }
+      .card, .day-card { padding: 16px; }
+      .flight-point .code { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">Family Trip</div>
+  <h1>Melbourne, Australia</h1>
+  <p>Two Families · 6 Travellers · 7 Nights · August 2026</p>
+  <div class="header-meta">
+    <span>✈️ Aug 17 – 23, 2026</span>
+    <span>🏨 Quay West Suites Southbank</span>
+    <span>🚐 8-Seat Kia Carnival / iMax</span>
+    <span>📷 Leica M10 + DJI Mini 3 Pro</span>
+  </div>
+</header>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('map','this')">🗺 Map</button>
+    <button class="tab-btn" onclick="showTab('itinerary','this')">📅 Itinerary</button>
+    <button class="tab-btn" onclick="showTab('flights','this')">✈️ Flights</button>
+    <button class="tab-btn" onclick="showTab('hotel','this')">🏨 Hotel</button>
+    <button class="tab-btn" onclick="showTab('activities','this')">🎯 Activities</button>
+    <button class="tab-btn" onclick="showTab('car','this')">🚐 Car</button>
+    <button class="tab-btn" onclick="showTab('photos','this')">📷 Photo Spots</button>
+    <button class="tab-btn" onclick="showTab('tips','this')">💡 Tips</button>
+  </div>
+</div>
+
+<main>
+
+  <!-- ═══════════════ MAP ═══════════════ -->
+  <div id="tab-map" class="tab-content active">
+    <div class="card" style="padding:0;overflow:hidden;">
+      <div id="map"></div>
+    </div>
+    <div class="grid-3">
+      <div class="card" style="padding:16px;">
+        <div class="section-label">Hotel Base</div>
+        <strong style="font-size:14px;">Quay West Suites Southbank</strong>
+        <p style="font-size:13px;color:var(--gray-400);margin-top:4px;">21 Riverside Ave, Southbank VIC 3006</p>
+      </div>
+      <div class="card" style="padding:16px;">
+        <div class="section-label">Legend</div>
+        <div style="font-size:12px;line-height:2;">
+          🟢 Hotel &nbsp; 🔵 CBD &nbsp; 🟣 Day Trips<br>
+          🔴 Shrine/St Kilda &nbsp; 🟡 Great Ocean Rd
+        </div>
+      </div>
+      <div class="card" style="padding:16px;">
+        <div class="section-label">Total Drive Distance</div>
+        <div style="font-size:22px;font-weight:800;color:var(--navy);">~720 km</div>
+        <div style="font-size:12px;color:var(--gray-400);">over 7 days incl. GOR</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ ITINERARY ═══════════════ -->
+  <div id="tab-itinerary" class="tab-content">
+
+    <!-- Day 0: Transit -->
+    <div class="day-card" style="border-left-color:#6366f1;">
+      <div class="day-header">
+        <span class="day-num">Day 0</span>
+        <span class="day-date">Sunday, 17 Aug</span>
+        <span class="day-title">— Arrival Day</span>
+      </div>
+      <ul class="timeline">
+        <li><span class="time">06:20</span> Depart Bangkok BKK on SQ721 <span class="tag tag-drive">2h 15m</span></li>
+        <li><span class="time">09:35</span> Transit Singapore Changi (SIN) — Terminal 3 <span class="note">2h 40m layover · grab breakfast at hawker centre</span></li>
+        <li><span class="time">12:15</span> Depart Singapore on SQ227 to Melbourne <span class="tag tag-drive">8h</span></li>
+        <li><span class="time">22:15</span> Arrive Melbourne Airport (MEL) <span class="note">Estimated, confirm SQ flight schedule</span></li>
+        <li><span class="time">22:15</span> Collect 8-seat Kia Carnival / Hyundai iMax — Ground Transport Hall</li>
+        <li><span class="time">23:30</span> Check in Quay West Suites Southbank <span class="note">~35 min drive via Tullamarine Fwy · notify hotel of late arrival</span></li>
+      </ul>
+      <div class="tip-box"><strong>⚠️ Note:</strong> SQ721 departs BKK 06:20 — arrive SIN 09:35. SQ227 departs SIN 12:15 — arrives MEL at ~22:15 (+1 day). Confirm exact arrival is Aug 17 or Aug 18 morning based on published schedule.</div>
+    </div>
+
+    <!-- Day 1 -->
+    <div class="day-card" style="border-left-color:var(--sky);">
+      <div class="day-header">
+        <span class="day-num">Day 1</span>
+        <span class="day-date">Monday, 18 Aug</span>
+        <span class="day-title">— CBD Walking Loop</span>
+      </div>
+      <ul class="timeline">
+        <li><span class="time">08:30</span> Breakfast at hotel or Southbank Promenade cafes <span class="tag tag-food">🍳</span></li>
+        <li><span class="time">10:00</span> <strong>Federation Square</strong> — start point, landmark architecture <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">10:20</span> <strong>St Paul's Cathedral</strong> — Gothic Revival, free entry <span class="tag tag-culture">🏛</span></li>
+        <li><span class="time">11:00</span> <strong>Melbourne Town Hall & Block Arcade</strong> — historic arcade <span class="tag tag-culture">🏛</span></li>
+        <li><span class="time">11:30</span> <strong>State Library of Victoria</strong> — La Trobe Reading Room (free) <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">12:30</span> Lunch at Melbourne Central food court or nearby <span class="tag tag-food">🥢</span></li>
+        <li><span class="time">13:30</span> <strong>Carlton Gardens & Royal Exhibition Building</strong> — UNESCO site <span class="tag tag-nature">🌿</span></li>
+        <li><span class="time">14:30</span> <strong>St Patrick's Cathedral</strong> — tallest spire in Australia <span class="tag tag-culture">🏛</span></li>
+        <li><span class="time">15:15</span> <strong>Fitzroy Gardens & Cook's Cottage</strong> — English garden, free <span class="tag tag-nature">🌿</span></li>
+        <li><span class="time">16:30</span> <strong>Hosier Lane</strong> — Melbourne's street art heart <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">17:15</span> <strong>Birrarung Marr</strong> — riverside park, Angels bells <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">18:00</span> Drinks on Southbank Promenade, return hotel <span class="tag tag-food">🍻</span></li>
+        <li><span class="time">19:30</span> Dinner — Crown Riverwalk restaurants or Southgate</li>
+      </ul>
+      <div class="tip-box"><strong>💡 Walking:</strong> ~6 km total loop. Wear comfortable shoes. Trams are free in the CBD Zone. Use MyKi for trains/trams outside free zone.</div>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="day-card" style="border-left-color:#10b981;">
+      <div class="day-header">
+        <span class="day-num">Day 2</span>
+        <span class="day-date">Tuesday, 19 Aug</span>
+        <span class="day-title">— Melbourne Laneways + Queen Victoria Market</span>
+      </div>
+      <ul class="timeline">
+        <li><span class="time">07:00</span> <strong>Queen Victoria Market</strong> — fresh produce, breakfast stalls <span class="tag tag-food">🛒</span></li>
+        <li><span class="time">09:30</span> Melbourne laneways walk — Degraves St, Centre Pl, Flinders Lane <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">11:00</span> <strong>NGV International</strong> (free international collection) <span class="tag tag-culture">🎨</span></li>
+        <li><span class="time">13:00</span> Lunch at South Melbourne Market or Southbank</li>
+        <li><span class="time">14:30</span> <strong>Eureka Skydeck 88</strong> — 297m views over Melbourne <span class="tag tag-photo">📷</span><span class="note">Book tickets online · $22–$25 AUD/adult</span></li>
+        <li><span class="time">16:30</span> Kids' playtime at Birrarung Marr or parklands</li>
+        <li><span class="time">19:00</span> Dinner — Southbank or Flinders Lane restaurants</li>
+      </ul>
+    </div>
+
+    <!-- Day 3 -->
+    <div class="day-card" style="border-left-color:#f59e0b;">
+      <div class="day-header">
+        <span class="day-num">Day 3</span>
+        <span class="day-date">Wednesday, 20 Aug</span>
+        <span class="day-title">— St Kilda, Port Phillip Bay</span>
+      </div>
+      <ul class="timeline">
+        <li><span class="time">09:00</span> Drive to <strong>St Kilda</strong> (~20 min, park near pier) <span class="tag tag-drive">🚐</span></li>
+        <li><span class="time">09:30</span> St Kilda Pier & Breakwater walk, bay views <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">10:30</span> <strong>Luna Park</strong> — heritage amusement park, kids rides <span class="tag tag-nature">🎡</span></li>
+        <li><span class="time">12:30</span> Lunch on Acland Street — famous cakes at Monarch or Acland</li>
+        <li><span class="time">14:00</span> St Kilda Beach & Esplanade market (Sundays) / Botanical Garden walk</li>
+        <li><span class="time">16:00</span> <strong>Brighton Beach</strong> — colourful bathing boxes <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">18:00</span> Return hotel, freshen up</li>
+        <li><span class="time">19:30</span> Dinner Southbank or Crown precinct</li>
+      </ul>
+    </div>
+
+    <!-- Day 4 -->
+    <div class="day-card" style="border-left-color:#8b5cf6;">
+      <div class="day-header">
+        <span class="day-num">Day 4</span>
+        <span class="day-date">Thursday, 21 Aug</span>
+        <span class="day-title">— Puffing Billy + Healesville Sanctuary</span>
+      </div>
+      <ul class="timeline">
+        <li><span class="time">07:30</span> Depart hotel — drive to Belgrave (1h via Monash Fwy) <span class="tag tag-drive">🚐</span></li>
+        <li><span class="time">09:00</span> <strong>Puffing Billy Railway</strong> — Belgrave → Menzies Creek (45 min each way) <span class="tag tag-photo">📷</span><span class="note">Book online · ~$40 adult, ~$22 child · sit on carriage sides!</span></li>
+        <li><span class="time">11:30</span> Drive to Healesville (~45 min through Dandenong Ranges)</li>
+        <li><span class="time">12:15</span> Lunch at Healesville township café</li>
+        <li><span class="time">13:30</span> <strong>Healesville Sanctuary</strong> — koalas, wombats, platypus, wedge-tail eagles <span class="tag tag-nature">🐨</span><span class="note">Open 10am–5pm · Book ahead · $45 adult, $24 child</span></li>
+        <li><span class="time">17:00</span> Drive back Melbourne (~1h via Maroondah Hwy)</li>
+        <li><span class="time">19:30</span> Dinner — local restaurant near hotel</li>
+      </ul>
+      <div class="tip-box"><strong>📷 Photo tip:</strong> Puffing Billy steam clouds are stunning in the cool August air. Get to Belgrave 30 min early for platform shots. Bring the Leica for portraits, DJI drone for aerial of train in forested valley (check CASA drone rules first).</div>
+    </div>
+
+    <!-- Day 5 -->
+    <div class="day-card" style="border-left-color:#ef4444;">
+      <div class="day-header">
+        <span class="day-num">Day 5</span>
+        <span class="day-date">Friday, 22 Aug</span>
+        <span class="day-title">— Yarra Valley Wine Tour (Private Driver)</span>
+      </div>
+      <ul class="timeline">
+        <li><span class="time">09:00</span> Pick up by private driver — depart hotel</li>
+        <li><span class="time">10:00</span> <strong>Yering Station</strong> — first winery in Victoria, stunning stone building <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">11:30</span> <strong>De Bortoli Wines</strong> — Noble One dessert wine tasting</li>
+        <li><span class="time">13:00</span> Winery lunch — Balgownie Estate or TarraWarra Estate bistro <span class="tag tag-food">🍷</span></li>
+        <li><span class="time">14:30</span> <strong>Domaine Chandon</strong> — sparkling wine, architecture <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">16:00</span> <strong>Healesville township</strong> — explore, souvenir stops</li>
+        <li><span class="time">17:30</span> Driver returns to Melbourne hotel</li>
+        <li><span class="time">19:00</span> Easy dinner near hotel</li>
+      </ul>
+      <div class="tip-box"><strong>💡 Private driver tip:</strong> Use a Yarra Valley wine tour company (e.g. Yarra Valley Wine Tours, or hire via Viator). Full-day private for 6 pax ~$700–900 AUD all-inclusive. Book 6–8 weeks ahead. No designated driver stress!</div>
+    </div>
+
+    <!-- Day 6 -->
+    <div class="day-card" style="border-left-color:#f97316;">
+      <div class="day-header">
+        <span class="day-num">Day 6</span>
+        <span class="day-date">Saturday, 23 Aug</span>
+        <span class="day-title">— Shrine Sunrise + St Kilda Penguins</span>
+      </div>
+      <ul class="timeline">
+        <li><span class="time">06:30</span> <strong>Shrine of Remembrance</strong> — sunrise over the Domain, Gardens views <span class="tag tag-photo">📷</span><span class="note">Sunrise ~7:00 Aug in Melbourne · Dress warmly, ~8°C</span></li>
+        <li><span class="time">07:30</span> Walk along King's Domain / Royal Botanic Gardens path</li>
+        <li><span class="time">08:30</span> Breakfast at Domain Rd cafés or hotel</li>
+        <li><span class="time">10:00</span> Relax morning / packing / last souvenir shopping in Southbank</li>
+        <li><span class="time">12:00</span> Farewell lunch at a Melbourne favourite — Vue de monde, Flower Drum, or Chin Chin</li>
+        <li><span class="time">14:00</span> Rest at hotel, tidy apartment</li>
+        <li><span class="time">17:30</span> Drive to <strong>St Kilda Breakwater</strong> for Little Penguin viewing <span class="tag tag-nature">🐧</span><span class="note">Penguins return to nests after dark — arrive before sunset ~17:50 Aug. FREE. Stay quiet, no flash.</span></li>
+        <li><span class="time">19:30</span> Return hotel — final pack for early departure</li>
+        <li><span class="time">21:00</span> Early night — flight check-in opens 07:35 tomorrow</li>
+      </ul>
+      <div class="tip-box"><strong>🐧 Penguin viewing:</strong> Little Penguins (Fairy Penguins) come ashore at St Kilda Breakwater nightly after dusk. Free, managed by rangers. No flash photography. Arrive 30 min before sunset to get a good spot. August sunset ~17:45–17:50.</div>
+    </div>
+
+    <!-- Day 7 -->
+    <div class="day-card" style="border-left-color:#14b8a6;">
+      <div class="day-header">
+        <span class="day-num">Day 7</span>
+        <span class="day-date">Sunday, 24 Aug</span>
+        <span class="day-title">— Great Ocean Road · Twelve Apostles</span>
+      </div>
+      <div class="tip-box" style="margin-bottom:12px;"><strong>⚠️ Note on scheduling:</strong> GOR is a full day trip (~10–12 hrs, 400+ km round trip). It's best done before the departure day. Consider swapping this to Day 3 or Day 4 if keeping departure Aug 23.</div>
+      <ul class="timeline">
+        <li><span class="time">05:30</span> Depart hotel — drive west via Princes Fwy (M1) <span class="tag tag-drive">🚐</span></li>
+        <li><span class="time">07:30</span> <strong>Torquay</strong> — Surf City, Jan Juc beach stop, breakfast</li>
+        <li><span class="time">08:30</span> <strong>Bells Beach</strong> — legendary surf break, clifftop views <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">09:30</span> <strong>Lorne</strong> — charming coastal town, coffee stop</li>
+        <li><span class="time">11:00</span> <strong>Kennett River</strong> — koalas in wild gum trees <span class="tag tag-nature">🐨</span></li>
+        <li><span class="time">12:30</span> <strong>Apollo Bay</strong> — lunch at harbour, fresh fish & chips <span class="tag tag-food">🐟</span></li>
+        <li><span class="time">14:30</span> <strong>Otway Fly Treetop Walk</strong> (optional, 45 min)</li>
+        <li><span class="time">16:00</span> <strong>Twelve Apostles</strong> — iconic sea stacks, lookout walk <span class="tag tag-photo">📷</span><span class="note">Late afternoon light perfect for Leica. Helicopter flights available.</span></li>
+        <li><span class="time">17:30</span> <strong>Gibson Steps</strong> — descend to beach level for base-of-cliff photos <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">18:00</span> <strong>London Bridge</strong> — dramatic coastal arch</li>
+        <li><span class="time">19:00</span> Begin return inland via Princes Hwy (faster) to Melbourne</li>
+        <li><span class="time">21:30</span> Arrive hotel — pack for early flight next morning</li>
+      </ul>
+      <div class="tip-box"><strong>📷 Drone note:</strong> CASA prohibits drone flight within 5.5km of Princetown aerodrome, and National Park rules restrict drone use. Check current CASA rules at casa.gov.au before flying. Helicopter tours from the Apostles helipad are a great alternative aerial view.</div>
+    </div>
+
+    <!-- Departure -->
+    <div class="day-card" style="border-left-color:#6366f1;">
+      <div class="day-header">
+        <span class="day-num">Departure</span>
+        <span class="day-date">Sunday, 24 Aug</span>
+        <span class="day-title">— Fly Melbourne → Bangkok</span>
+      </div>
+      <ul class="timeline">
+        <li><span class="time">06:00</span> Hotel checkout — late checkout may be possible (request at check-in)</li>
+        <li><span class="time">06:30</span> Drive to Melbourne Airport (~35 min via Tullamarine Fwy) <span class="tag tag-drive">🚐</span></li>
+        <li><span class="time">07:00</span> Return rental car — Avis/Hertz/Budget ground floor</li>
+        <li><span class="time">07:35</span> Check-in opens for SQ238 (T2 International)</li>
+        <li><span class="time">09:35</span> Depart Melbourne on <strong>SQ238</strong> → Singapore</li>
+        <li><span class="time">16:05</span> Arrive Singapore Changi (SIN) — ~2h 10m layover</li>
+        <li><span class="time">18:15</span> Depart Singapore on <strong>SQ714</strong> → Bangkok</li>
+        <li><span class="time">19:35</span> Arrive Bangkok (BKK) — home! 🏠</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════ FLIGHTS ═══════════════ -->
+  <div id="tab-flights" class="tab-content">
+
+    <div class="flight-card">
+      <h2>✈️ Outbound — Bangkok to Melbourne</h2>
+      <div style="margin-bottom:8px;font-size:13px;opacity:0.7;text-transform:uppercase;letter-spacing:1px;">Sunday, 17 August 2026</div>
+      <div class="flight-row">
+        <div class="flight-point">
+          <div class="code">BKK</div>
+          <div class="city">Bangkok Suvarnabhumi</div>
+          <div class="time">06:20</div>
+          <div class="date-label">17 Aug</div>
+        </div>
+        <div class="flight-line">
+          <div class="arrow"></div>
+          <div class="num">SQ721</div>
+          <div class="dur">2h 15m</div>
+        </div>
+        <div class="flight-point">
+          <div class="code">SIN</div>
+          <div class="city">Singapore Changi</div>
+          <div class="time">09:35</div>
+          <div class="date-label">17 Aug</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1);border-radius:8px;padding:8px 12px;font-size:13px;margin:8px 0;">
+        ⏱ Layover at Changi: <strong>2h 40m</strong> — Terminal 3. Time to grab kaya toast at Toast Box or noodles at hawker food court.
+      </div>
+      <div class="flight-row">
+        <div class="flight-point">
+          <div class="code">SIN</div>
+          <div class="city">Singapore Changi</div>
+          <div class="time">12:15</div>
+          <div class="date-label">17 Aug</div>
+        </div>
+        <div class="flight-line">
+          <div class="arrow"></div>
+          <div class="num">SQ227</div>
+          <div class="dur">8h 00m</div>
+        </div>
+        <div class="flight-point">
+          <div class="code">MEL</div>
+          <div class="city">Melbourne Tullamarine</div>
+          <div class="time">22:15</div>
+          <div class="date-label">17 Aug</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;">
+        <span class="flight-badge">Singapore Airlines</span>
+        <span class="flight-badge">Total journey ~13h</span>
+        <span class="flight-badge">AEST = BKK +3h</span>
+      </div>
+    </div>
+
+    <div class="flight-card" style="background:linear-gradient(135deg,#065f46,#047857);">
+      <h2>✈️ Return — Melbourne to Bangkok</h2>
+      <div style="margin-bottom:8px;font-size:13px;opacity:0.7;text-transform:uppercase;letter-spacing:1px;">Sunday, 24 August 2026</div>
+      <div class="flight-row">
+        <div class="flight-point">
+          <div class="code">MEL</div>
+          <div class="city">Melbourne Tullamarine</div>
+          <div class="time">09:35</div>
+          <div class="date-label">24 Aug</div>
+        </div>
+        <div class="flight-line">
+          <div class="arrow"></div>
+          <div class="num">SQ238</div>
+          <div class="dur">8h 30m</div>
+        </div>
+        <div class="flight-point">
+          <div class="code">SIN</div>
+          <div class="city">Singapore Changi</div>
+          <div class="time">16:05</div>
+          <div class="date-label">24 Aug</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1);border-radius:8px;padding:8px 12px;font-size:13px;margin:8px 0;">
+        ⏱ Layover at Changi: <strong>2h 10m</strong> — Connections at Changi are efficient. Allow 45 min minimum for immigration.
+      </div>
+      <div class="flight-row">
+        <div class="flight-point">
+          <div class="code">SIN</div>
+          <div class="city">Singapore Changi</div>
+          <div class="time">18:15</div>
+          <div class="date-label">24 Aug</div>
+        </div>
+        <div class="flight-line">
+          <div class="arrow"></div>
+          <div class="num">SQ714</div>
+          <div class="dur">2h 20m</div>
+        </div>
+        <div class="flight-point">
+          <div class="code">BKK</div>
+          <div class="city">Bangkok Suvarnabhumi</div>
+          <div class="time">19:35</div>
+          <div class="date-label">24 Aug</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;">
+        <span class="flight-badge">Singapore Airlines</span>
+        <span class="flight-badge">Check-in opens 07:35</span>
+        <span class="flight-badge">Arrive airport by 07:00</span>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>📋 Flight Checklist</h2>
+        <div class="info-row"><span class="label">Passports</span><span class="val">All 6 pax — valid 6+ months beyond Aug 2026</span></div>
+        <div class="info-row"><span class="label">ETA Australia</span><span class="val">All adults must apply — free online via APC app</span></div>
+        <div class="info-row"><span class="label">Biosecurity</span><span class="val">Declare all food, plant material at arrivals</span></div>
+        <div class="info-row"><span class="label">Baggage</span><span class="val">Check SQ policy — typically 30kg economy checked</span></div>
+        <div class="info-row"><span class="label">Seat selection</span><span class="val">Book together ASAP — 6 seats for 2 families</span></div>
+        <div class="info-row"><span class="label">Meals</span><span class="val">Pre-select dietary preferences online</span></div>
+      </div>
+      <div class="card">
+        <h2>⏰ Time Zones</h2>
+        <div class="info-row"><span class="label">Bangkok (ICT)</span><span class="val">UTC+7</span></div>
+        <div class="info-row"><span class="label">Singapore (SGT)</span><span class="val">UTC+8 (+1h from BKK)</span></div>
+        <div class="info-row"><span class="label">Melbourne (AEST)</span><span class="val">UTC+10 (+3h from BKK in Aug)</span></div>
+        <div class="info-row"><span class="label">Daylight saving</span><span class="val">AEST in August (no DST, clocks not changed)</span></div>
+        <div class="info-row"><span class="label">Sunrise MEL Aug</span><span class="val">~7:00–7:20 (winter)</span></div>
+        <div class="info-row"><span class="label">Sunset MEL Aug</span><span class="val">~17:45–18:00</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ HOTEL ═══════════════ -->
+  <div id="tab-hotel" class="tab-content">
+
+    <div class="card">
+      <h2>🏨 Quay West Suites Southbank</h2>
+      <div class="highlight">
+        <div class="hl-title">3-Bedroom Apartment Suite</div>
+        <div class="hl-sub">21 Riverside Ave, Southbank VIC 3006 · Check-in: 17 Aug · Check-out: 24 Aug (7 nights)</div>
+      </div>
+      <div class="grid-2">
+        <div>
+          <h3>Apartment Amenities</h3>
+          <div class="info-row"><span class="label">Bedrooms</span><span class="val">3 bedrooms (sleeps 6+ comfortably)</span></div>
+          <div class="info-row"><span class="label">Bathrooms</span><span class="val">2 bathrooms + guest toilet</span></div>
+          <div class="info-row"><span class="label">Kitchen</span><span class="val">Full kitchen — cook breakfast to save costs</span></div>
+          <div class="info-row"><span class="label">Living area</span><span class="val">Separate lounge, dining area</span></div>
+          <div class="info-row"><span class="label">Laundry</span><span class="val">In-suite washer/dryer</span></div>
+          <div class="info-row"><span class="label">Housekeeping</span><span class="val">Daily service — towels & linen refreshed</span></div>
+          <div class="info-row"><span class="label">Internet</span><span class="val">High-speed WiFi (check if free or charged)</span></div>
+          <div class="info-row"><span class="label">Parking</span><span class="val">Undercover at hotel — confirm rate/book ahead</span></div>
+        </div>
+        <div>
+          <h3>Hotel Facilities</h3>
+          <div class="info-row"><span class="label">Pool</span><span class="val">Heated indoor pool (August is winter ~10–15°C)</span></div>
+          <div class="info-row"><span class="label">Spa/Gym</span><span class="val">Fitness centre & spa available</span></div>
+          <div class="info-row"><span class="label">Concierge</span><span class="val">24h — book tours, restaurant reservations</span></div>
+          <div class="info-row"><span class="label">Restaurant</span><span class="val">Circa restaurant on-site</span></div>
+          <div class="info-row"><span class="label">Location</span><span class="val">Walk to Crown, NGV, Southgate, Yarra River</span></div>
+          <div class="info-row"><span class="label">Transport</span><span class="val">Flinders St Station 10 min walk; free CBD tram nearby</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>🛏 Room Allocation</h2>
+        <p style="font-size:14px;color:var(--gray-700);margin-bottom:12px;">Suggested split for 2 families of 3:</p>
+        <div class="info-row"><span class="label">Master bedroom</span><span class="val">Family A parents (ensuite)</span></div>
+        <div class="info-row"><span class="label">Bedroom 2</span><span class="val">Family B parents</span></div>
+        <div class="info-row"><span class="label">Bedroom 3</span><span class="val">Children shared</span></div>
+        <div class="tip-box" style="margin-top:12px;">Request a high floor with Yarra River / city view when booking.</div>
+      </div>
+      <div class="card">
+        <h2>🛒 Grocery Runs</h2>
+        <p style="font-size:14px;color:var(--gray-700);margin-bottom:10px;">Nearest supermarkets:</p>
+        <div class="info-row"><span class="label">Woolworths</span><span class="val">Melbourne Central, 10 min walk</span></div>
+        <div class="info-row"><span class="label">Coles</span><span class="val">Crown Complex, 5 min walk</span></div>
+        <div class="info-row"><span class="label">IGA Express</span><span class="val">Southbank Blvd, 3 min walk</span></div>
+        <div class="tip-box" style="margin-top:10px;">Stock the kitchen with breakfast foods, snacks, drinks to save ~$80/day vs eating out every meal.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📍 Location & Distances</h2>
+      <div class="grid-3">
+        <div class="highlight">
+          <div class="hl-title">CBD Core</div>
+          <div class="hl-sub">🚶 10–15 min walk to Fed Square, Flinders St</div>
+        </div>
+        <div class="highlight">
+          <div class="hl-title">Crown Melbourne</div>
+          <div class="hl-sub">🚶 5 min walk — casino, cinema, restaurants</div>
+        </div>
+        <div class="highlight">
+          <div class="hl-title">NGV International</div>
+          <div class="hl-sub">🚶 8 min walk along Southbank Promenade</div>
+        </div>
+        <div class="highlight">
+          <div class="hl-title">Melbourne Airport</div>
+          <div class="hl-sub">🚐 35–40 min via Tullamarine Fwy (M2)</div>
+        </div>
+        <div class="highlight">
+          <div class="hl-title">St Kilda</div>
+          <div class="hl-sub">🚐 20 min drive via St Kilda Rd</div>
+        </div>
+        <div class="highlight">
+          <div class="hl-title">Belgrave (Puffing Billy)</div>
+          <div class="hl-sub">🚐 55–65 min via Monash Fwy (M1)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ ACTIVITIES ═══════════════ -->
+  <div id="tab-activities" class="tab-content">
+
+    <div class="card">
+      <h2>🎯 Activity Overview</h2>
+      <div class="spec-grid">
+        <div class="spec-item"><div class="s-val">7</div><div class="s-lbl">Day Trips</div></div>
+        <div class="spec-item"><div class="s-val">6</div><div class="s-lbl">Pax</div></div>
+        <div class="spec-item"><div class="s-val">~$800</div><div class="s-lbl">Est. Activity Budget AUD</div></div>
+        <div class="spec-item"><div class="s-val">FREE</div><div class="s-lbl">CBD Tram Zone</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🚂 Puffing Billy Railway</h2>
+      <div class="info-row"><span class="label">Location</span><span class="val">Belgrave Station, Dandenong Ranges (1h drive)</span></div>
+      <div class="info-row"><span class="label">Route</span><span class="val">Belgrave → Menzies Creek (45 min) or full day to Gembrook</span></div>
+      <div class="info-row"><span class="label">Price</span><span class="val">~$40 AUD adult / $22 child (return)</span></div>
+      <div class="info-row"><span class="label">Booking</span><span class="val">puffingbilly.com.au — book weeks ahead in advance</span></div>
+      <div class="info-row"><span class="label">Highlight</span><span class="val">Legs dangling out vintage carriage windows in forest</span></div>
+      <div class="tip-box"><strong>Pro tip:</strong> Take the early 10:30 departure to avoid crowds. In August the steam plumes are spectacular in the cool misty valley air — ideal for Leica shots.</div>
+    </div>
+
+    <div class="card">
+      <h2>🐨 Healesville Sanctuary</h2>
+      <div class="info-row"><span class="label">Location</span><span class="val">Healesville, Yarra Valley (1.5h from Melbourne)</span></div>
+      <div class="info-row"><span class="label">Hours</span><span class="val">10:00 – 17:00 daily</span></div>
+      <div class="info-row"><span class="label">Price</span><span class="val">~$45 adult / $24 child (book online)</span></div>
+      <div class="info-row"><span class="label">Must-see</span><span class="val">Platypus pool, koala walkthrough, Spirits of the Sky raptor show</span></div>
+      <div class="info-row"><span class="label">Combine with</span><span class="val">Puffing Billy on Day 4 (back-to-back Dandenongs day)</span></div>
+    </div>
+
+    <div class="card">
+      <h2>🍷 Yarra Valley Wine Tour</h2>
+      <div class="info-row"><span class="label">Format</span><span class="val">Private driver for 6 pax (no split between wineries)</span></div>
+      <div class="info-row"><span class="label">Wineries</span><span class="val">Yering Station, De Bortoli, Domaine Chandon, TarraWarra</span></div>
+      <div class="info-row"><span class="label">Cost</span><span class="val">~$700–900 AUD full day private (6 pax incl. driver)</span></div>
+      <div class="info-row"><span class="label">Book via</span><span class="val">Viator, GetYourGuide, or direct Yarra Valley Wine Tours</span></div>
+      <div class="info-row"><span class="label">Best for</span><span class="val">Pinot Noir, Chardonnay, Sparkling — all within 1hr of Melbourne</span></div>
+      <div class="tip-box"><strong>Note:</strong> Book a dedicated wine tour operator — they handle all driving, so all adults can drink freely. Most include tasting fees in their package price.</div>
+    </div>
+
+    <div class="card">
+      <h2>🌅 Shrine of Remembrance</h2>
+      <div class="info-row"><span class="label">Location</span><span class="val">Birdwood Ave, Domain Precinct (10 min drive from hotel)</span></div>
+      <div class="info-row"><span class="label">Entry</span><span class="val">FREE — open sunrise to sunset</span></div>
+      <div class="info-row"><span class="label">Sunrise</span><span class="val">~07:00–07:20 in August — perfect golden light on forecourt</span></div>
+      <div class="info-row"><span class="label">Photo angle</span><span class="val">Looking north toward CBD skyline from Shrine steps</span></div>
+      <div class="info-row"><span class="label">Also visit</span><span class="val">Royal Botanic Gardens (15 min walk) and Kings Domain</span></div>
+    </div>
+
+    <div class="card">
+      <h2>🐧 St Kilda Little Penguins</h2>
+      <div class="info-row"><span class="label">Location</span><span class="val">St Kilda Breakwater (end of pier, past Luna Park)</span></div>
+      <div class="info-row"><span class="label">Cost</span><span class="val">FREE — managed by volunteer rangers</span></div>
+      <div class="info-row"><span class="label">Time</span><span class="val">After sunset daily — arrive 20–30 min before dark</span></div>
+      <div class="info-row"><span class="label">Aug sunset</span><span class="val">~17:45 — penguins arrive ~18:00–18:30</span></div>
+      <div class="info-row"><span class="label">Rules</span><span class="val">No flash, no torches, no touching, stay on path</span></div>
+      <div class="tip-box"><strong>Timing tip:</strong> After Shrine sunrise on Day 6, you can revisit St Kilda at dusk on the same day for penguins. It's only 3 km between locations.</div>
+    </div>
+
+    <div class="card">
+      <h2>🌊 Great Ocean Road</h2>
+      <div class="info-row"><span class="label">Distance</span><span class="val">Torquay: 100km from Melbourne; Twelve Apostles: 270km</span></div>
+      <div class="info-row"><span class="label">Drive time</span><span class="val">2.5h to Twelve Apostles (one way via GOR, longer with stops)</span></div>
+      <div class="info-row"><span class="label">Full loop</span><span class="val">Go via GOR (scenic), return via Princes Hwy (faster)</span></div>
+      <div class="info-row"><span class="label">Key stops</span><span class="val">Bells Beach → Lorne → Kennett River → Apollo Bay → Apostles → London Bridge</span></div>
+      <div class="info-row"><span class="label">Best time</span><span class="val">Late afternoon light on Apostles (facing west)</span></div>
+      <div class="info-row"><span class="label">Entry fee</span><span class="val">FREE — no park entry fee for Great Ocean Road/Apostles</span></div>
+      <div class="tip-box"><strong>Important:</strong> Recommend doing GOR on Day 3 or Day 5 (not the day before your 09:35 departure). The return trip is 3–4 hours and you'll be exhausted. See itinerary note on Day 7.</div>
+    </div>
+
+    <div class="card">
+      <h2>🎡 Other Melbourne Activities</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Free</h3>
+          <div class="info-row"><span class="label">Federation Square</span><span class="val">Open events, ACMI museum</span></div>
+          <div class="info-row"><span class="label">Royal Botanic Garden</span><span class="val">World-class winter garden</span></div>
+          <div class="info-row"><span class="label">Brighton Bathing Boxes</span><span class="val">Iconic colourful beach huts</span></div>
+          <div class="info-row"><span class="label">Queen Vic Market</span><span class="val">Fresh produce, Wed–Sun mornings</span></div>
+          <div class="info-row"><span class="label">Street Art laneways</span><span class="val">Hosier, Rutledge, AC/DC Lane</span></div>
+        </div>
+        <div>
+          <h3>Paid</h3>
+          <div class="info-row"><span class="label">Eureka Skydeck 88</span><span class="val">~$25 adult, city 360° views</span></div>
+          <div class="info-row"><span class="label">Melbourne Zoo</span><span class="val">~$40 adult, great for kids</span></div>
+          <div class="info-row"><span class="label">Luna Park</span><span class="val">~$50/person unlimited rides</span></div>
+          <div class="info-row"><span class="label">MCG Tour</span><span class="val">~$25, stadium heritage</span></div>
+          <div class="info-row"><span class="label">Bunyip Tours GOR</span><span class="val">Guided day tour alternative</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ CAR ═══════════════ -->
+  <div id="tab-car" class="tab-content">
+
+    <div class="card">
+      <h2>🚐 8-Seat Rental Vehicle</h2>
+      <div class="spec-grid">
+        <div class="spec-item"><div class="s-val">8</div><div class="s-lbl">Max Seats</div></div>
+        <div class="spec-item"><div class="s-val">7</div><div class="s-lbl">Nights Hire</div></div>
+        <div class="spec-item"><div class="s-val">MEL</div><div class="s-lbl">Pickup/Return</div></div>
+        <div class="spec-item"><div class="s-val">~720km</div><div class="s-lbl">Est. Total km</div></div>
+      </div>
+      <div class="grid-2">
+        <div>
+          <h3>Vehicle Options</h3>
+          <div class="info-row"><span class="label">Option 1</span><span class="val">Kia Carnival (8-seat people mover)</span></div>
+          <div class="info-row"><span class="label">Option 2</span><span class="val">Hyundai iMax (8-seat van/people mover)</span></div>
+          <div class="info-row"><span class="label">Option 3</span><span class="val">Toyota HiAce (8-seat, more cargo room)</span></div>
+          <div class="info-row"><span class="label">Luggage</span><span class="val">6 large bags + daypack — Carnival fits all with rear row down</span></div>
+        </div>
+        <div>
+          <h3>Rental Providers</h3>
+          <div class="info-row"><span class="label">Avis</span><span class="val">avis.com.au — airport T1/T2</span></div>
+          <div class="info-row"><span class="label">Hertz</span><span class="val">hertz.com.au — airport Ground Transport</span></div>
+          <div class="info-row"><span class="label">Budget</span><span class="val">budget.com.au — airport Ground Transport</span></div>
+          <div class="info-row"><span class="label">Europcar</span><span class="val">europcar.com.au — competitive for people movers</span></div>
+          <div class="info-row"><span class="label">Cost est.</span><span class="val">~$150–$200 AUD/day = $1,050–$1,400 total + insurance</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>🛣 Driving in Melbourne</h2>
+        <div class="info-row"><span class="label">Side of road</span><span class="val">LEFT (same as Thailand)</span></div>
+        <div class="info-row"><span class="label">Speed limits</span><span class="val">50 km/h suburban, 100 km/h highway, 110 on freeways</span></div>
+        <div class="info-row"><span class="label">Hook turns</span><span class="val">CBD intersections — unique Melbourne rule! Let CBD trams pass first</span></div>
+        <div class="info-row"><span class="label">Tolls</span><span class="val">CityLink/EastLink — require e-TAG or Day Pass ($20.22/day)</span></div>
+        <div class="info-row"><span class="label">Toll pass</span><span class="val">Buy at transurban.com or service stations — buy before driving</span></div>
+        <div class="info-row"><span class="label">Alcohol limit</span><span class="val">0.05 BAC — no drinking for designated driver</span></div>
+        <div class="info-row"><span class="label">Phone</span><span class="val">Hands-free only — $500+ fine for handheld</span></div>
+        <div class="info-row"><span class="label">Parking CBD</span><span class="val">Use Wilson/Secure Parking apps. Budget $20–$40/day</span></div>
+      </div>
+      <div class="card">
+        <h2>🧭 Estimated Drives</h2>
+        <div class="info-row"><span class="label">Hotel → Airport</span><span class="val">35 min via Tullamarine Fwy · 25 km</span></div>
+        <div class="info-row"><span class="label">Hotel → Belgrave</span><span class="val">55 min via M1 Monash Fwy · 55 km</span></div>
+        <div class="info-row"><span class="label">Hotel → Healesville</span><span class="val">1h 15m via Maroondah Hwy · 60 km</span></div>
+        <div class="info-row"><span class="label">Hotel → Yarra Valley</span><span class="val">1h via EastLink · 55 km</span></div>
+        <div class="info-row"><span class="label">Hotel → St Kilda</span><span class="val">20 min via St Kilda Rd · 7 km</span></div>
+        <div class="info-row"><span class="label">Hotel → Shrine</span><span class="val">10 min via St Kilda Rd · 3.5 km</span></div>
+        <div class="info-row"><span class="label">Hotel → Twelve Apostles</span><span class="val">3h via GOR · 270 km one way</span></div>
+        <div class="info-row"><span class="label">Hotel → Brighton</span><span class="val">25 min via Nepean Hwy · 14 km</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>⛽ Fuel & Navigation</h2>
+      <div class="info-row"><span class="label">Fuel type</span><span class="val">Unleaded 91 or 95 (check vehicle specs)</span></div>
+      <div class="info-row"><span class="label">Fuel price</span><span class="val">~$1.70–$2.00 AUD/L in Aug 2026 (use GasBuddy or FuelWatch)</span></div>
+      <div class="info-row"><span class="label">Cheap days</span><span class="val">Melbourne has fuel price cycles — cheap on Tuesdays typically</span></div>
+      <div class="info-row"><span class="label">Navigation</span><span class="val">Google Maps works great — download offline map before travel</span></div>
+      <div class="info-row"><span class="label">Waze</span><span class="val">Good for real-time traffic on CBD routes</span></div>
+      <div class="info-row"><span class="label">Data SIM</span><span class="val">Optus/Telstra prepaid $30–$40 for 30–50GB. Buy at airport.</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ PHOTO SPOTS ═══════════════ -->
+  <div id="tab-photos" class="tab-content">
+
+    <div class="card">
+      <h2>📷 Photography Overview</h2>
+      <div class="grid-2">
+        <div class="highlight">
+          <div class="hl-title">Leica M10</div>
+          <div class="hl-sub">Rangefinder · 24MP full-frame · Best for: street, architecture, portrait, low-light city scenes. Quiet shutter perfect for candid moments.</div>
+        </div>
+        <div class="highlight">
+          <div class="hl-title">DJI Mini 3 Pro</div>
+          <div class="hl-sub">249g sub-250g class · 4K 60fps · Check CASA regulations for each location. Most parks require permits. Check casa.gov.au.</div>
+        </div>
+      </div>
+      <div class="tip-box"><strong>CASA Drone Rules (Australia):</strong> Fly below 120m AGL, 5.5km from aerodromes, not over people, not in national parks without permits. Register if drone &gt;250g. Mini 3 Pro at 249g is sub-250g but always check the current rules. Many coastal parks restrict drones.</div>
+    </div>
+
+    <div class="photo-spot">
+      <h3>📸 Hosier Lane</h3>
+      <div class="gear"><span class="gear-badge leica">Leica M10</span><span class="gear-badge">35mm f/2</span></div>
+      <p><strong>Best time:</strong> Early morning (before crowds) or blue hour dusk</p>
+      <p><strong>Subject:</strong> Street art murals, textures, people interacting with art</p>
+      <p><strong>Settings:</strong> Zone focus at f/4–5.6, ISO 400–800 in morning shadow</p>
+      <div class="golden-hour">🌅 Best light: 08:00–09:00 or 17:00–18:00</div>
+    </div>
+
+    <div class="photo-spot">
+      <h3>📸 State Library of Victoria — La Trobe Reading Room</h3>
+      <div class="gear"><span class="gear-badge leica">Leica M10</span><span class="gear-badge">28mm f/2.8</span></div>
+      <p><strong>Best time:</strong> 10:00–12:00 — natural light from dome above</p>
+      <p><strong>Subject:</strong> Octagonal dome, balconies, readers — symmetrical overhead shot</p>
+      <p><strong>Settings:</strong> Tripod if allowed (confirm rules), ISO 800–1600, f/5.6</p>
+      <div class="golden-hour">🏛 Octagonal dome — one of Melbourne's most photogenic interiors</div>
+    </div>
+
+    <div class="photo-spot">
+      <h3>📸 Shrine of Remembrance — Sunrise</h3>
+      <div class="gear"><span class="gear-badge leica">Leica M10</span><span class="gear-badge drone">DJI Mini 3 Pro</span><span class="gear-badge">50mm f/2</span></div>
+      <p><strong>Best time:</strong> 06:45–07:30 — golden light on Ionic columns</p>
+      <p><strong>Subject:</strong> Shrine steps + CBD skyline to north; CBD reflection in forecourt pool</p>
+      <p><strong>Drone:</strong> Domain parkland area — check if restricted. Stunning aerial of Shrine + Botanic Gardens. Must be 5.5km clear of Moorabbin Airport.</p>
+      <div class="golden-hour">🌅 Sunrise ~07:05 in August — arrive 06:45 to set up</div>
+    </div>
+
+    <div class="photo-spot">
+      <h3>📸 Puffing Billy Steam Train</h3>
+      <div class="gear"><span class="gear-badge leica">Leica M10</span><span class="gear-badge drone">DJI Mini 3 Pro*</span><span class="gear-badge">90mm f/2</span></div>
+      <p><strong>Best time:</strong> Any morning — steam clouds are thicker in August cold</p>
+      <p><strong>Subject:</strong> Kids dangling legs from vintage carriages; steam plumes in forest; Belgrave platform departure</p>
+      <p><strong>Drone:</strong> *Check rules carefully — Dandenong Ranges has restricted airspace near Belgrave. Ground-level shots only may be safest.</p>
+      <div class="golden-hour">🚂 Position yourself at Menzies Creek overbridge or forest clearing for train-through-steam shots</div>
+    </div>
+
+    <div class="photo-spot">
+      <h3>📸 Twelve Apostles — Late Afternoon</h3>
+      <div class="gear"><span class="gear-badge leica">Leica M10</span><span class="gear-badge">28mm f/2.8</span></div>
+      <p><strong>Best time:</strong> 15:30–17:30 — sun moves west, side-lighting on limestone stacks</p>
+      <p><strong>Subject:</strong> Sea stacks from clifftop lookout; Gibson Steps beach for base-level dramatic angle; long exposure at dusk</p>
+      <p><strong>Drone:</strong> ⚠️ Port Campbell National Park — drones require Parks Victoria permit. Obtain before visit or use helicopter tours instead.</p>
+      <div class="golden-hour">🌊 Gibson Steps: descend 86 steps to beach — powerful foreground with 30m stacks behind</div>
+    </div>
+
+    <div class="photo-spot">
+      <h3>📸 Yering Station / Domaine Chandon</h3>
+      <div class="gear"><span class="gear-badge leica">Leica M10</span><span class="gear-badge drone">DJI Mini 3 Pro</span><span class="gear-badge">50mm f/2</span></div>
+      <p><strong>Best time:</strong> Mid-morning (10:00–12:00) — soft winter light on vineyard rows</p>
+      <p><strong>Subject:</strong> Vineyard rows with autumn vines (bare in August — minimal leaves but dramatic geometry); Yering Station's stone building; tasting room portraits</p>
+      <p><strong>Drone:</strong> Private property — ask winery permission. Most are accommodating for small drones. Vineyard rows from above are stunning.</p>
+      <div class="golden-hour">🍷 August vines are dormant (bare) — strong graphic lines for aerial photography</div>
+    </div>
+
+    <div class="photo-spot">
+      <h3>📸 Brighton Beach Bathing Boxes</h3>
+      <div class="gear"><span class="gear-badge leica">Leica M10</span><span class="gear-badge drone">DJI Mini 3 Pro</span><span class="gear-badge">35mm f/2</span></div>
+      <p><strong>Best time:</strong> Morning, golden hour (sun rises behind boxes from the east)</p>
+      <p><strong>Subject:</strong> 82 colourful Victorian-era bathing boxes along the foreshore</p>
+      <p><strong>Drone:</strong> Brighton foreshore — generally drone-friendly coastal open area, but check local council rules. Aerial of coloured boxes from above is iconic.</p>
+      <div class="golden-hour">🎨 Morning light best — boxes face east toward the bay</div>
+    </div>
+
+    <div class="photo-spot">
+      <h3>📸 Southbank & Yarra River at Blue Hour</h3>
+      <div class="gear"><span class="gear-badge leica">Leica M10</span><span class="gear-badge drone">DJI Mini 3 Pro</span><span class="gear-badge">28mm f/2</span></div>
+      <p><strong>Best time:</strong> 17:30–18:30 — city lights reflecting in the Yarra</p>
+      <p><strong>Subject:</strong> Crown towers, Eureka Tower, Flinders St Station reflections; Princes Bridge</p>
+      <p><strong>Drone:</strong> CBD airspace is controlled/restricted — likely requires CASA approval. Best shot from ground with Leica on tripod from Princes Walk north bank.</p>
+      <div class="golden-hour">🌆 Shoot from Birrarung Marr looking west for the classic Melbourne skyline</div>
+    </div>
+
+    <div class="card" style="margin-top:18px;">
+      <h2>⚙️ Camera Settings Guide — August Melbourne</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Leica M10 — Outdoor Daytime</h3>
+          <div class="info-row"><span class="label">Architecture</span><span class="val">f/8, 1/250s, ISO 100–200</span></div>
+          <div class="info-row"><span class="label">Street</span><span class="val">f/4–5.6, 1/500s, ISO 400 (overcast) / 200 (sunny)</span></div>
+          <div class="info-row"><span class="label">Landscape</span><span class="val">f/8–11, 1/125s, ISO 100</span></div>
+          <div class="info-row"><span class="label">Nature/wildlife</span><span class="val">f/4, 1/500–1000s, ISO 400–800</span></div>
+        </div>
+        <div>
+          <h3>Leica M10 — Low Light / Blue Hour</h3>
+          <div class="info-row"><span class="label">City at dusk</span><span class="val">f/2–2.8, 1/60s, ISO 1600–3200</span></div>
+          <div class="info-row"><span class="label">Interior</span><span class="val">f/2, 1/30–1/60s, ISO 3200–6400</span></div>
+          <div class="info-row"><span class="label">Tripod night</span><span class="val">f/8, 15–30s, ISO 100 (light trails)</span></div>
+          <div class="info-row"><span class="label">Penguin dusk</span><span class="val">f/2, 1/30s, ISO 3200 — NO flash</span></div>
+        </div>
+      </div>
+      <div class="tip-box" style="margin-top:12px;"><strong>DJI Mini 3 Pro settings:</strong> Use ND8–ND16 in bright daylight for smooth video. D-Log M for colour grading flexibility. Set ISO to Auto with max ISO 800 for clean footage. Fly in Cine mode near people for smoother, slower movements.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ TIPS ═══════════════ -->
+  <div id="tab-tips" class="tab-content">
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="tip-category">
+          <h3>🌡 August Weather in Melbourne</h3>
+          <div class="tip-item"><span class="icon">🌡</span><span class="text"><strong>Temperature:</strong> 8–15°C. Cold mornings, mild afternoons. Layer up.</span></div>
+          <div class="tip-item"><span class="icon">🧥</span><span class="text"><strong>Clothing:</strong> Warm jackets, gloves for early mornings (Shrine sunrise), waterproof layer.</span></div>
+          <div class="tip-item"><span class="icon">🌦</span><span class="text"><strong>Rain:</strong> August is rainy — pack compact umbrella. "Four seasons in one day" is literal in Melbourne.</span></div>
+          <div class="tip-item"><span class="icon">🌊</span><span class="text"><strong>Great Ocean Road:</strong> Can be windy and cold on the cliffs — bring windbreakers for the kids.</span></div>
+          <div class="tip-item"><span class="icon">🏖</span><span class="text"><strong>Beach:</strong> No swimming — too cold. But great for photos and walks.</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="tip-category">
+          <h3>💰 Money & Payments</h3>
+          <div class="tip-item"><span class="icon">💳</span><span class="text"><strong>Cards:</strong> Visa/Mastercard accepted everywhere. Tap-to-pay is ubiquitous in Melbourne.</span></div>
+          <div class="tip-item"><span class="icon">💵</span><span class="text"><strong>Cash:</strong> Bring some AUD — smaller cafes, markets. ATMs widely available.</span></div>
+          <div class="tip-item"><span class="icon">🏧</span><span class="text"><strong>Exchange:</strong> Do not exchange at airport — use Wise card or withdraw from ANZ/CBA ATMs.</span></div>
+          <div class="tip-item"><span class="icon">🎫</span><span class="text"><strong>myki card:</strong> Melbourne's transit card — buy at airport 7-Eleven. Top up $40 each for 7 days.</span></div>
+          <div class="tip-item"><span class="icon">💰</span><span class="text"><strong>Tipping:</strong> Not mandatory but 10% appreciated at sit-down restaurants.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="tip-category">
+          <h3>🍽 Food & Dining</h3>
+          <div class="tip-item"><span class="icon">☕</span><span class="text"><strong>Coffee culture:</strong> Melbourne takes flat whites seriously. Try Patricia, Seven Seeds, ST Ali.</span></div>
+          <div class="tip-item"><span class="icon">🥩</span><span class="text"><strong>Must-eat:</strong> Burger at Huxtaburger, dim sum at Flower Drum, pastries at Tivoli Road Bakery.</span></div>
+          <div class="tip-item"><span class="icon">🌏</span><span class="text"><strong>Diverse dining:</strong> Melbourne's multicultural food scene is world-class — explore Chinatown on Little Bourke St.</span></div>
+          <div class="tip-item"><span class="icon">🛒</span><span class="text"><strong>Breakfast at home:</strong> Stock the apartment kitchen — saves ~$50–80 AUD/day for 6 people vs cafe breakfasts every day.</span></div>
+          <div class="tip-item"><span class="icon">🍫</span><span class="text"><strong>Souvenirs:</strong> Haigh's Chocolates, Tim Tams, Vegemite, Bundaberg ginger beer.</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="tip-category">
+          <h3>👨‍👩‍👧 Travelling with Kids</h3>
+          <div class="tip-item"><span class="icon">🎡</span><span class="text"><strong>Luna Park</strong> is great for kids — vintage rides, heritage park atmosphere.</span></div>
+          <div class="tip-item"><span class="icon">🐨</span><span class="text"><strong>Healesville Sanctuary</strong> is the highlight for kids — hold a koala (check if allowed in 2026).</span></div>
+          <div class="tip-item"><span class="icon">🚂</span><span class="text"><strong>Puffing Billy</strong> is universally loved — dangling legs from open carriage windows is the experience.</span></div>
+          <div class="tip-item"><span class="icon">🦘</span><span class="text"><strong>Melbourne Zoo</strong> in Royal Park — good half-day option. Kangaroos, lions, butterflies.</span></div>
+          <div class="tip-item"><span class="icon">🌿</span><span class="text"><strong>Fitzroy Gardens</strong> has a kids' fairy tree sculpture trail and miniature Tudor village.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="tip-category">
+          <h3>🌐 Connectivity & SIM</h3>
+          <div class="tip-item"><span class="icon">📱</span><span class="text"><strong>Best SIM:</strong> Optus or Telstra prepaid at airport arrivals. ~$30 for 40GB/30 days.</span></div>
+          <div class="tip-item"><span class="icon">📶</span><span class="text"><strong>Coverage:</strong> Telstra has best rural coverage for GOR and Dandenong Ranges. Worth the extra $5.</span></div>
+          <div class="tip-item"><span class="icon">🗺</span><span class="text"><strong>Offline maps:</strong> Download Google Maps offline for Melbourne region before you land — saves data.</span></div>
+          <div class="tip-item"><span class="icon">🔌</span><span class="text"><strong>Power:</strong> Australia uses Type I plugs (3-flat-pin). Buy adaptors in BKK or at MEL airport arrivals.</span></div>
+          <div class="tip-item"><span class="icon">⚡</span><span class="text"><strong>Voltage:</strong> 230V / 50Hz — same as Thailand (230V) — most devices are fine, check labels.</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="tip-category">
+          <h3>🏥 Health & Safety</h3>
+          <div class="tip-item"><span class="icon">🏥</span><span class="text"><strong>Travel insurance:</strong> Get comprehensive cover for 6 pax — includes rental car excess (~$5,000 AUD).</span></div>
+          <div class="tip-item"><span class="icon">💊</span><span class="text"><strong>Pharmacy:</strong> Chemist Warehouse everywhere — affordable cold/flu meds, sunscreen.</span></div>
+          <div class="tip-item"><span class="icon">☀️</span><span class="text"><strong>Sun in winter:</strong> UV index can still be moderate in August — pack SPF 30+.</span></div>
+          <div class="tip-item"><span class="icon">🚑</span><span class="text"><strong>Emergency:</strong> Call 000 for ambulance/police/fire in Australia.</span></div>
+          <div class="tip-item"><span class="icon">🐍</span><span class="text"><strong>Wildlife:</strong> Stick to paths in Dandenong Ranges — snakes active in mild winter. No approaching.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tip-category">
+        <h3>📋 Pre-Trip Checklist</h3>
+        <div class="grid-2">
+          <div>
+            <div class="tip-item"><span class="icon">✅</span><span class="text">Australian ETA for all 6 pax (apply via APC app, free)</span></div>
+            <div class="tip-item"><span class="icon">✅</span><span class="text">Book Puffing Billy tickets online (sells out in school holidays)</span></div>
+            <div class="tip-item"><span class="icon">✅</span><span class="text">Book Healesville Sanctuary online (cheaper & skip queue)</span></div>
+            <div class="tip-item"><span class="icon">✅</span><span class="text">Book Yarra Valley wine tour private driver (6–8 weeks ahead)</span></div>
+            <div class="tip-item"><span class="icon">✅</span><span class="text">Book 8-seat rental car (Carnival/iMax) — book 2+ months ahead</span></div>
+            <div class="tip-item"><span class="icon">✅</span><span class="text">Buy Melbourne Transurban toll day passes online before trip</span></div>
+          </div>
+          <div>
+            <div class="tip-item"><span class="icon">✅</span><span class="text">Notify Quay West of late arrival on Aug 17</span></div>
+            <div class="tip-item"><span class="icon">✅</span><span class="text">Travel insurance for all 6 pax including rental car excess waiver</span></div>
+            <div class="tip-item"><span class="icon">✅</span><span class="text">Leica — format cards, charge batteries, pack spare batteries × 3</span></div>
+            <div class="tip-item"><span class="icon">✅</span><span class="text">DJI Mini 3 Pro — check CASA rules for each location</span></div>
+            <div class="tip-item"><span class="icon">✅</span><span class="text">Download Google Maps offline (Melbourne, GOR, Yarra Valley)</span></div>
+            <div class="tip-item"><span class="icon">✅</span><span class="text">Pack Type I plug adaptors (Australia 3-flat-pin)</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  Melbourne Trip Planner · August 2026 · Two Families, 6 Pax · Built with Leaflet.js + OpenStreetMap
+</footer>
+
+<script>
+// ─────────────────────────────────────────
+// TAB SWITCHING
+// ─────────────────────────────────────────
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  // Find the button that was clicked (passed as 'this' string from onclick)
+  event.currentTarget.classList.add('active');
+  if (id === 'map') { setTimeout(() => map.invalidateSize(), 100); }
+}
+
+// ─────────────────────────────────────────
+// LEAFLET MAP
+// ─────────────────────────────────────────
+const map = L.map('map', { center: [-37.88, 144.95], zoom: 10 });
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  maxZoom: 19
+}).addTo(map);
+
+function makeIcon(color, emoji) {
+  return L.divIcon({
+    html: `<div style="background:${color};width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.35);">${emoji}</div>`,
+    className: '',
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -34]
+  });
+}
+
+const pins = [
+  // Hotel
+  { lat: -37.8213, lng: 144.9593, emoji: '🏨', color: '#1b4f8a', title: 'Quay West Suites Southbank', sub: '21 Riverside Ave · Home Base', day: 'All nights' },
+  // Airport
+  { lat: -37.6690, lng: 144.8410, emoji: '✈️', color: '#6366f1', title: 'Melbourne Airport (MEL)', sub: 'Tullamarine · Pickup/Return rental car', day: 'Arrive Aug 17 · Depart Aug 24' },
+  // CBD landmarks
+  { lat: -37.8170, lng: 144.9673, emoji: '⛪', color: '#0ea5e9', title: "St Paul's Cathedral", sub: 'Flinders & Swanston St', day: 'Day 1' },
+  { lat: -37.8097, lng: 144.9646, emoji: '📚', color: '#0ea5e9', title: 'State Library of Victoria', sub: 'La Trobe St · Free entry', day: 'Day 1' },
+  { lat: -37.8038, lng: 144.9711, emoji: '🌿', color: '#10b981', title: 'Carlton Gardens', sub: 'UNESCO World Heritage', day: 'Day 1' },
+  { lat: -37.8097, lng: 144.9730, emoji: '⛪', color: '#0ea5e9', title: "St Patrick's Cathedral", sub: 'Tallest spire in Australia', day: 'Day 1' },
+  { lat: -37.8137, lng: 144.9793, emoji: '🌳', color: '#10b981', title: 'Fitzroy Gardens', sub: "Cook's Cottage · Free", day: 'Day 1' },
+  { lat: -37.8175, lng: 144.9689, emoji: '🎨', color: '#f59e0b', title: 'Hosier Lane', sub: 'Street art laneway · Near Fed Square', day: 'Day 1' },
+  { lat: -37.8201, lng: 144.9724, emoji: '🔔', color: '#0ea5e9', title: 'Birrarung Marr', sub: 'Riverside park · Federation Bells', day: 'Day 1' },
+  { lat: -37.8171, lng: 144.9671, emoji: '🏛', color: '#0ea5e9', title: 'Federation Square', sub: 'Flinders St · Starting point', day: 'Day 1' },
+  // Eureka
+  { lat: -37.8217, lng: 144.9563, emoji: '🏙', color: '#0ea5e9', title: 'Eureka Skydeck 88', sub: '297m · $25 AUD/adult', day: 'Day 2' },
+  // NGV
+  { lat: -37.8225, lng: 144.9692, emoji: '🎨', color: '#0ea5e9', title: 'NGV International', sub: 'St Kilda Rd · Free international collection', day: 'Day 2' },
+  // Shrine
+  { lat: -37.8306, lng: 144.9736, emoji: '🕊', color: '#ef4444', title: 'Shrine of Remembrance', sub: 'Sunrise from 06:45 · Free', day: 'Day 6 — Sunrise' },
+  // St Kilda
+  { lat: -37.8662, lng: 144.9803, emoji: '🎡', color: '#f97316', title: 'St Kilda Beach & Luna Park', sub: 'Penguin viewing at breakwater after sunset', day: 'Day 3 & Day 6' },
+  { lat: -37.8678, lng: 144.9819, emoji: '🐧', color: '#f97316', title: 'St Kilda Breakwater — Penguins', sub: 'Little Penguins · After sunset · FREE', day: 'Day 6' },
+  // Brighton
+  { lat: -37.9180, lng: 144.9885, emoji: '🏖', color: '#f97316', title: 'Brighton Beach Bathing Boxes', sub: '82 colourful boxes · Great for photos', day: 'Day 3' },
+  // Puffing Billy
+  { lat: -37.9136, lng: 145.3567, emoji: '🚂', color: '#8b5cf6', title: 'Puffing Billy — Belgrave Station', sub: 'Steam train through Dandenong Ranges', day: 'Day 4' },
+  // Healesville
+  { lat: -37.6858, lng: 145.5235, emoji: '🐨', color: '#8b5cf6', title: 'Healesville Sanctuary', sub: 'Koalas, platypus, wombats · Book online', day: 'Day 4' },
+  // Yarra Valley
+  { lat: -37.7888, lng: 145.5302, emoji: '🍷', color: '#dc2626', title: 'Yering Station — Yarra Valley', sub: 'Private wine tour · Day 5', day: 'Day 5' },
+  { lat: -37.8049, lng: 145.5316, emoji: '🥂', color: '#dc2626', title: 'Domaine Chandon', sub: 'Sparkling wine · stunning architecture', day: 'Day 5' },
+  // Great Ocean Road
+  { lat: -38.4032, lng: 144.3227, emoji: '🏄', color: '#14b8a6', title: 'Bells Beach', sub: 'Legendary surf break · Great Ocean Road', day: 'Day 7' },
+  { lat: -38.5510, lng: 143.9820, emoji: '🦘', color: '#14b8a6', title: 'Kennett River — Koalas', sub: 'Wild koalas in gum trees', day: 'Day 7' },
+  { lat: -38.7521, lng: 143.6743, emoji: '🐟', color: '#14b8a6', title: 'Apollo Bay', sub: 'Lunch stop · Fresh fish & chips', day: 'Day 7' },
+  { lat: -38.6643, lng: 143.1051, emoji: '🌊', color: '#14b8a6', title: 'Twelve Apostles', sub: 'Iconic limestone sea stacks', day: 'Day 7 — Highlight' },
+  { lat: -38.7101, lng: 143.0320, emoji: '🌉', color: '#14b8a6', title: 'London Bridge', sub: 'Dramatic coastal rock arch', day: 'Day 7' },
+  { lat: -38.6650, lng: 143.1035, emoji: '🏖', color: '#14b8a6', title: 'Gibson Steps', sub: 'Descend to beach · Base-level Apostles view', day: 'Day 7' },
+];
+
+pins.forEach(p => {
+  const marker = L.marker([p.lat, p.lng], { icon: makeIcon(p.color, p.emoji) }).addTo(map);
+  marker.bindPopup(`
+    <div class="popup-title">${p.emoji} ${p.title}</div>
+    <div style="font-size:12px;color:#374151;margin:2px 0;">${p.sub}</div>
+    <div class="popup-day">📅 ${p.day}</div>
+  `);
+});
+
+// Fix map rendering when tab becomes visible
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.textContent.includes('Map')) {
+      setTimeout(() => map.invalidateSize(), 150);
+    }
+  });
+});
+</script>
+</body>
+</html>
