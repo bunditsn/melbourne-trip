@@ -158,6 +158,70 @@
       .flight-point .code { font-size: 22px; }
     }
 
+    /* ── LANDMARK EXPAND PANELS ── */
+    .lm-item { cursor: pointer; transition: background 0.15s; border-radius: 6px; padding-right: 4px; }
+    .lm-item:hover { background: rgba(46,134,222,0.06); }
+    .lm-hint { font-size: 11px; font-weight: 700; color: var(--teal); letter-spacing: 0.4px; margin-left: 6px; white-space: nowrap; }
+    .lm-hint.open { color: #e05252; }
+    .lm-hint.open::before { content: '▴ '; }
+    .lm-hint:not(.open)::before { content: '▾ '; }
+    .lm-expand {
+      display: none; margin: 14px 0 6px -28px;
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--gray-200); box-shadow: 0 6px 28px rgba(0,0,0,0.12);
+    }
+    .lm-expand.open { display: block; animation: lmFadeIn 0.22s ease; }
+    @keyframes lmFadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+    /* Slideshow */
+    .lm-slideshow { position: relative; width: 100%; aspect-ratio: 16/9; min-height: 200px; background: linear-gradient(135deg,#0b2545,#2e86de); overflow: hidden; }
+    .lm-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.45s ease; }
+    .lm-slide.active { opacity: 1; z-index: 1; }
+    .lm-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .lm-slide.img-err { background: linear-gradient(135deg,#0b2545,#1b4f8a); }
+    .lm-slide.img-err img { display: none; }
+    .lm-slide-cap { position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; padding: 32px 14px 10px; background: linear-gradient(transparent,rgba(0,0,0,0.65)); color: white; font-size: 12px; }
+    .lm-nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; background: rgba(0,0,0,0.4); color: white; border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 22px; line-height: 36px; text-align: center; padding: 0; transition: background 0.2s; }
+    .lm-nav:hover { background: rgba(0,0,0,0.75); }
+    .lm-nav.prev { left: 12px; }
+    .lm-nav.next { right: 12px; }
+    .lm-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 3; }
+    .lm-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.2s; border: none; padding: 0; }
+    .lm-dot.active { background: #fff; transform: scale(1.25); }
+    /* Info area */
+    .lm-info { background: #fff; padding: 18px 20px 16px; }
+    .lm-desc { font-size: 13.5px; color: var(--gray-700); line-height: 1.7; margin-bottom: 12px; }
+    .lm-why { background: #eff6ff; border-left: 3px solid var(--sky); padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 13px; color: #1e3a5f; margin-bottom: 14px; line-height: 1.65; }
+    .lm-fee-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px,1fr)); gap: 8px; margin-bottom: 12px; }
+    .lm-fee-item { background: var(--gray-100); border-radius: 8px; padding: 9px 12px; }
+    .lm-fee-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--gray-400); margin-bottom: 3px; }
+    .lm-fee-val { font-size: 13px; font-weight: 600; color: var(--navy); }
+    .lm-meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px; color: var(--gray-700); margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--gray-200); }
+    .lm-tips { background: #fef9c3; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #78350f; line-height: 1.6; }
+    @media (max-width:600px) { .lm-expand { margin-left:-20px; } .lm-fee-grid { grid-template-columns:1fr 1fr; } }
+
+    /* FLIGHT EXPAND IN TIMELINE */
+    .fl-panel { background: linear-gradient(135deg,var(--navy),var(--blue)); color: white; padding: 20px 22px; }
+    .fl-panel-hdr { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; opacity: 0.6; margin-bottom: 14px; }
+    .fl-route { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 10px; }
+    .fl-apt { text-align: center; }
+    .fl-apt .code { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+    .fl-apt .city { font-size: 10px; opacity: 0.65; }
+    .fl-apt .time { font-size: 14px; font-weight: 600; margin-top: 3px; }
+    .fl-apt .dt { font-size: 10px; opacity: 0.55; }
+    .fl-mid { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 80px; }
+    .fl-mid .arrow { width: 100%; height: 2px; background: rgba(255,255,255,0.3); position: relative; }
+    .fl-mid .arrow::after { content: '▶'; position: absolute; right: -5px; top: -7px; font-size: 10px; opacity: 0.7; }
+    .fl-mid .num { font-size: 12px; font-weight: 700; }
+    .fl-mid .dur { font-size: 11px; opacity: 0.6; }
+    .fl-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+    .fl-badge-i { background: rgba(255,255,255,0.12); border-radius: 6px; padding: 3px 10px; font-size: 11px; }
+    .fl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 10px; }
+    .fl-cell { background: rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 10px; }
+    .fl-cell-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; opacity: 0.6; margin-bottom: 2px; }
+    .fl-cell-val { font-size: 12px; font-weight: 600; }
+    .fl-note { background: rgba(255,255,255,0.1); border-radius: 8px; padding: 10px 12px; font-size: 12px; line-height: 1.55; margin-bottom: 6px; }
+    .fl-tip { background: rgba(244,162,97,0.22); border-radius: 8px; padding: 10px 12px; font-size: 12px; line-height: 1.55; }
+
     /* DAY FILTER */
     .day-filters { background: white; padding: 12px 16px; border-radius: 14px 14px 0 0; box-shadow: var(--card-shadow); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .day-filter-btn {
@@ -1221,6 +1285,724 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 
 // Initial render
 filterDay('all', document.querySelector('.day-filter-btn'));
+
+// ─────────────────────────────────────────
+// LANDMARK EXPAND PANELS
+// ─────────────────────────────────────────
+
+const WC = f => `https://commons.wikimedia.org/w/index.php?title=Special:FilePath/${encodeURIComponent(f)}&width=900`;
+
+const LANDMARKS = {
+  'fed-sq': {
+    name: 'Federation Square',
+    photos: [
+      { url: WC('Federation_Square,_Melbourne,_Aug_2013.jpg'), cap: 'Federation Square — the civic heart of Melbourne' },
+      { url: WC('Federation_Square_from_Flinders_Street_Station.jpg'), cap: 'Viewed from Flinders Street Station platform' },
+    ],
+    desc: 'Opened in 2002 after a decade of construction above a railway viaduct at Flinders and Swanston Streets. Designed by Lab Architecture Studio, its angular façade of sandstone, glass, and zinc beat 177 international competition entries. The site hosts over 2,000 free public events per year, from concerts to festivals, and is Melbourne\'s single most visited precinct.',
+    why: 'The unmissable starting point for any Melbourne visit — ACMI has free film and game exhibitions, the Ian Potter Centre shows free Australian art, and the northern edge gives the best street-level view of Flinders Street Station. Always something happening.',
+    fees: [
+      { label: 'Plaza entry', val: 'FREE · open 24/7' },
+      { label: 'ACMI museum', val: 'Free permanent collection' },
+      { label: 'Ian Potter Centre', val: 'Free · Australian art' },
+      { label: 'Nearest parking', val: 'Flinders Gate CP ~$5/hr (400m)' },
+    ],
+    hours: '24/7 outdoor · ACMI 10:00–17:00 daily',
+    duration: '30–60 min',
+    tips: '🔑 Check thefed.com.au for events during your stay. Heated underground walkways to Flinders Street Station are a lifesaver on wet days.'
+  },
+  'st-pauls': {
+    name: "St Paul's Cathedral",
+    photos: [
+      { url: WC('St_Pauls_Cathedral_Melbourne.jpg'), cap: "St Paul's Cathedral — Gothic Revival at Flinders & Swanston" },
+      { url: WC('St_Paul%27s_Cathedral%2C_Melbourne_-_interior.jpg'), cap: 'Vaulted nave and Victorian stained glass by Clayton & Bell' },
+    ],
+    desc: "Designed by English architect William Butterfield in the Gothic Revival style, construction began in 1880 using Barrabool Hills sandstone. The spires weren't completed until 1932 — the building took over 50 years to finish. It stands directly opposite Federation Square and features ornate stained glass crafted by London firm Clayton & Bell, the same workshop that made windows for Westminster Abbey.",
+    why: 'A free Gothic masterpiece in the very heart of the CBD, opposite Federation Square. The interior — vaulted ceilings, tiled floors, and Victorian stained glass — rewards a 20-minute visit. Always open, no booking needed.',
+    fees: [
+      { label: 'Entrance', val: 'FREE · donations welcome' },
+      { label: 'Photography', val: 'Allowed · no flash during services' },
+      { label: 'Guided tours', val: 'Free — check cathedral website' },
+      { label: 'Parking', val: 'No on-site · City CP $4–6/hr nearby' },
+    ],
+    hours: 'Mon–Fri 07:00–18:00 · Sat–Sun 08:00–19:00',
+    duration: '20–30 min',
+    tips: "🔑 Best exterior shot from across Swanston Street in morning light. Services run at specific times — check online to avoid disrupting worshippers."
+  },
+  'state-lib': {
+    name: 'State Library of Victoria',
+    photos: [
+      { url: WC('State_Library_of_Victoria_La_Trobe_Reading_Room.jpg'), cap: 'La Trobe Reading Room — 35m octagonal dome, largest concrete dome when built' },
+      { url: WC('State_Library_of_Victoria_-_front_entrance.jpg'), cap: 'State Library — La Trobe Street façade since 1856' },
+    ],
+    desc: "Founded in 1854, the State Library of Victoria is one of the world's oldest public libraries. The centrepiece La Trobe Reading Room (1913) is topped by a 35-metre octagonal dome — the largest reinforced concrete dome in the world at the time of completion. The library holds over 2 million items including Ned Kelly's iron armour (worn at the 1880 Siege of Glenrowan), original Burke & Wills expedition diaries, and the Gutenberg Bible.",
+    why: "Melbourne's most beautiful interior — walk in off La Trobe Street for free and look straight up at the dome from the ground floor. Ned Kelly's actual armour is on Level 3 for free. One of the great free cultural experiences in Australia.",
+    fees: [
+      { label: 'Entrance', val: 'FREE · always open to public' },
+      { label: 'Ned Kelly armour', val: 'FREE · Level 3' },
+      { label: 'Photography', val: 'Personal use allowed' },
+      { label: 'Parking', val: 'Melbourne Central Wilson ~$6/hr' },
+    ],
+    hours: 'Mon–Thu 10:00–21:00 · Fri–Sun 10:00–18:00',
+    duration: '30–45 min',
+    tips: "🔑 Stand dead centre on the ground floor and look straight up for the dome shot — it's a famous photo. Ned Kelly's armour is genuinely chilling to see up close; you can see bullet dents from the police siege."
+  },
+  'carlton-gardens': {
+    name: 'Carlton Gardens & Royal Exhibition Building',
+    photos: [
+      { url: WC('Royal_Exhibition_Building_and_Melbourne_Museum_in_Carlton_Gardens.jpg'), cap: 'Royal Exhibition Building — UNESCO World Heritage Site, built 1880' },
+      { url: WC('Carlton_Gardens_south,_Melbourne.jpg'), cap: 'Carlton Gardens — formal Victorian parkland with ornamental fountains' },
+    ],
+    desc: "The Royal Exhibition Building was designed for the Melbourne International Exhibition of 1880, one of the great World's Fairs. Australia's first Federal Parliament opened here in 1901. In 2004 the building and Carlton Gardens were inscribed as a UNESCO World Heritage Site — the first in Victoria. The gardens feature English elms, ornamental fountains, and a formal Italian parterre. Melbourne Museum (2000) sits adjacent to the gardens.",
+    why: "A UNESCO World Heritage Site that most visitors walk past. The Royal Exhibition Building is magnificent from the Carlton Gardens approach. Melbourne Museum next door is excellent for families on a cold August day.",
+    fees: [
+      { label: 'Gardens', val: 'FREE · dawn to dusk' },
+      { label: 'Exhibition Building tours', val: '~$10 AUD · museumsvictoria.com.au' },
+      { label: 'Melbourne Museum', val: '$15 adult · $8 child (4–15)' },
+      { label: 'Parking', val: 'On-street Rathdowne St or Carlton Gardens CP' },
+    ],
+    hours: 'Gardens: 7:30–dusk · Museum: 10:00–17:00',
+    duration: '30–60 min',
+    tips: "🔑 Walk to the north fountain for the classic reflected shot of the Royal Exhibition Building. The elm avenues are striking even in winter — bare branches frame the building beautifully."
+  },
+  'st-patricks': {
+    name: "St Patrick's Cathedral",
+    photos: [
+      { url: WC('St_Patrick%27s_Cathedral%2C_Melbourne.jpg'), cap: "St Patrick's Cathedral — 105m spire, tallest in Australia" },
+      { url: WC('St_Patrick%27s_Cathedral%2C_Melbourne_interior.jpg'), cap: "The 63-metre Gothic nave — Australia's largest Catholic cathedral" },
+    ],
+    desc: "St Patrick's Cathedral is the seat of the Roman Catholic Archbishop of Melbourne. At 105.8 metres, it has the tallest cathedral spire in Australia. Construction began in 1858 and continued for 83 years — the spires were finally completed in 1941. Built in bluestone by architect William Wardell, who is regarded as the finest Gothic Revival church architect in the Southern Hemisphere. The interior nave stretches 63 metres.",
+    why: "The grandest cathedral in Australia — and one of the most impressive Gothic buildings in the Southern Hemisphere. Free entry. A short walk from both St Paul's Cathedral and Fitzroy Gardens, making it a natural addition to the CBD loop.",
+    fees: [
+      { label: 'Entrance', val: 'FREE · donations appreciated' },
+      { label: 'Photography', val: 'Allowed with respectful behaviour' },
+      { label: 'Guided tours', val: 'Free — check melbournecatholic.org' },
+      { label: 'Parking', val: 'Spring St on-street or Treasury Gardens CP' },
+    ],
+    hours: 'Mon–Fri 07:30–18:00 · Sat–Sun 08:00–19:30',
+    duration: '20–30 min',
+    tips: "🔑 Best exterior shot from Albert Street — the full cathedral length in frame. Morning light through the east-facing windows illuminates the interior stained glass best."
+  },
+  'fitzroy-gardens': {
+    name: 'Fitzroy Gardens',
+    photos: [
+      { url: WC('Fitzroy_Gardens_Melbourne.jpg'), cap: 'Fitzroy Gardens — 26-hectare English formal garden, 1km from CBD' },
+      { url: WC("Cook's_Cottage,_Melbourne.jpg"), cap: "Cook's Cottage (1755) — transported from Yorkshire, England in 1934" },
+    ],
+    desc: "Fitzroy Gardens is a 26-hectare formal English garden established in the 1850s. Cook's Cottage was built in 1755 in Great Ayton, Yorkshire, and belonged to the parents of explorer Captain James Cook. In 1934, Melbourne purchased the cottage and shipped it to Australia brick-by-brick — 253 packing cases — as a centenary gift to Victoria. It is the oldest building in Australia. The gardens also feature a fairy tree carved by Ola Cohn and a miniature Tudor village.",
+    why: "A genuine English garden oasis a short walk from the CBD. Cook's Cottage is technically the oldest building in Australia (though Cook himself never lived there). The fairy tree delights kids. Beautiful in any season.",
+    fees: [
+      { label: 'Gardens entry', val: 'FREE · open dawn to dusk' },
+      { label: "Cook's Cottage", val: '$6.50 adult · $3.30 child' },
+      { label: 'Fairy Tree', val: 'FREE · within the gardens' },
+      { label: 'Parking', val: 'Wellington Pde on-street or Treasury CP' },
+    ],
+    hours: "Gardens: 24/7 open · Cottage: 09:00–17:00 daily",
+    duration: '30–45 min',
+    tips: "🔑 The fairy tree is near Cook's Cottage — small carved figures are hidden throughout the hollow trunk. The elm avenues running east–west catch beautiful morning light even in winter."
+  },
+  'hosier-lane': {
+    name: 'Hosier Lane',
+    photos: [
+      { url: WC('Hosier_Lane,_Melbourne.jpg'), cap: "Hosier Lane — Melbourne's world-famous legal street art laneway" },
+      { url: WC('Hosier_Lane_Melbourne_graffiti.jpg'), cap: 'Layers of rotating murals, paste-ups, and stencils by artists worldwide' },
+    ],
+    desc: "Hosier Lane has been Melbourne's designated legal graffiti zone since the early 2000s. The cobblestone laneway runs 100 metres parallel to Flinders Street and every surface — walls, doors, cobblestones — is covered in layered street art. Artists from around the world make pilgrimages to paint here; famous international names share space with local emerging talents. Artwork is repainted constantly — no two visits are the same.",
+    why: "The most photogenic 100 metres in Melbourne. World-class street art in constant rotation on a beautiful cobblestone laneway — free and always open. One of the top Leica shooting locations in the city. Rutledge Lane (parallel, one block east) is equally dense.",
+    fees: [
+      { label: 'Entry', val: 'FREE · public laneway · 24/7' },
+      { label: 'Photography', val: 'Fully encouraged · no restrictions' },
+      { label: 'Art tour', val: 'Melbourne Street Art Tours ~$30 AUD (optional)' },
+      { label: 'Parking', val: 'Federation Square CP or Flinders Gate CP' },
+    ],
+    hours: '24/7 open · best light 08:00–09:00 or 17:00–18:00',
+    duration: '20–30 min',
+    tips: "🔑 Arrive before 09:00 for empty-lane shots. Shoot from the Flinders Street end looking north for the classic depth-of-field composition. Rutledge Lane parallel alley is equally impressive."
+  },
+  'birrarung': {
+    name: 'Birrarung Marr',
+    photos: [
+      { url: WC('Birrarung_Marr.jpg'), cap: 'Birrarung Marr — best free city skyline viewpoint on the Yarra bank' },
+      { url: WC('Federation_Bells_Birrarung_Marr.jpg'), cap: 'Federation Bells — 39 tuned bells with free daily concerts' },
+    ],
+    desc: "Birrarung Marr means 'river of mists' in the Wurundjeri language. Opened in 2002, this riverside park connects the city to the Yarra's north bank. The 39-bell Federation Bells installation was commissioned for Australia's centenary of Federation — each bell is uniquely tuned and performs contemporary compositions three times daily. The elevated William Barak Bridge connects the park directly to Federation Square.",
+    why: "The best free vantage point for the Melbourne CBD skyline — and at blue hour (after 17:30 in August) the city lights reflecting in the Yarra are exceptional for the Leica. Federation Bells concerts coincide perfectly with golden hour.",
+    fees: [
+      { label: 'Entry', val: 'FREE · open 24/7' },
+      { label: 'Federation Bells', val: 'FREE · 08:00, 12:30 & 17:30 daily' },
+      { label: 'Parking', val: 'Boathouse Dr on-street or Fed Square CP' },
+      { label: 'Events', val: 'Free outdoor events throughout the year' },
+    ],
+    hours: '24/7 open parkland',
+    duration: '20–30 min',
+    tips: "🔑 For city skyline photos, position yourself on the Yarra bank looking west at blue hour (~17:45 August). The 17:30 Federation Bells concert coincides with golden hour light."
+  },
+  'qv-market': {
+    name: 'Queen Victoria Market',
+    photos: [
+      { url: WC('Queen_Victoria_Market_Melbourne.jpg'), cap: "Queen Victoria Market — trading since 1878 · largest open-air market in Southern Hemisphere" },
+      { url: WC('Queen_Victoria_Market_deli_hall.jpg'), cap: 'The deli hall — over 600 traders under historic 19th-century iron sheds' },
+    ],
+    desc: "Queen Victoria Market has operated on this 7-hectare site since 1878, making it the largest open-air market in the Southern Hemisphere. The heritage-listed iron-framed sheds were built between 1869 and 1884 and still house over 600 traders. Beneath the southern section, the site was a cemetery until 1854 — the remains of approximately 9,000 people remain in situ under the carpark today.",
+    why: "The most authentic Melbourne experience — fresh local produce, artisan cheeses, and an atmosphere unchanged in over 150 years. Go early (07:00) for the best food and to see the traders set up. A Tuesday or Thursday morning is ideal before any CBD sightseeing.",
+    fees: [
+      { label: 'Entry', val: 'FREE · public market' },
+      { label: 'Breakfast', val: '$8–15 AUD per person at food stalls' },
+      { label: 'Parking', val: 'Market carpark $7 first 3 hrs (Peel St)' },
+      { label: 'Free tram', val: 'Elizabeth St free CBD tram stops outside' },
+    ],
+    hours: 'Tue & Thu 06:00–15:00 · Fri 06:00–17:00 · Sat 06:00–15:00 · Sun 09:00–16:00',
+    duration: '1–2 hours',
+    tips: "🔑 Go early (07:00) for the best produce and fewer crowds. The deli hall has exceptional Australian and European cheeses. Closed Monday and Wednesday."
+  },
+  'ngv': {
+    name: 'NGV International',
+    photos: [
+      { url: WC('NGV_International,_Melbourne.jpg'), cap: "NGV International — Australia's oldest and largest art museum since 1861" },
+      { url: WC('NGV_International_water_wall.jpg'), cap: "The iconic water wall spanning the full St Kilda Rd façade" },
+    ],
+    desc: "The National Gallery of Victoria was founded in 1861 and is the oldest and largest art museum in Australia. The current St Kilda Road building designed by Roy Grounds opened in 1968, featuring its celebrated water wall entrance. The permanent international collection spans 5,000 years of art-making with 75,000+ works — from ancient Egypt through to contemporary art. It attracts over 3 million visitors annually, making it one of the world's most visited art museums.",
+    why: "World-class free art a 5-minute walk from your hotel. The Great Hall ceiling — a stained glass canopy by Leonard French covering 1,700 square metres — is one of the most extraordinary interior spaces in Australia. Don't miss it.",
+    fees: [
+      { label: 'Permanent collection', val: 'FREE · always free' },
+      { label: 'Major exhibitions', val: '$25–35 AUD adult · book ahead' },
+      { label: 'Children under 16', val: 'Free with paying adult' },
+      { label: 'Parking', val: 'St Kilda Rd on-street (2hr) or Arts Centre CP' },
+    ],
+    hours: 'Thu–Tue 10:00–17:00 · Wed 10:00–21:00',
+    duration: '1–2 hours',
+    tips: "🔑 Stand in the Great Hall and look straight up at the Leonard French stained glass ceiling — it's 1,700m² of glass. Book ticketed exhibitions weeks ahead; August school holidays sell out fast."
+  },
+  'eureka': {
+    name: 'Eureka Skydeck 88',
+    photos: [
+      { url: WC('Eureka_Tower_from_Yarra_River.jpg'), cap: "Eureka Tower — 92 floors, 297 metres, gold crown visible across Melbourne" },
+      { url: WC('Eureka_Tower_The_Edge.jpg'), cap: '"The Edge" glass cube extends 3 metres outside the building at 285m' },
+    ],
+    desc: "Eureka Tower is a 297-metre, 92-floor skyscraper in Southbank completed in 2006. At completion it was the tallest residential building in the world. The design references the 1854 Eureka Stockade: the gold crown represents the wealth of the goldfields, the red sash represents the blood of miners who revolted against colonial authorities. The 88th floor Skydeck (285m) is the highest public observation point in the Southern Hemisphere — and is a 5-minute walk from your hotel.",
+    why: "360° panoramic views of Melbourne from 285 metres — and it's literally a 5-minute walk from Quay West. On a clear August day you can see the Dandenong Ranges, Port Phillip Bay, and the entire Melbourne grid. No need to drive.",
+    fees: [
+      { label: 'Adult', val: '$25.50 AUD online · $28 walk-up' },
+      { label: 'Child (4–16)', val: '$16.00 AUD online' },
+      { label: '"The Edge" glass cube', val: '+$12.50 AUD · glass floor box' },
+      { label: 'Parking', val: 'Walk from hotel (5 min) · no need to drive' },
+    ],
+    hours: 'Daily 10:00–22:00 (last entry 21:30)',
+    duration: '45–60 min',
+    tips: "🔑 Book online for cheaper tickets. Best visited on a clear morning for orientation. Night visit gives spectacular city lights. The Edge glass cube is thrilling (or terrifying) for kids."
+  },
+  'luna-park': {
+    name: 'Luna Park Melbourne',
+    photos: [
+      { url: WC('Luna_Park_Melbourne.jpg'), cap: "Luna Park Melbourne — the heritage laughing Mr Moon face, open since 1912" },
+      { url: WC('Scenic_Railway_Luna_Park_Melbourne.jpg'), cap: "Scenic Railway — world's oldest continually operating roller coaster (1912)" },
+    ],
+    desc: "Luna Park Melbourne opened on 13 December 1912, making it one of the world's oldest continuously operating amusement parks. The iconic Mr Moon laughing face entrance is heritage-listed. The Scenic Railway — also from 1912 — is the world's oldest continually operating roller coaster and still uses individual human operators who ride in each car to control braking, exactly as in 1912. It sits on the St Kilda foreshore directly beside the beach.",
+    why: "A living piece of amusement park history. The Scenic Railway alone is a National Heritage List item. The heritage setting with the bayside backdrop makes for great photography. Essential if you have kids.",
+    fees: [
+      { label: 'Park entry', val: 'FREE · pay per ride or buy pass' },
+      { label: 'Unlimited ride pass', val: '~$49–59 AUD · lunapark.com.au' },
+      { label: 'Individual rides', val: '$6–12 AUD per ride' },
+      { label: 'Parking', val: 'Luna Park carpark or St Kilda foreshore' },
+    ],
+    hours: 'Sat–Sun 11:00–18:00 · weekday hours vary — check lunapark.com.au',
+    duration: '2–3 hours',
+    tips: "🔑 The Scenic Railway (world's oldest coaster) is the must-ride. Book unlimited passes online for better value. The Mr Moon entrance is one of Melbourne's most recognisable photo spots."
+  },
+  'brighton': {
+    name: 'Brighton Beach Bathing Boxes',
+    photos: [
+      { url: WC('Brighton_Bathing_Boxes.jpg'), cap: 'Brighton Beach — 82 heritage bathing boxes since the 1860s' },
+      { url: WC('Brighton_beach_boxes_Melbourne.jpg'), cap: 'On clear days the Melbourne CBD skyline is visible on the horizon' },
+    ],
+    desc: "Brighton Beach's 82 timber bathing boxes have stood on the Port Phillip Bay foreshore since the 1860s. Originally used as private changing rooms for Victorian-era bathers, they are now heritage-listed private properties. Each box is individually painted by its owner — no two are identical. Individual boxes have sold for up to $350,000 AUD at auction. The boxes face east over the bay; on clear days the Melbourne CBD is visible on the horizon.",
+    why: "One of the most photographed spots in Victoria — completely free, uncrowded in August, and the colourful boxes against the calm grey winter bay make for striking photography. The Leica will love this location.",
+    fees: [
+      { label: 'Entry', val: 'FREE · public beach' },
+      { label: 'Photography', val: 'Fully permitted from the beach' },
+      { label: 'Parking', val: 'Middle Brighton Esplanade ~$3/hr' },
+      { label: 'Train option', val: 'Sandringham line to Middle Brighton · 30 min from Flinders St' },
+    ],
+    hours: 'Beach open 24/7 · best visited morning golden hour',
+    duration: '30–45 min',
+    tips: "🔑 Boxes face east — morning light is ideal. Take the Sandringham train from Flinders Street to avoid parking. Zero crowds in August."
+  },
+  'puffing-billy': {
+    name: 'Puffing Billy Railway',
+    photos: [
+      { url: WC('Puffing_Billy_at_Menzies_Creek.jpg'), cap: 'Puffing Billy arriving at Menzies Creek station in the Dandenong Ranges' },
+      { url: WC('Puffing_Billy_on_Monbulk_Creek_Trestle_Bridge.jpg'), cap: 'Crossing the historic Monbulk Creek trestle bridge through mountain ash forest' },
+    ],
+    desc: "Puffing Billy Railway has operated through the Dandenong Ranges since 1900. Originally built to serve isolated mountain communities, the narrow-gauge steam railway survived multiple closure attempts in the 1950s — saved by passionate locals and railway enthusiasts. Now run by volunteers, it is one of the best-preserved steam railways in the world, running through some of the most beautiful mountain ash forest in Victoria.",
+    why: "The quintessential Victorian day trip experience — riding in open wooden carriages with legs dangling out as steam billows through ancient mountain forest. In August the cold air makes the steam clouds especially dramatic. Pure joy for kids and adults alike.",
+    fees: [
+      { label: 'Adult (Belgrave–Menzies Creek return)', val: '~$39 AUD' },
+      { label: 'Child (4–15 years)', val: '~$21 AUD' },
+      { label: 'Family (2A + 2C)', val: '~$100 AUD' },
+      { label: 'Parking at Belgrave', val: 'FREE on weekends at station car park' },
+    ],
+    hours: 'First departure 10:30 daily · check puffingbilly.com.au',
+    duration: 'Half day — 3 to 4 hours (Belgrave–Menzies Creek return)',
+    tips: "🔑 Book online — walk-up tickets sell out during school holidays. Sit on the LEFT side facing the direction of travel for the best trestle bridge views. Arrive at Belgrave by 10:00 for departure platform shots."
+  },
+  'healesville': {
+    name: 'Healesville Sanctuary',
+    photos: [
+      { url: WC('Healesville_Sanctuary.jpg'), cap: 'Healesville Sanctuary — the world\'s best setting to see Australian wildlife' },
+      { url: WC('Koala_climbing_tree.jpg'), cap: 'Koalas in their natural tree habitat within the sanctuary' },
+    ],
+    desc: "Healesville Sanctuary opened in 1921 in the Yarra Valley. Run by Zoos Victoria, it is considered the finest facility in the world for experiencing Australian native animals in a naturalistic bush environment. Residents include koalas, wombats, Tasmanian devils, bilbies, wedge-tailed eagles, and — most extraordinarily — platypus, which are exceptionally rare to see in captivity. The Spirits of the Sky raptor show features free-flying eagles and owls.",
+    why: "Better than any city zoo for Australian animals. The platypus exhibit alone justifies the trip — most visitors don't realise how remarkable it is. The raptor show with free-flying eagles overhead is breathtaking. A full half-day well spent, especially for families.",
+    fees: [
+      { label: 'Adult', val: '$44 AUD online · $46 at gate' },
+      { label: 'Child (4–15)', val: '$24 AUD online' },
+      { label: 'Family (2A + 2C)', val: '$116 AUD online' },
+      { label: 'Parking', val: 'FREE large car park on site' },
+    ],
+    hours: 'Daily 10:00–17:00 (last entry 16:00)',
+    duration: '3–4 hours (full half-day)',
+    tips: "🔑 Book online for cheaper rates. Head to the platypus exhibit first thing at opening (10:00) before it gets crowded. Spirits of the Sky show times are posted at the entrance on arrival — plan your day around it."
+  },
+  'shrine': {
+    name: 'Shrine of Remembrance',
+    photos: [
+      { url: WC('Shrine_of_Remembrance_Melbourne.jpg'), cap: "Shrine of Remembrance — Melbourne's principal war memorial since 1934" },
+      { url: WC('Shrine_of_Remembrance_forecourt_Melbourne.jpg'), cap: 'Looking north from the Shrine steps toward the CBD along the Swanston St axis' },
+    ],
+    desc: "The Shrine of Remembrance was built to honour the 114,000 Victorians who served in World War I and the 19,000 who died. Completed in 1934, it is built from Tynong granite in a classical style loosely modelled on the Mausoleum at Halicarnassus. A precisely engineered aperture in the roof allows sunlight to illuminate the word 'Love' on the Stone of Remembrance at exactly 11:00 on 11 November each year. The Shrine now commemorates all Australians who have served in all conflicts.",
+    why: "One of Melbourne's most powerful places — architecturally magnificent and deeply moving. The sunrise view north along the Swanston Street axis toward the CBD from the Shrine steps is one of the finest city views in Australia. Free, always open.",
+    fees: [
+      { label: 'Entry', val: 'FREE · always open' },
+      { label: 'Photography', val: 'Permitted throughout incl. interior' },
+      { label: 'Guided tours', val: 'FREE daily · check shrine.org.au for times' },
+      { label: 'Parking', val: 'Birdwood Ave — free on weekends' },
+    ],
+    hours: '09:00–17:00 daily · Grounds open from sunrise',
+    duration: '30–60 min',
+    tips: "🔑 Arrive 06:45 for sunrise — dress warmly (8°C at dawn in August). The Shrine steps face north; the predawn glow along the Swanston Street axis is extraordinary for the Leica. Free guided tours are excellent."
+  },
+  'penguins': {
+    name: 'St Kilda Little Penguins',
+    photos: [
+      { url: WC('Little_Penguin_at_St_Kilda.jpg'), cap: "Little Penguins (Fairy Penguins) — the world's smallest penguin species at 33cm" },
+      { url: WC('St_Kilda_Pier_Melbourne_at_sunset.jpg'), cap: 'St Kilda Breakwater at dusk — where ~1,200 penguins nest in the boulders' },
+    ],
+    desc: "The St Kilda Breakwater is home to approximately 1,200 Little Penguins — the only wild penguin colony in the world living within a major city. The colony nests in boulders of the breakwater built in the 1950s, which inadvertently created perfect penguin habitat. Managed by Earthcare St Kilda volunteers since 1974, the colony is the most visited free wildlife attraction in Melbourne. Little Penguins are the world's smallest penguin species, standing just 33cm tall.",
+    why: "Watching hundreds of tiny wild penguins waddle past your feet after dark is completely magical — and it's completely free. Most Melbourne visitors don't know this exists at all. One of Australia's great free wildlife experiences.",
+    fees: [
+      { label: 'Entry', val: 'FREE · volunteer-managed public site' },
+      { label: 'Photography', val: 'NO flash · no torches toward penguins' },
+      { label: 'Parking', val: 'St Kilda Pier CP or Jacka Blvd on-street' },
+      { label: 'Access', val: 'Walk to end of St Kilda Pier then along breakwater' },
+    ],
+    hours: 'After sunset daily · rangers present from ~17:30 in August',
+    duration: '45–60 min — arrive before sunset',
+    tips: "🔑 August sunset ~17:45 — arrive by 17:15 for a good breakwater position. Penguins begin landing at last light; hundreds come in over 30–45 minutes. Very cold on the water at night — warm layers essential. Stay completely still and silent when penguins approach."
+  },
+  'twelve-apostles': {
+    name: 'Twelve Apostles',
+    photos: [
+      { url: WC('Twelve_Apostles,_Victoria.jpg'), cap: 'The Twelve Apostles — 8 limestone stacks rising up to 45m from the Southern Ocean' },
+      { url: WC('Gibson_Steps,_Port_Campbell_National_Park.jpg'), cap: 'Gibson Steps — 86 steps to beach level for the most dramatic perspective' },
+    ],
+    desc: "The Twelve Apostles are limestone sea stacks eroded from the mainland cliffs of Port Campbell National Park over 10–20 million years. Despite the name, there were never twelve — the original name was 'the Sow and Piglets' until renamed for marketing purposes in the 1950s. Eight stacks remain; several collapsed in the 2000s. They stand up to 45 metres above the turbulent Southern Ocean and are Victoria's most visited natural attraction.",
+    why: "Australia's most iconic natural landmark. Ancient limestone pillars rising from the raging Southern Ocean — the scale and drama are hard to believe until you're standing there. Late afternoon side-lighting turns the stacks gold. Walk down Gibson Steps to the beach for the most powerful perspective.",
+    fees: [
+      { label: 'Entry', val: 'FREE · no gate fee' },
+      { label: 'Helicopter tour', val: '~$145–185 AUD · 10-min flight' },
+      { label: 'Parking', val: 'FREE at visitor centre car park' },
+      { label: 'Nearest fuel & food', val: 'Port Campbell township · 10 min east' },
+    ],
+    hours: 'Lookout open 24/7 · Visitor centre 09:00–17:00',
+    duration: '1–1.5 hours (allow 30 min for Gibson Steps beach)',
+    tips: "🔑 Late afternoon (16:00–18:00) gives perfect golden side-lighting on the west-facing stacks. Gibson Steps (2km west) descends 86 steps to beach level — base-of-cliff view is the most dramatic angle. Helicopter tours give unrivalled aerial perspectives."
+  },
+  'bells-beach': {
+    name: 'Bells Beach',
+    photos: [
+      { url: WC('Bells_Beach_Victoria.jpg'), cap: "Bells Beach — world's longest running pro surf contest since 1962" },
+      { url: WC('Bells_Beach_cliffs_and_surf.jpg'), cap: 'The iconic red-ochre cliffs and Southern Ocean swell at Bells Beach' },
+    ],
+    desc: "Bells Beach near Torquay is among the world's most famous surf breaks, home to the Rip Curl Pro — the longest running professional surfing competition in the world, held every Easter since 1962. The beach is accessed via steep stairs from a clifftop carpark. The dramatic red-ochre cliffs, powerful Southern Ocean swell, and rich surf heritage make this a worldwide pilgrimage destination for surfers.",
+    why: "An iconic surf culture landmark at the start of the Great Ocean Road. Even non-surfers appreciate the dramatic clifftop views. In August the Southern Ocean swells are powerful and the red cliffs against the grey sea make for striking photographs.",
+    fees: [
+      { label: 'Entry', val: 'FREE · public beach and lookout' },
+      { label: 'Parking', val: 'FREE at Bells Beach clifftop carpark' },
+      { label: 'Swimming', val: 'Not recommended August — powerful surf, cold water' },
+      { label: 'Surf history', val: 'Rip Curl Surf Museum in Torquay ~$10 AUD (optional)' },
+    ],
+    hours: 'Open 24/7 · No lifeguard patrol in August',
+    duration: '20–30 min at the clifftop',
+    tips: "🔑 Walk south along the cliff path for the best view of the break point. Torquay township (10 min north) has excellent cafés for breakfast before the GOR drive. August: completely uncrowded."
+  },
+  'apollo-bay': {
+    name: 'Apollo Bay',
+    photos: [
+      { url: WC('Apollo_Bay,_Victoria.jpg'), cap: "Apollo Bay — a sheltered harbour town halfway along the Great Ocean Road" },
+      { url: WC('Apollo_Bay_Harbour.jpg'), cap: 'Apollo Bay fishing harbour — fresh local seafood available daily' },
+    ],
+    desc: "Apollo Bay is a coastal town of approximately 1,500 people, 190km southwest of Melbourne. Sheltered by the Otway Ranges, it has one of the few natural harbours on the exposed Great Ocean Road coastline. Commercial fishing boats have operated from the harbour since the 1880s. Today it's the most popular overnight base for GOR travellers and the last substantial town before the Twelve Apostles — about 80km further west.",
+    why: "The ideal lunch stop on the Great Ocean Road — fresh fish and chips at the harbour foreshore at roughly the halfway point to the Twelve Apostles. A practical break for fuel and food with a beautiful bay setting.",
+    fees: [
+      { label: 'Entry', val: 'FREE · public town and beach' },
+      { label: 'Fish & chips at harbour', val: '$18–25 AUD per person' },
+      { label: 'Parking', val: 'FREE on-street along Great Ocean Rd' },
+      { label: 'Fuel', val: 'Last reasonably priced fuel before Apostles — fill up here' },
+    ],
+    hours: 'Town open all day · Harbour seafood stalls from 11:00',
+    duration: '45–60 min lunch break',
+    tips: "🔑 Great Ocean Road Seafood at the harbour does excellent local fish. Fill up the car here — fuel is significantly more expensive past Lavers Hill. The harbour breakwater often has wild koalas in surrounding gum trees."
+  },
+  'town-hall': {
+    name: 'Melbourne Town Hall & Block Arcade',
+    photos: [
+      { url: WC('Melbourne_Town_Hall.jpg'), cap: 'Melbourne Town Hall — French Second Empire style, completed 1870 on Swanston St' },
+      { url: WC('Block_Arcade_Melbourne.jpg'), cap: 'The Block Arcade (1892) — ornate mosaic floors and glass roof on Collins Street' },
+    ],
+    desc: "Melbourne Town Hall on Swanston Street was completed in 1870 in French Second Empire style, modelled loosely on Paris's Hôtel de Ville. It has hosted royal visits, state funerals, and The Beatles' only Australian press conference (1964). The Block Arcade, steps away on Collins Street (1892), is Melbourne's finest Victorian shopping arcade — modelled after Milan's Galleria Vittorio Emanuele II with its Minton tile floor, ornate plasterwork ceiling, and arched glass roof. Haigh's Chocolates (est. 1915) has been a tenant for decades.",
+    why: "The Block Arcade is Melbourne's most beautiful interior shopping space — free to walk through and a perfect photography subject. The ornate ceiling, mosaic floor, and quality boutiques make it a highlight of the CBD walking loop. Buy Haigh's chocolates here — the best Melbourne edible souvenir.",
+    fees: [
+      { label: 'Block Arcade entry', val: 'FREE · open during shop hours' },
+      { label: 'Town Hall tours', val: 'Free guided tours — check melbourne.vic.gov.au' },
+      { label: "Haigh's Chocolates", val: 'Various · excellent dark chocolate frogs' },
+      { label: 'Parking', val: 'Melbourne Central Wilson CP or on-street Collins St' },
+    ],
+    hours: 'Block Arcade: Mon–Thu 08:00–18:00 · Fri 08:00–20:00 · Sat 09:00–17:00 · Sun 11:00–17:00',
+    duration: '20–30 min',
+    tips: "🔑 The Block Arcade Minton tile floor and glass barrel-vault roof are exceptional photography subjects. Walk to the centre of the arcade and look up for the classic shot. Haigh's dark chocolate frogs are the best Melbourne edible souvenir."
+  },
+  'degraves': {
+    name: 'Melbourne Laneways — Degraves St & Centre Place',
+    photos: [
+      { url: WC('Degraves_Street_Melbourne.jpg'), cap: "Degraves Street — Melbourne's most iconic café laneway, between Flinders and Collins" },
+      { url: WC('Centre_Place_Melbourne.jpg'), cap: 'Centre Place — the hidden parallel laneway beloved by Melbourne coffee culture' },
+    ],
+    desc: "Melbourne's laneway café culture emerged in the 1990s as artists and independent café owners colonised the narrow service lanes between CBD blocks. Degraves Street between Flinders and Collins Streets is the most famous — 300 metres of café tables on cobblestones beneath coloured awnings. Centre Place runs parallel, hidden behind Collins Street. Flinders Lane (one block south) evolved from a textile wholesale district to Melbourne's most acclaimed restaurant strip. This laneway culture is now imitated worldwide.",
+    why: "The laneways are Melbourne's greatest cultural export — the birthplace of Australian café culture that changed how the world drinks coffee. A flat white at a Degraves café table is a rite of passage. The authentic cobblestone atmosphere, street art details, and perpetual buzz make this unmissable.",
+    fees: [
+      { label: 'Entry', val: 'FREE · public laneways · 24/7' },
+      { label: 'Flat white / coffee', val: '$5–6 AUD per cup' },
+      { label: 'Breakfast at laneway café', val: '$16–25 AUD per person' },
+      { label: 'Parking', val: 'City Square CP or Flinders Gate CP' },
+    ],
+    hours: 'Cafés open from 07:00 · laneways accessible 24/7',
+    duration: '45–60 min (including coffee & browse)',
+    tips: "🔑 Patricia Coffee Brewers (Little Bourke St) and Bench Coffee (various) are considered some of Melbourne's finest. Arrive before 09:30 before the crush fills the lane. Degraves at 08:00 with the Leica — empty lanes, café setup shots — is pure gold."
+  },
+  'st-kilda-pier': {
+    name: 'St Kilda Pier & Breakwater',
+    photos: [
+      { url: WC('St_Kilda_Pier,_Melbourne.jpg'), cap: "St Kilda Pier — Melbourne's historic jetty extending 350m into Port Phillip Bay since 1853" },
+      { url: WC('St_Kilda_beach,_Melbourne.jpg'), cap: 'St Kilda Beach and the bay, looking back toward the CBD skyline' },
+    ],
+    desc: "St Kilda Pier has jutted into Port Phillip Bay since 1853, making it among Melbourne's oldest surviving structures. The heritage kiosk at the pier's end dates from 1904. The breakwater was added in the 1950s and inadvertently created ideal habitat for a colony of Little Penguins that established themselves in the boulders — the same penguins that return each night. The Catani Gardens, Esplanade, Acland Street cake shops, and Luna Park are all within a 10-minute walk.",
+    why: "The classic Melbourne bayside experience — a 350-metre walk over the bay with CBD skyline views behind you and Port Phillip stretching to the horizon ahead. In August the bay is calm, crowds are minimal, and the kiosk at the end serves excellent coffee. Perfect before Luna Park.",
+    fees: [
+      { label: 'Pier & beach', val: 'FREE · public access 24/7' },
+      { label: 'Pier kiosk coffee', val: '$5–6 AUD' },
+      { label: 'Parking', val: 'St Kilda Pier CP or Jacka Blvd on-street' },
+      { label: 'Acland St cakes', val: '$5–8 per slice at Monarch Cakes (est. 1934)' },
+    ],
+    hours: 'Pier open 24/7 · Kiosk 09:00–17:00 (weather permitting)',
+    duration: '30–45 min (pier walk + bay views)',
+    tips: "🔑 Walk the full 350m to the kiosk for the best CBD skyline views back over the bay. Monarch Bakehouse on Acland Street — open since 1934 — is Melbourne's legendary Hungarian cake shop; the dobos torte is unmissable."
+  },
+  'yering': {
+    name: 'Yering Station',
+    photos: [
+      { url: WC('Yering_Station.jpg'), cap: "Yering Station — the first vineyard established in Victoria, planted 1838" },
+      { url: WC('Yering_Station_winery_Yarra_Valley.jpg'), cap: "The 1859 bluestone wine barn — among Australia's most beautiful winery buildings" },
+    ],
+    desc: "Yering Station was the first vineyard planted in Victoria, established in 1838 by the Ryrie brothers — just three years after Europeans first settled Melbourne. The historic 1859 bluestone wine barn houses the cellar door today. The estate produces celebrated Pinot Noir, Chardonnay, and sparkling wine using fruit from the cool Yarra Valley, where the elevation and climate mirror the great wine regions of Burgundy. The dramatic stone buildings and rolling vineyard geometry make Yering the most photographed winery in the valley.",
+    why: "The most historically significant winery on the Australian continent's south-east — the birthplace of Victorian wine. The 1859 bluestone architecture alone is worth the stop. The Pinot Noir is outstanding and the food at the cellar door restaurant is among the valley's finest.",
+    fees: [
+      { label: 'Wine tasting', val: '$15 AUD for 3 wines (refundable on purchase)' },
+      { label: 'Cellar door', val: 'Free to browse' },
+      { label: 'Restaurant lunch', val: '$50–90 AUD per person (book ahead)' },
+      { label: 'Parking', val: 'FREE large estate carpark' },
+    ],
+    hours: 'Mon–Fri 10:00–17:00 · Sat–Sun 10:00–18:00',
+    duration: '1–1.5 hours',
+    tips: "🔑 The 1859 bluestone barn is the best photography subject — wide shot from the vineyard looking back at the building in morning light. Pre-book lunch at the restaurant if you want a sit-down meal; it fills quickly on weekends."
+  },
+  'domaine-chandon': {
+    name: 'Domaine Chandon (Green Point)',
+    photos: [
+      { url: WC('Domaine_Chandon_Australia.jpg'), cap: "Domaine Chandon — Moët & Chandon's Australian sparkling wine estate, est. 1986" },
+      { url: WC('Green_Point_Domaine_Chandon_Yarra_Valley.jpg'), cap: 'Panoramic vineyard and Yarra Ranges views from the terrace' },
+    ],
+    desc: "Domaine Chandon was established in 1986 as Moët & Chandon's first winery outside France — choosing the Yarra Valley because its cool climate mirrors Champagne. Known as Green Point in export markets, the winery produces méthode traditionnelle sparkling wines from Chardonnay and Pinot Noir grown across the Yarra Valley. The striking modern building by architect Daryl Jackson is set into the hillside with panoramic views across the vineyards toward the Great Dividing Range.",
+    why: "The most architecturally dramatic winery in the Yarra Valley. The champagne-house pedigree means the sparkling wine is genuinely exceptional — try the NV Brut as a comparison to its French parent brand. The hilltop terrace view over the vineyard toward the ranges is one of the finest in Victoria.",
+    fees: [
+      { label: 'Sparkling tasting', val: '$25 AUD for 4 wines (NV range)' },
+      { label: 'Premium food & wine pairing', val: '$40–60 AUD per person' },
+      { label: 'Cellar door', val: 'Free to browse and enjoy the views' },
+      { label: 'Parking', val: 'FREE large estate carpark' },
+    ],
+    hours: 'Daily 10:30–16:30 (last tasting session)',
+    duration: '45–60 min',
+    tips: "🔑 Ask to taste the Blanc de Blancs if available — it's the estate flagship. Book a tasting time slot in advance on weekends. The terrace overlooking the vineyard catches perfect afternoon light for the Leica."
+  },
+  'kennett-river': {
+    name: 'Kennett River — Wild Koalas',
+    photos: [
+      { url: WC('Koala_in_tree.jpg'), cap: 'Wild koala resting in a grey gum tree — Kennett River has the highest density in Victoria' },
+      { url: WC('Kennett_River_Victoria.jpg'), cap: 'Grey River Road at Kennett River — wild koalas visible from the roadside' },
+    ],
+    desc: "Kennett River on the Great Ocean Road is the most reliable spot in Victoria to see wild koalas without visiting a wildlife sanctuary. The grey gum trees along Grey River Road — turning left at the Kennett River caravan park — support an extraordinary density of wild koalas, often 10–20 animals visible within a 200-metre walk. These are completely wild animals in their natural forest habitat. Crimson rosellas and king parrots congregate in the same trees, making it a photographer's paradise.",
+    why: "The best free wild koala experience in Victoria — more authentic than any sanctuary because these animals are truly wild. Takes only 20 minutes, costs nothing, and is virtually guaranteed to deliver sightings. The grey forest with colourful parrots alongside koalas is a uniquely Australian scene.",
+    fees: [
+      { label: 'Entry', val: 'FREE · public roadside forest' },
+      { label: 'Parking', val: 'FREE on Grey River Road shoulder' },
+      { label: 'Café', val: 'Kennett River Caravan Park kiosk for snacks' },
+      { label: 'Photography', val: 'Free · no restrictions whatsoever' },
+    ],
+    hours: 'Open 24/7 · best viewing 08:00–16:00 when koalas are active',
+    duration: '20–30 min',
+    tips: "🔑 Turn left at the Kennett River caravan park onto Grey River Road. Walk slowly along the gravel road looking up into grey gum trees — you'll find koalas within 100–200 metres. Bring the Leica with the 90mm for portraits. Don't miss the crimson rosellas."
+  },
+  'london-bridge-gor': {
+    name: 'London Bridge',
+    photos: [
+      { url: WC('London_Bridge_(Port_Campbell_National_Park).jpg'), cap: 'London Bridge — a dramatic detached limestone arch in Port Campbell National Park' },
+      { url: WC('London_Bridge,_Port_Campbell.jpg'), cap: 'The arch from the clifftop, with the Southern Ocean churning below' },
+    ],
+    desc: "London Bridge is a natural limestone arch formation in Port Campbell National Park, 8km east of the Twelve Apostles. Originally a double-arch structure connected to the mainland, the inner arch collapsed suddenly on 15 January 1990, stranding two tourists on the outer platform — a helicopter rescue was required. Today only the outer arch remains, fully detached from shore, a dramatic reminder that the limestone coastline is actively eroding. The Southern Ocean thunders through the gap beneath the arch.",
+    why: "A dramatic formation with one of the best true stories on the Great Ocean Road — the arch simply fell off one day while two tourists were standing on it. The detached arch from the clifftop lookout with the raging Southern Ocean below makes for one of the most powerful photos on the GOR.",
+    fees: [
+      { label: 'Entry', val: 'FREE · public clifftop lookout' },
+      { label: 'Parking', val: 'FREE at London Bridge carpark' },
+      { label: 'Walk to lookout', val: '200m from carpark — easy path' },
+      { label: 'Nearest food & fuel', val: 'Port Campbell township · 8km east' },
+    ],
+    hours: 'Open 24/7 · lookout always accessible',
+    duration: '15–20 min',
+    tips: "🔑 Evening light (17:00–18:00) perfectly illuminates the west-facing arch. Look down into the churning ocean below the arch for the most dramatic angle. The wind at this exposed headland can be fierce — hold children's hands near the clifftop."
+  },
+};
+
+const LM_PATTERNS = [
+  { re: /Federation Square/,           lid: 'fed-sq' },
+  { re: /St Paul.*Cathedral/,          lid: 'st-pauls' },
+  { re: /State Library/,               lid: 'state-lib' },
+  { re: /Carlton Gardens/,             lid: 'carlton-gardens' },
+  { re: /St Patrick.*Cathedral/,       lid: 'st-patricks' },
+  { re: /Fitzroy Gardens/,             lid: 'fitzroy-gardens' },
+  { re: /Hosier Lane/,                 lid: 'hosier-lane' },
+  { re: /Birrarung Marr/,              lid: 'birrarung' },
+  { re: /Queen Victoria Market/,       lid: 'qv-market' },
+  { re: /NGV International/,           lid: 'ngv' },
+  { re: /Eureka Skydeck/,              lid: 'eureka' },
+  { re: /Luna Park/,                   lid: 'luna-park' },
+  { re: /Brighton Beach/,              lid: 'brighton' },
+  { re: /Puffing Billy/,               lid: 'puffing-billy' },
+  { re: /Healesville Sanctuary/,       lid: 'healesville' },
+  { re: /Shrine of Remembrance/,       lid: 'shrine' },
+  { re: /Penguin|St Kilda Breakwater/, lid: 'penguins' },
+  { re: /Twelve Apostles/,             lid: 'twelve-apostles' },
+  { re: /Bells Beach/,                 lid: 'bells-beach' },
+  { re: /Apollo Bay/,                  lid: 'apollo-bay' },
+  { re: /Melbourne Town Hall|Block Arcade/, lid: 'town-hall' },
+  { re: /laneways walk|Degraves/,      lid: 'degraves' },
+  { re: /St Kilda Pier/,               lid: 'st-kilda-pier' },
+  { re: /Yering Station/,              lid: 'yering' },
+  { re: /Domaine Chandon/,             lid: 'domaine-chandon' },
+  { re: /Kennett River/,               lid: 'kennett-river' },
+  { re: /London Bridge/,               lid: 'london-bridge-gor' },
+];
+
+const FLIGHTS = {
+  'sq721': {
+    flightNum: 'SQ721', airline: 'Singapore Airlines', aircraft: 'Boeing 737-800',
+    from: { code: 'BKK', city: 'Bangkok Suvarnabhumi', terminal: 'Terminal 1', time: '13:35', date: 'Sun 16 Aug' },
+    to:   { code: 'SIN', city: 'Singapore Changi', terminal: 'Terminal 3', time: '17:05', date: 'Sun 16 Aug' },
+    duration: '2h 30m', class: 'Economy',
+    notes: 'Meal service on this short hop. Arrive at BKK T1 at least 2.5 hours before departure (by 11:00). After landing, T3 arrivals is compact — easy transfer. 4h 45m layover before the main overnight flight.',
+    tip: '💡 Changi T3 basement has a great hawker centre. Try Hainanese chicken rice or laksa for dinner — far better (and cheaper) than any airport restaurant. Jewel Changi waterfall is also in this terminal.'
+  },
+  'sq227': {
+    flightNum: 'SQ227', airline: 'Singapore Airlines', aircraft: 'Boeing 777-300ER',
+    from: { code: 'SIN', city: 'Singapore Changi', terminal: 'Terminal 3', time: '21:50', date: 'Sun 16 Aug' },
+    to:   { code: 'MEL', city: 'Melbourne Tullamarine', terminal: 'Terminal 2 (Intl)', time: '08:15', date: 'Mon 17 Aug' },
+    duration: '8h 25m', class: 'Economy',
+    notes: 'Overnight flight — try to sleep after the first meal service. Melbourne AEST is Bangkok +3h. The 777 crosses Indonesia and the Timor Sea overnight. Breakfast is served ~90 min before arrival. Immigration + baggage typically 45–60 min.',
+    tip: '💡 Book exit row or bulkhead seats (rows 31–33 on 777) for extra legroom — worth it for a family of 6 on an 8h flight. Set watches to Melbourne time (UTC+10) before landing. Do not declare food items at biosecurity.'
+  },
+  'sq238': {
+    flightNum: 'SQ238', airline: 'Singapore Airlines', aircraft: 'Boeing 777-300ER',
+    from: { code: 'MEL', city: 'Melbourne Tullamarine', terminal: 'Terminal 2 (Intl)', time: '09:35', date: 'Sun 23 Aug' },
+    to:   { code: 'SIN', city: 'Singapore Changi', terminal: 'Terminal 3', time: '15:25', date: 'Sun 23 Aug' },
+    duration: '7h 50m', class: 'Economy',
+    notes: 'Check-in opens 07:35. Return the rental car at Ground Transport Hall — allow 30 min before check-in. Leave hotel by 06:00 for the car return. T2 International check-in can be slow on Sunday mornings. Only 2h 05m layover in SIN — go straight to gate on arrival.',
+    tip: '💡 Set an early alarm. MEL T2 International is straightforward but allow time for 6 pax check-in with bags. Duty free at MEL T2 departures has good Australian whisky and Haigh\'s Chocolates if you forgot souvenirs.'
+  },
+  'sq714': {
+    flightNum: 'SQ714', airline: 'Singapore Airlines', aircraft: 'Airbus A350 / A320',
+    from: { code: 'SIN', city: 'Singapore Changi', terminal: 'Terminal 3', time: '17:30', date: 'Sun 23 Aug' },
+    to:   { code: 'BKK', city: 'Bangkok Suvarnabhumi', terminal: 'Terminal 1', time: '19:00', date: 'Sun 23 Aug' },
+    duration: '2h 30m', class: 'Economy',
+    notes: 'Bangkok time is Singapore −1h, so the flight lands at 19:00 BKK local time despite departing at 17:30 SIN. BKK immigration typically 20–30 min. Short 2h layover in SIN — proceed directly airside to the departure gate.',
+    tip: '💡 With only 2h 05m in SIN transit, there\'s no time for Jewel Changi. Stay airside and head straight to the gate. The holiday is officially over — until next time!'
+  },
+};
+
+const FLIGHT_PATTERNS = [
+  { re: /SQ721/, fid: 'sq721' },
+  { re: /SQ227/, fid: 'sq227' },
+  { re: /SQ238/, fid: 'sq238' },
+  { re: /SQ714/, fid: 'sq714' },
+];
+
+function buildPanel(lid) {
+  const lm = LANDMARKS[lid];
+  if (!lm) return '';
+  const slides = lm.photos.map((p, i) => `
+    <div class="lm-slide${i === 0 ? ' active' : ''}">
+      <img src="${p.url}" alt="${p.cap}" loading="lazy"
+           onerror="this.closest('.lm-slide').classList.add('img-err')">
+      <div class="lm-slide-cap">${p.cap}</div>
+    </div>`).join('');
+  const multiPhoto = lm.photos.length > 1;
+  const dots = multiPhoto ? lm.photos.map((_, i) =>
+    `<button class="lm-dot${i === 0 ? ' active' : ''}" onclick="slideTo(event,'${lid}',${i})"></button>`
+  ).join('') : '';
+  const navBtns = multiPhoto ? `
+    <button class="lm-nav prev" onclick="slideNav(event,'${lid}',-1)">&#8249;</button>
+    <button class="lm-nav next" onclick="slideNav(event,'${lid}',+1)">&#8250;</button>
+    <div class="lm-dots">${dots}</div>` : '';
+  const fees = lm.fees.map(f =>
+    `<div class="lm-fee-item"><div class="lm-fee-label">${f.label}</div><div class="lm-fee-val">${f.val}</div></div>`
+  ).join('');
+  return `
+    <div class="lm-slideshow" id="ss-${lid}" data-idx="0">${slides}${navBtns}</div>
+    <div class="lm-info">
+      <p class="lm-desc">${lm.desc}</p>
+      <div class="lm-why"><strong>✨ Why it's worth visiting:</strong> ${lm.why}</div>
+      <div class="lm-fee-grid">${fees}</div>
+      <div class="lm-meta-row">
+        <span><strong>🕐</strong> ${lm.hours}</span>
+        <span><strong>⏱</strong> ${lm.duration}</span>
+      </div>
+      <div class="lm-tips">${lm.tips}</div>
+    </div>`;
+}
+
+function slideNav(e, lid, dir) {
+  e.stopPropagation();
+  const ss = document.getElementById('ss-' + lid);
+  const slides = ss.querySelectorAll('.lm-slide');
+  let idx = ((+ss.dataset.idx) + dir + slides.length) % slides.length;
+  ss.dataset.idx = idx;
+  slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+  ss.querySelectorAll('.lm-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+}
+function slideTo(e, lid, idx) {
+  e.stopPropagation();
+  const ss = document.getElementById('ss-' + lid);
+  ss.dataset.idx = idx;
+  ss.querySelectorAll('.lm-slide').forEach((s, i) => s.classList.toggle('active', i === idx));
+  ss.querySelectorAll('.lm-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+}
+
+function buildFlightPanel(fid) {
+  const f = FLIGHTS[fid];
+  if (!f) return '';
+  return `
+    <div class="fl-panel">
+      <div class="fl-panel-hdr">✈️ Flight Details</div>
+      <div class="fl-route">
+        <div class="fl-apt">
+          <div class="code">${f.from.code}</div>
+          <div class="city">${f.from.city}</div>
+          <div class="time">${f.from.time}</div>
+          <div class="dt">${f.from.date}</div>
+        </div>
+        <div class="fl-mid">
+          <div class="arrow"></div>
+          <div class="num">${f.flightNum}</div>
+          <div class="dur">${f.duration}</div>
+        </div>
+        <div class="fl-apt">
+          <div class="code">${f.to.code}</div>
+          <div class="city">${f.to.city}</div>
+          <div class="time">${f.to.time}</div>
+          <div class="dt">${f.to.date}</div>
+        </div>
+      </div>
+      <div class="fl-badges">
+        <span class="fl-badge-i">${f.airline}</span>
+        <span class="fl-badge-i">${f.aircraft}</span>
+        <span class="fl-badge-i">${f.class}</span>
+        <span class="fl-badge-i">⏱ ${f.duration}</span>
+      </div>
+      <div class="fl-grid">
+        <div class="fl-cell">
+          <div class="fl-cell-label">Departs from</div>
+          <div class="fl-cell-val">${f.from.city}</div>
+        </div>
+        <div class="fl-cell">
+          <div class="fl-cell-label">Terminal</div>
+          <div class="fl-cell-val">${f.from.terminal}</div>
+        </div>
+        <div class="fl-cell">
+          <div class="fl-cell-label">Arrives at</div>
+          <div class="fl-cell-val">${f.to.city}</div>
+        </div>
+        <div class="fl-cell">
+          <div class="fl-cell-label">Terminal</div>
+          <div class="fl-cell-val">${f.to.terminal}</div>
+        </div>
+      </div>
+      <div class="fl-note">${f.notes}</div>
+      ${f.tip ? `<div class="fl-tip">${f.tip}</div>` : ''}
+    </div>`;
+}
+
+// Auto-inject expand behavior into matching itinerary timeline items
+(function injectExpandables() {
+  function attachPanel(li, hintText, buildFn) {
+    li.classList.add('lm-item');
+    const strong = li.querySelector('strong');
+    if (strong) {
+      const hint = document.createElement('span');
+      hint.className = 'lm-hint';
+      hint.textContent = hintText;
+      strong.insertAdjacentElement('afterend', hint);
+    }
+    const panel = document.createElement('div');
+    panel.className = 'lm-expand';
+    li.appendChild(panel);
+    li.addEventListener('click', function(e) {
+      if (e.target.closest('.lm-expand')) return;
+      const isOpen = panel.classList.contains('open');
+      document.querySelectorAll('.lm-expand.open').forEach(p => {
+        p.classList.remove('open');
+        p.closest('li')?.querySelector('.lm-hint')?.classList.remove('open');
+      });
+      if (!isOpen) {
+        if (!panel.innerHTML) panel.innerHTML = buildFn();
+        panel.classList.add('open');
+        li.querySelector('.lm-hint')?.classList.add('open');
+        setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 60);
+      }
+    });
+  }
+
+  document.querySelectorAll('#tab-itinerary .timeline li').forEach(li => {
+    const text = li.textContent;
+
+    const lmMatch = LM_PATTERNS.find(p => p.re.test(text));
+    if (lmMatch && LANDMARKS[lmMatch.lid]) {
+      attachPanel(li, 'info', () => buildPanel(lmMatch.lid));
+      return;
+    }
+
+    const flMatch = FLIGHT_PATTERNS.find(p => p.re.test(text));
+    if (flMatch && FLIGHTS[flMatch.fid]) {
+      attachPanel(li, 'details', () => buildFlightPanel(flMatch.fid));
+    }
+  });
+})();
 </script>
 </body>
 </html>
