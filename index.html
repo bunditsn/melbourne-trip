@@ -273,14 +273,13 @@
     <div class="day-filters">
       <span style="font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;flex-shrink:0;margin-right:2px;">Day:</span>
       <button class="day-filter-btn active" style="--dc:#64748b" onclick="filterDay('all',this)">All</button>
-      <button class="day-filter-btn" style="--dc:#6366f1" onclick="filterDay(0,this)">D0 · Arrival</button>
-      <button class="day-filter-btn" style="--dc:#0ea5e9" onclick="filterDay(1,this)">D1 · CBD Loop</button>
-      <button class="day-filter-btn" style="--dc:#3b82f6" onclick="filterDay(2,this)">D2 · Laneways</button>
-      <button class="day-filter-btn" style="--dc:#f97316" onclick="filterDay(3,this)">D3 · St Kilda</button>
-      <button class="day-filter-btn" style="--dc:#8b5cf6" onclick="filterDay(4,this)">D4 · Puffing Billy</button>
-      <button class="day-filter-btn" style="--dc:#dc2626" onclick="filterDay(5,this)">D5 · Yarra Valley</button>
-      <button class="day-filter-btn" style="--dc:#f59e0b" onclick="filterDay(6,this)">D6 · Shrine</button>
-      <button class="day-filter-btn" style="--dc:#14b8a6" onclick="filterDay(7,this)">D7 · Great Ocean Rd</button>
+      <button class="day-filter-btn" style="--dc:#6366f1" onclick="filterDay(0,this)">D0 · Travel</button>
+      <button class="day-filter-btn" style="--dc:#0ea5e9" onclick="filterDay(1,this)">D1 · Arrival</button>
+      <button class="day-filter-btn" style="--dc:#10b981" onclick="filterDay(2,this)">D2 · Zoo</button>
+      <button class="day-filter-btn" style="--dc:#f97316" onclick="filterDay(3,this)">D3 · GOR</button>
+      <button class="day-filter-btn" style="--dc:#8b5cf6" onclick="filterDay(4,this)">D4 · Recovery</button>
+      <button class="day-filter-btn" style="--dc:#14b8a6" onclick="filterDay(5,this)">D5 · Phillip Island</button>
+      <button class="day-filter-btn" style="--dc:#dc2626" onclick="filterDay(6,this)">D6 · Yarra Valley</button>
     </div>
     <div id="route-info-bar" class="route-info-bar">
       <span id="route-label"></span>
@@ -298,8 +297,8 @@
       <div class="card" style="padding:16px;">
         <div class="section-label">Day Colors</div>
         <div style="font-size:12px;line-height:2;display:flex;flex-wrap:wrap;gap:0 14px;">
-          <span>🔵 D1 CBD</span><span>🔵 D2 Laneways</span><span>🟠 D3 St Kilda</span>
-          <span>🟣 D4 Puffing Billy</span><span>🔴 D5 Wine</span><span>🟡 D6 Shrine</span><span>🟢 D7 GOR</span>
+          <span>🟢 D2 Zoo</span><span>🟠 D3 GOR</span><span>🟣 D4 CBD</span>
+          <span>🟢 D5 Phillip Is.</span><span>🔴 D6 Wine</span>
         </div>
       </div>
       <div class="card" style="padding:16px;">
@@ -313,7 +312,7 @@
   <!-- ═══════════════ ITINERARY ═══════════════ -->
   <div id="tab-itinerary" class="tab-content">
 
-    <!-- Day 0: Transit -->
+    <!-- Day 0: Travel -->
     <div class="day-card" style="border-left-color:#6366f1;">
       <div class="day-header">
         <span class="day-num">Day 0</span>
@@ -326,157 +325,123 @@
         <li><span class="time">21:50</span> Depart Singapore on <strong>SQ227</strong> to Melbourne <span class="tag tag-drive">~8h 25m</span></li>
         <li><span class="time">08:15</span> <strong>Arrive Melbourne Airport (MEL)</strong> — Monday 17 Aug <span class="note">Immigration + baggage ~45–60 min</span></li>
         <li><span class="time">09:15</span> Collect 8-seat Kia Carnival / Hyundai iMax — Ground Transport Hall</li>
-        <li><span class="time">10:00</span> Drive to Quay West Suites Southbank (~35 min via Tullamarine Fwy) <span class="note">Check-in is 15:00 — request early check-in or store luggage with concierge</span></li>
-        <li><span class="time">11:00</span> Southbank Promenade breakfast/brunch, Yarra riverside walk <span class="tag tag-food">☕</span></li>
+        <li><span class="time">10:00</span> Drive to Quay West Suites Southbank (~35 min) — bag drop / early check-in request</li>
       </ul>
-      <div class="tip-box"><strong>💡 Morning arrival:</strong> You land at 08:15 — much better than a late-night arrival! Request early check-in when booking. If the room isn't ready, leave luggage with concierge and explore Southbank. Afternoon rest before Day 1 activities tomorrow.</div>
+      <div class="tip-box"><strong>💡 Morning arrival:</strong> Land at 08:15 — best possible slot. Request early check-in when booking. If room isn't ready, leave bags with concierge and head to Southbank for brunch.</div>
     </div>
 
-    <!-- Day 1 -->
+    <!-- Day 1: Arrival -->
     <div class="day-card" style="border-left-color:var(--sky);">
       <div class="day-header">
         <span class="day-num">Day 1</span>
-        <span class="day-date">Monday, 18 Aug</span>
-        <span class="day-title">— CBD Walking Loop</span>
+        <span class="day-date">Monday, 17 Aug</span>
+        <span class="day-title">— Arrival + Easy Start</span>
       </div>
       <ul class="timeline">
-        <li><span class="time">08:30</span> Breakfast at hotel or Southbank Promenade cafes <span class="tag tag-food">🍳</span></li>
-        <li><span class="time">10:00</span> <strong>Federation Square</strong> — start point, landmark architecture <span class="tag tag-photo">📷</span></li>
-        <li><span class="time">10:20</span> <strong>St Paul's Cathedral</strong> — Gothic Revival, free entry <span class="tag tag-culture">🏛</span></li>
-        <li><span class="time">11:00</span> <strong>Melbourne Town Hall & Block Arcade</strong> — historic arcade <span class="tag tag-culture">🏛</span></li>
-        <li><span class="time">11:30</span> <strong>State Library of Victoria</strong> — La Trobe Reading Room (free) <span class="tag tag-photo">📷</span></li>
-        <li><span class="time">12:30</span> Lunch at Melbourne Central food court or nearby <span class="tag tag-food">🥢</span></li>
-        <li><span class="time">13:30</span> <strong>Carlton Gardens & Royal Exhibition Building</strong> — UNESCO site <span class="tag tag-nature">🌿</span></li>
-        <li><span class="time">14:30</span> <strong>St Patrick's Cathedral</strong> — tallest spire in Australia <span class="tag tag-culture">🏛</span></li>
-        <li><span class="time">15:15</span> <strong>Fitzroy Gardens & Cook's Cottage</strong> — English garden, free <span class="tag tag-nature">🌿</span></li>
-        <li><span class="time">16:30</span> <strong>Hosier Lane</strong> — Melbourne's street art heart <span class="tag tag-photo">📷</span></li>
-        <li><span class="time">17:15</span> <strong>Birrarung Marr</strong> — riverside park, Angels bells <span class="tag tag-photo">📷</span></li>
-        <li><span class="time">18:00</span> Drinks on Southbank Promenade, return hotel <span class="tag tag-food">🍻</span></li>
-        <li><span class="time">19:30</span> Dinner — Crown Riverwalk restaurants or Southgate</li>
+        <li><span class="time">11:00</span> <strong>Federation Square</strong> — orientation, landmark architecture <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">12:00</span> Brunch at Southbank Promenade or Crown cafés <span class="tag tag-food">🍳</span></li>
+        <li><span class="time">14:00</span> Check in hotel (if room ready) — rest and recover from jet lag <span class="note">It's 18:00 Bangkok time — your body needs this break</span></li>
+        <li><span class="time">18:30</span> Chill dinner at Crown Riverwalk restaurants or Southbank <span class="tag tag-food">🍽</span></li>
       </ul>
-      <div class="tip-box"><strong>💡 Walking:</strong> ~6 km total loop. Wear comfortable shoes. Trams are free in the CBD Zone. Use MyKi for trains/trams outside free zone.</div>
+      <div class="tip-box"><strong>💡 Arrival day rule:</strong> Do NOT over-schedule. Jet lag hits hardest in the early afternoon. A relaxed first day means far more energy for the remaining days — learned from experience.</div>
     </div>
 
-    <!-- Day 2 -->
+    <!-- Day 2: Zoo + City -->
     <div class="day-card" style="border-left-color:#10b981;">
       <div class="day-header">
         <span class="day-num">Day 2</span>
-        <span class="day-date">Tuesday, 19 Aug</span>
-        <span class="day-title">— Melbourne Laneways + Queen Victoria Market</span>
+        <span class="day-date">Tuesday, 18 Aug</span>
+        <span class="day-title">— Melbourne Zoo + City</span>
       </div>
       <ul class="timeline">
-        <li><span class="time">07:00</span> <strong>Queen Victoria Market</strong> — fresh produce, breakfast stalls <span class="tag tag-food">🛒</span></li>
-        <li><span class="time">09:30</span> Melbourne laneways walk — Degraves St, Centre Pl, Flinders Lane <span class="tag tag-photo">📷</span></li>
-        <li><span class="time">11:00</span> <strong>NGV International</strong> (free international collection) <span class="tag tag-culture">🎨</span></li>
-        <li><span class="time">13:00</span> Lunch at South Melbourne Market or Southbank</li>
-        <li><span class="time">14:30</span> <strong>Eureka Skydeck 88</strong> — 297m views over Melbourne <span class="tag tag-photo">📷</span><span class="note">Book tickets online · $22–$25 AUD/adult</span></li>
-        <li><span class="time">16:30</span> Kids' playtime at Birrarung Marr or parklands</li>
-        <li><span class="time">19:00</span> Dinner — Southbank or Flinders Lane restaurants</li>
+        <li><span class="time">09:00</span> <strong>Melbourne Zoo</strong> — Royal Park · lions, elephants, gorillas, butterfly house <span class="tag tag-nature">🦁</span><span class="note">Open 09:00–17:00 · ~$40 adult, $19 child · book online</span></li>
+        <li><span class="time">12:30</span> Lunch inside zoo or picnic in Royal Park <span class="tag tag-food">🥪</span></li>
+        <li><span class="time">14:00</span> <strong>Fitzroy Gardens & Cook's Cottage</strong> — fairy tree, playground, English garden <span class="tag tag-nature">🌿</span></li>
+        <li><span class="time">16:00</span> Optional: <strong>Hosier Lane</strong> street art walk, <strong>Federation Square</strong> area <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">19:00</span> Dinner — Crown, Southbank, or Flinders Lane <span class="tag tag-food">🍽</span></li>
       </ul>
+      <div class="tip-box"><strong>💡 Zoo tip:</strong> Melbourne Zoo (est. 1862) is one of the world's oldest. The Butterfly House is magical — 1,000+ free-flying butterflies. Go early to beat queues. Book online and save ~$5/ticket.</div>
     </div>
 
-    <!-- Day 3 -->
-    <div class="day-card" style="border-left-color:#f59e0b;">
+    <!-- Day 3: Great Ocean Road -->
+    <div class="day-card" style="border-left-color:#f97316;">
       <div class="day-header">
         <span class="day-num">Day 3</span>
-        <span class="day-date">Wednesday, 20 Aug</span>
-        <span class="day-title">— St Kilda, Port Phillip Bay</span>
+        <span class="day-date">Wednesday, 19 Aug</span>
+        <span class="day-title">— Great Ocean Road · Full Day</span>
       </div>
+      <div class="tip-box" style="margin-bottom:12px;"><strong>⚠️ Biggest day of the trip:</strong> ~13–14 hours, 420 km round trip. Early departure is non-negotiable. Bring windbreakers — it's cold on the apostles cliffs. Snacks + water in the car.</div>
       <ul class="timeline">
-        <li><span class="time">09:00</span> Drive to <strong>St Kilda</strong> (~20 min, park near pier) <span class="tag tag-drive">🚐</span></li>
-        <li><span class="time">09:30</span> St Kilda Pier & Breakwater walk, bay views <span class="tag tag-photo">📷</span></li>
-        <li><span class="time">10:30</span> <strong>Luna Park</strong> — heritage amusement park, kids rides <span class="tag tag-nature">🎡</span></li>
-        <li><span class="time">12:30</span> Lunch on Acland Street — famous cakes at Monarch or Acland</li>
-        <li><span class="time">14:00</span> St Kilda Beach & Esplanade market (Sundays) / Botanical Garden walk</li>
-        <li><span class="time">16:00</span> <strong>Brighton Beach</strong> — colourful bathing boxes <span class="tag tag-photo">📷</span></li>
-        <li><span class="time">18:00</span> Return hotel, freshen up</li>
-        <li><span class="time">19:30</span> Dinner Southbank or Crown precinct</li>
+        <li><span class="time">06:30</span> Depart hotel — drive west via M1 Princes Fwy <span class="tag tag-drive">🚐</span></li>
+        <li><span class="time">08:30</span> <strong>Bells Beach</strong> — legendary surf break, red-ochre clifftop views <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">09:30</span> <strong>Lorne</strong> — charming coastal town, coffee + bakery stop <span class="tag tag-food">☕</span></li>
+        <li><span class="time">11:00</span> <strong>Kennett River</strong> — wild koalas in grey gum trees (turn left at caravan park!) <span class="tag tag-nature">🐨</span></li>
+        <li><span class="time">12:30</span> <strong>Apollo Bay</strong> — lunch at harbour, fresh fish & chips <span class="tag tag-food">🐟</span></li>
+        <li><span class="time">15:00</span> <strong>Twelve Apostles</strong> — limestone sea stacks, clifftop lookout walk <span class="tag tag-photo">📷</span><span class="note">Late afternoon light hits perfectly from the west</span></li>
+        <li><span class="time">16:00</span> <strong>Loch Ard Gorge</strong> — dramatic gorge, 1878 shipwreck story, walk to the beach <span class="tag tag-photo">📷</span><span class="note">5 min west of Apostles · FREE · walk DOWN to the beach — don't skip this</span></li>
+        <li><span class="time">17:00</span> <strong>Gibson Steps</strong> — 86 steps to beach level, base-of-cliff photos <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">17:45</span> <strong>London Bridge</strong> — dramatic detached coastal arch <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">18:15</span> Begin return via Princes Hwy (faster inland route)</li>
+        <li><span class="time">20:15</span> Arrive hotel — dinner near hotel or order in</li>
       </ul>
+      <div class="tip-box"><strong>📷 Photo timing:</strong> Twelve Apostles face west — 15:00–17:00 gives golden side-lighting. London Bridge catches last rays at 17:30–18:00. Don't rush Loch Ard Gorge — the beach at the base is extraordinary.</div>
     </div>
 
-    <!-- Day 4 -->
+    <!-- Day 4: Recovery -->
     <div class="day-card" style="border-left-color:#8b5cf6;">
       <div class="day-header">
         <span class="day-num">Day 4</span>
-        <span class="day-date">Thursday, 21 Aug</span>
-        <span class="day-title">— Puffing Billy + Healesville Sanctuary</span>
+        <span class="day-date">Thursday, 20 Aug</span>
+        <span class="day-title">— Recovery Day + CBD</span>
       </div>
       <ul class="timeline">
-        <li><span class="time">07:30</span> Depart hotel — drive to Belgrave (1h via Monash Fwy) <span class="tag tag-drive">🚐</span></li>
-        <li><span class="time">09:00</span> <strong>Puffing Billy Railway</strong> — Belgrave → Menzies Creek (45 min each way) <span class="tag tag-photo">📷</span><span class="note">Book online · ~$40 adult, ~$22 child · sit on carriage sides!</span></li>
-        <li><span class="time">11:30</span> Drive to Healesville (~45 min through Dandenong Ranges)</li>
-        <li><span class="time">12:15</span> Lunch at Healesville township café</li>
-        <li><span class="time">13:30</span> <strong>Healesville Sanctuary</strong> — koalas, wombats, platypus, wedge-tail eagles <span class="tag tag-nature">🐨</span><span class="note">Open 10am–5pm · Book ahead · $45 adult, $24 child</span></li>
-        <li><span class="time">17:00</span> Drive back Melbourne (~1h via Maroondah Hwy)</li>
-        <li><span class="time">19:30</span> Dinner — local restaurant near hotel</li>
+        <li><span class="time">09:30</span> Sleep in — late breakfast at hotel or Southbank café <span class="tag tag-food">☕</span></li>
+        <li><span class="time">10:30</span> <strong>Queen Victoria Market</strong> — fresh produce, deli hall, souvenir shopping <span class="tag tag-food">🛒</span></li>
+        <li><span class="time">12:30</span> Melbourne laneways walk — <strong>Degraves St</strong>, Centre Place, <strong>Hosier Lane</strong> <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">14:00</span> Optional: <strong>NGV International</strong> (free · Great Hall glass ceiling) or <strong>Eureka Skydeck 88</strong> (~$25) <span class="tag tag-culture">🎨</span></li>
+        <li><span class="time">16:00</span> Southbank Promenade walk, coffee by the Yarra</li>
+        <li><span class="time">18:30</span> Dinner — Flinders Lane restaurants, Chin Chin, or Southbank <span class="tag tag-food">🍽</span></li>
       </ul>
-      <div class="tip-box"><strong>📷 Photo tip:</strong> Puffing Billy steam clouds are stunning in the cool August air. Get to Belgrave 30 min early for platform shots. Bring the Leica for portraits, DJI drone for aerial of train in forested valley (check CASA drone rules first).</div>
+      <div class="tip-box"><strong>💡 Recovery day rule:</strong> After GOR your legs and energy need rest. This day is car-free — walk everywhere, no fixed timings, go at the kids' pace. This day exists by design.</div>
     </div>
 
-    <!-- Day 5 -->
-    <div class="day-card" style="border-left-color:#ef4444;">
-      <div class="day-header">
-        <span class="day-num">Day 5</span>
-        <span class="day-date">Friday, 22 Aug</span>
-        <span class="day-title">— Yarra Valley Wine Tour (Private Driver)</span>
-      </div>
-      <ul class="timeline">
-        <li><span class="time">09:00</span> Pick up by private driver — depart hotel</li>
-        <li><span class="time">10:00</span> <strong>Yering Station</strong> — first winery in Victoria, stunning stone building <span class="tag tag-photo">📷</span></li>
-        <li><span class="time">11:30</span> <strong>De Bortoli Wines</strong> — Noble One dessert wine tasting</li>
-        <li><span class="time">13:00</span> Winery lunch — Balgownie Estate or TarraWarra Estate bistro <span class="tag tag-food">🍷</span></li>
-        <li><span class="time">14:30</span> <strong>Domaine Chandon</strong> — sparkling wine, architecture <span class="tag tag-photo">📷</span></li>
-        <li><span class="time">16:00</span> <strong>Healesville township</strong> — explore, souvenir stops</li>
-        <li><span class="time">17:30</span> Driver returns to Melbourne hotel</li>
-        <li><span class="time">19:00</span> Easy dinner near hotel</li>
-      </ul>
-      <div class="tip-box"><strong>💡 Private driver tip:</strong> Use a Yarra Valley wine tour company (e.g. Yarra Valley Wine Tours, or hire via Viator). Full-day private for 6 pax ~$700–900 AUD all-inclusive. Book 6–8 weeks ahead. No designated driver stress!</div>
-    </div>
-
-    <!-- Day 6 -->
-    <div class="day-card" style="border-left-color:#f97316;">
-      <div class="day-header">
-        <span class="day-num">Day 6</span>
-        <span class="day-date">Saturday, 23 Aug</span>
-        <span class="day-title">— Shrine Sunrise + St Kilda Penguins</span>
-      </div>
-      <ul class="timeline">
-        <li><span class="time">06:30</span> <strong>Shrine of Remembrance</strong> — sunrise over the Domain, Gardens views <span class="tag tag-photo">📷</span><span class="note">Sunrise ~7:00 Aug in Melbourne · Dress warmly, ~8°C</span></li>
-        <li><span class="time">07:30</span> Walk along King's Domain / Royal Botanic Gardens path</li>
-        <li><span class="time">08:30</span> Breakfast at Domain Rd cafés or hotel</li>
-        <li><span class="time">10:00</span> Relax morning / packing / last souvenir shopping in Southbank</li>
-        <li><span class="time">12:00</span> Farewell lunch at a Melbourne favourite — Vue de monde, Flower Drum, or Chin Chin</li>
-        <li><span class="time">14:00</span> Rest at hotel, tidy apartment</li>
-        <li><span class="time">17:30</span> Drive to <strong>St Kilda Breakwater</strong> for Little Penguin viewing <span class="tag tag-nature">🐧</span><span class="note">Penguins return to nests after dark — arrive before sunset ~17:50 Aug. FREE. Stay quiet, no flash.</span></li>
-        <li><span class="time">19:30</span> Return hotel — final pack for early departure</li>
-        <li><span class="time">21:00</span> Early night — flight check-in opens 07:35 tomorrow</li>
-      </ul>
-      <div class="tip-box"><strong>🐧 Penguin viewing:</strong> Little Penguins (Fairy Penguins) come ashore at St Kilda Breakwater nightly after dusk. Free, managed by rangers. No flash photography. Arrive 30 min before sunset to get a good spot. August sunset ~17:45–17:50.</div>
-    </div>
-
-    <!-- Day 7 -->
+    <!-- Day 5: Phillip Island -->
     <div class="day-card" style="border-left-color:#14b8a6;">
       <div class="day-header">
-        <span class="day-num">Day 7</span>
-        <span class="day-date">Sunday, 24 Aug</span>
-        <span class="day-title">— Great Ocean Road · Twelve Apostles</span>
+        <span class="day-num">Day 5</span>
+        <span class="day-date">Friday, 21 Aug</span>
+        <span class="day-title">— Phillip Island · Wildlife + Penguin Parade</span>
       </div>
-      <div class="tip-box" style="margin-bottom:12px;"><strong>⚠️ Note on scheduling:</strong> GOR is a full day trip (~10–12 hrs, 400+ km round trip). It's best done before the departure day. Consider swapping this to Day 3 or Day 4 if keeping departure Aug 23.</div>
       <ul class="timeline">
-        <li><span class="time">05:30</span> Depart hotel — drive west via Princes Fwy (M1) <span class="tag tag-drive">🚐</span></li>
-        <li><span class="time">07:30</span> <strong>Torquay</strong> — Surf City, Jan Juc beach stop, breakfast</li>
-        <li><span class="time">08:30</span> <strong>Bells Beach</strong> — legendary surf break, clifftop views <span class="tag tag-photo">📷</span></li>
-        <li><span class="time">09:30</span> <strong>Lorne</strong> — charming coastal town, coffee stop</li>
-        <li><span class="time">11:00</span> <strong>Kennett River</strong> — koalas in wild gum trees <span class="tag tag-nature">🐨</span></li>
-        <li><span class="time">12:30</span> <strong>Apollo Bay</strong> — lunch at harbour, fresh fish & chips <span class="tag tag-food">🐟</span></li>
-        <li><span class="time">14:30</span> <strong>Otway Fly Treetop Walk</strong> (optional, 45 min)</li>
-        <li><span class="time">16:00</span> <strong>Twelve Apostles</strong> — iconic sea stacks, lookout walk <span class="tag tag-photo">📷</span><span class="note">Late afternoon light perfect for Leica. Helicopter flights available.</span></li>
-        <li><span class="time">17:30</span> <strong>Gibson Steps</strong> — descend to beach level for base-of-cliff photos <span class="tag tag-photo">📷</span></li>
-        <li><span class="time">18:00</span> <strong>London Bridge</strong> — dramatic coastal arch</li>
-        <li><span class="time">19:00</span> Begin return inland via Princes Hwy (faster) to Melbourne</li>
-        <li><span class="time">21:30</span> Arrive hotel — pack for early flight next morning</li>
+        <li><span class="time">10:30</span> Relaxed departure — drive southeast via M1 Monash Fwy <span class="tag tag-drive">🚐</span></li>
+        <li><span class="time">12:00</span> <strong>Maru Koala & Animal Park</strong> — hold koalas, hand-feed kangaroos (Grantville, on the way) <span class="tag tag-nature">🐨</span><span class="note">~1hr visit · ~$24 adult · book koala photo ahead · Philip Island Rd, Grantville</span></li>
+        <li><span class="time">13:30</span> Continue to Phillip Island across the bridge (~45 min)</li>
+        <li><span class="time">14:15</span> <strong>Cape Woolamai</strong> — dramatic pink granite cliffs, Southern Ocean views <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">16:00</span> <strong>Seal Rocks — The Nobbies</strong> — Australia's largest fur seal colony (~6,000 seals) <span class="tag tag-nature">🦭</span><span class="note">FREE boardwalk · western tip of Phillip Island</span></li>
+        <li><span class="time">17:30</span> Dinner at <strong>Cowes</strong> — main town on Phillip Island, seafood or pub meal <span class="tag tag-food">🍽</span></li>
+        <li><span class="time">19:00</span> <strong>Penguin Parade</strong> — Summerlands Beach · 1,000+ Little Penguins storm ashore 🐧<span class="note">BOOK WEEKS AHEAD · ~$29 adult, $15 child · gates open 2hrs before sunset</span></li>
+        <li><span class="time">21:00</span> Return to Melbourne (~90 min) or stay overnight on island</li>
       </ul>
-      <div class="tip-box"><strong>📷 Drone note:</strong> CASA prohibits drone flight within 5.5km of Princetown aerodrome, and National Park rules restrict drone use. Check current CASA rules at casa.gov.au before flying. Helicopter tours from the Apostles helipad are a great alternative aerial view.</div>
+      <div class="tip-box"><strong>🐧 Penguin Parade vs St Kilda:</strong> This is an entirely different experience. Over 1,000 penguins flood ashore in waves with professional boardwalk viewing and underground tunnel. August is nesting season — one of the best months. Book online NOW — it sells out.</div>
+    </div>
+
+    <!-- Day 6: Yarra Valley -->
+    <div class="day-card" style="border-left-color:#dc2626;">
+      <div class="day-header">
+        <span class="day-num">Day 6</span>
+        <span class="day-date">Saturday, 22 Aug</span>
+        <span class="day-title">— Yarra Valley Wine Tour</span>
+      </div>
+      <ul class="timeline">
+        <li><span class="time">10:00</span> Relaxed departure — drive east via EastLink <span class="tag tag-drive">🚐</span></li>
+        <li><span class="time">11:00</span> <strong>Yering Station</strong> — Victoria's first vineyard (1838), bluestone barn, Pinot Noir tasting <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">12:30</span> <strong>Domaine Chandon</strong> — Moët & Chandon's sparkling wine estate, terrace vineyard views <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">13:30</span> Vineyard lunch — TarraWarra Estate or Balgownie Estate bistro <span class="tag tag-food">🍷</span></li>
+        <li><span class="time">15:30</span> Optional: <strong>De Bortoli Wines</strong> or <strong>Healesville township</strong> wander</li>
+        <li><span class="time">17:00</span> Return to Melbourne</li>
+        <li><span class="time">19:00</span> Farewell dinner — Melbourne favourite (Flower Drum, Chin Chin, or Vue de monde) <span class="tag tag-food">🍽</span></li>
+      </ul>
+      <div class="tip-box"><strong>💡 Private driver tip:</strong> Book a Yarra Valley wine tour operator — all adults can drink freely. Full-day private for 6 pax ~$700–900 AUD. Book 6–8 weeks ahead via Viator or direct. No designated driver stress.</div>
     </div>
 
     <!-- Departure -->
@@ -490,7 +455,7 @@
         <li><span class="time">05:45</span> Wake up — pack, final check of apartment</li>
         <li><span class="time">06:30</span> Hotel checkout · drive to Melbourne Airport (~35 min) <span class="tag tag-drive">🚐</span></li>
         <li><span class="time">07:05</span> Return rental car — Ground Transport Hall</li>
-        <li><span class="time">07:35</span> Check-in opens for SQ238 (T2 International) · security + immigration</li>
+        <li><span class="time">07:35</span> Check-in opens for <strong>SQ238</strong> (T2 International) · security + immigration</li>
         <li><span class="time">09:35</span> Depart Melbourne on <strong>SQ238</strong> → Singapore <span class="tag tag-drive">7h 50m</span></li>
         <li><span class="time">15:25</span> Arrive Singapore Changi (SIN) — 2h 05m layover</li>
         <li><span class="time">17:30</span> Depart Singapore on <strong>SQ714</strong> → Bangkok <span class="tag tag-drive">2h 30m</span></li>
@@ -1103,19 +1068,18 @@ function showTab(id) {
 // DAY DEFINITIONS
 // ─────────────────────────────────────────
 const DAY_COLOR = {
-  all: '#64748b', 0: '#6366f1', 1: '#0ea5e9', 2: '#3b82f6',
-  3: '#f97316', 4: '#8b5cf6', 5: '#dc2626', 6: '#f59e0b', 7: '#14b8a6'
+  all: '#64748b', 0: '#6366f1', 1: '#0ea5e9', 2: '#10b981',
+  3: '#f97316', 4: '#8b5cf6', 5: '#14b8a6', 6: '#dc2626'
 };
 const DAY_LABEL = {
   all: 'All Days',
-  0: 'Day 0 · Arrival — Aug 17',
-  1: 'Day 1 · CBD Walking Loop — Aug 18',
-  2: 'Day 2 · Melbourne Laneways — Aug 19',
-  3: 'Day 3 · St Kilda & Brighton — Aug 20',
-  4: 'Day 4 · Puffing Billy + Healesville — Aug 21',
-  5: 'Day 5 · Yarra Valley Wine Tour — Aug 22',
-  6: 'Day 6 · Shrine Sunrise + Penguins — Aug 23',
-  7: 'Day 7 · Great Ocean Road — Aug 24',
+  0: 'Day 0 · Travel — Aug 16–17',
+  1: 'Day 1 · Arrival — Aug 17',
+  2: 'Day 2 · Zoo + City — Aug 18',
+  3: 'Day 3 · Great Ocean Road — Aug 19',
+  4: 'Day 4 · Recovery + CBD — Aug 20',
+  5: 'Day 5 · Phillip Island — Aug 21',
+  6: 'Day 6 · Yarra Valley — Aug 22',
 };
 
 // ─────────────────────────────────────────
@@ -1124,58 +1088,51 @@ const DAY_LABEL = {
 const H = { lat: -37.8213, lng: 144.9593, emoji: '🏨', title: 'Quay West Suites Southbank', sub: '21 Riverside Ave · Home Base' };
 
 const pinsData = [
-  // Day 0 — Arrival: Airport → Hotel
+  // Day 0 — Travel: Airport → Hotel
   { lat: -37.6690, lng: 144.8410, emoji: '✈️', title: 'Melbourne Airport (MEL)', sub: 'Pick up Kia Carnival · Tullamarine', dayNum: 0, order: 0 },
   { ...H, dayNum: 0, order: 1 },
 
-  // Day 1 — CBD Walking Loop
+  // Day 1 — Arrival
   { ...H, dayNum: 1, order: 0 },
-  { lat: -37.8171, lng: 144.9671, emoji: '🏛', title: 'Federation Square', sub: 'Starting point', dayNum: 1, order: 1 },
-  { lat: -37.8170, lng: 144.9673, emoji: '⛪', title: "St Paul's Cathedral", sub: 'Gothic Revival · Free entry', dayNum: 1, order: 2 },
-  { lat: -37.8097, lng: 144.9646, emoji: '📚', title: 'State Library of Victoria', sub: 'La Trobe Reading Room · Free', dayNum: 1, order: 3 },
-  { lat: -37.8038, lng: 144.9711, emoji: '🌿', title: 'Carlton Gardens', sub: 'UNESCO World Heritage', dayNum: 1, order: 4 },
-  { lat: -37.8097, lng: 144.9730, emoji: '⛪', title: "St Patrick's Cathedral", sub: 'Tallest spire in Australia', dayNum: 1, order: 5 },
-  { lat: -37.8137, lng: 144.9793, emoji: '🌳', title: 'Fitzroy Gardens', sub: "Cook's Cottage · Free", dayNum: 1, order: 6 },
-  { lat: -37.8175, lng: 144.9689, emoji: '🎨', title: 'Hosier Lane', sub: 'Street art laneway', dayNum: 1, order: 7 },
-  { lat: -37.8201, lng: 144.9724, emoji: '🔔', title: 'Birrarung Marr', sub: 'Riverside park · Federation Bells', dayNum: 1, order: 8 },
+  { lat: -37.8171, lng: 144.9671, emoji: '🏛', title: 'Federation Square', sub: 'Orientation · landmark architecture', dayNum: 1, order: 1 },
 
-  // Day 2 — Laneways
+  // Day 2 — Zoo + City
   { ...H, dayNum: 2, order: 0 },
-  { lat: -37.8066, lng: 144.9573, emoji: '🛒', title: 'Queen Victoria Market', sub: 'Fresh produce & breakfast stalls', dayNum: 2, order: 1 },
-  { lat: -37.8162, lng: 144.9665, emoji: '☕', title: 'Degraves St / Centre Place', sub: 'Melbourne laneways & cafés', dayNum: 2, order: 2 },
-  { lat: -37.8225, lng: 144.9692, emoji: '🎨', title: 'NGV International', sub: 'St Kilda Rd · Free collection', dayNum: 2, order: 3 },
-  { lat: -37.8217, lng: 144.9563, emoji: '🏙', title: 'Eureka Skydeck 88', sub: '297m views · $25 AUD', dayNum: 2, order: 4 },
+  { lat: -37.7840, lng: 144.9521, emoji: '🦁', title: 'Melbourne Zoo', sub: 'Royal Park · lions, elephants, gorillas', dayNum: 2, order: 1 },
+  { lat: -37.8137, lng: 144.9793, emoji: '🌳', title: 'Fitzroy Gardens', sub: "Cook's Cottage · Free", dayNum: 2, order: 2 },
+  { lat: -37.8175, lng: 144.9689, emoji: '🎨', title: 'Hosier Lane', sub: 'Street art · photography', dayNum: 2, order: 3 },
 
-  // Day 3 — St Kilda & Brighton
+  // Day 3 — Great Ocean Road
   { ...H, dayNum: 3, order: 0 },
-  { lat: -37.8662, lng: 144.9803, emoji: '🎡', title: 'St Kilda & Luna Park', sub: 'Beach, pier & heritage rides', dayNum: 3, order: 1 },
-  { lat: -37.9180, lng: 144.9885, emoji: '🏖', title: 'Brighton Beach Bathing Boxes', sub: '82 colourful Victorian boxes', dayNum: 3, order: 2 },
+  { lat: -38.4032, lng: 144.3227, emoji: '🏄', title: 'Bells Beach', sub: 'Legendary surf break', dayNum: 3, order: 1 },
+  { lat: -38.5428, lng: 143.9830, emoji: '☕', title: 'Lorne', sub: 'Charming coastal town · coffee stop', dayNum: 3, order: 2 },
+  { lat: -38.6266, lng: 143.8323, emoji: '🐨', title: 'Kennett River — Koalas', sub: 'Wild koalas in gum trees', dayNum: 3, order: 3 },
+  { lat: -38.7521, lng: 143.6743, emoji: '🐟', title: 'Apollo Bay', sub: 'Lunch · Fresh fish & chips', dayNum: 3, order: 4 },
+  { lat: -38.6643, lng: 143.1051, emoji: '🌊', title: 'Twelve Apostles', sub: 'Iconic limestone sea stacks', dayNum: 3, order: 5 },
+  { lat: -38.6752, lng: 143.0976, emoji: '🏖', title: 'Loch Ard Gorge', sub: '1878 shipwreck story · walk to beach', dayNum: 3, order: 6 },
+  { lat: -38.6703, lng: 143.1029, emoji: '🪨', title: 'Gibson Steps', sub: 'Base-level beach & cliff views', dayNum: 3, order: 7 },
+  { lat: -38.7101, lng: 143.0320, emoji: '🌉', title: 'London Bridge', sub: 'Dramatic coastal rock arch', dayNum: 3, order: 8 },
 
-  // Day 4 — Puffing Billy + Healesville
+  // Day 4 — Recovery + CBD
   { ...H, dayNum: 4, order: 0 },
-  { lat: -37.9136, lng: 145.3567, emoji: '🚂', title: 'Puffing Billy — Belgrave', sub: 'Steam train · Dandenong Ranges', dayNum: 4, order: 1 },
-  { lat: -37.6858, lng: 145.5235, emoji: '🐨', title: 'Healesville Sanctuary', sub: 'Koalas, platypus, wombats · Book online', dayNum: 4, order: 2 },
+  { lat: -37.8066, lng: 144.9573, emoji: '🛒', title: 'Queen Victoria Market', sub: 'Fresh produce & souvenir shopping', dayNum: 4, order: 1 },
+  { lat: -37.8162, lng: 144.9665, emoji: '☕', title: 'Degraves St / Centre Place', sub: 'Melbourne laneways & cafés', dayNum: 4, order: 2 },
+  { lat: -37.8225, lng: 144.9692, emoji: '🎨', title: 'NGV International', sub: 'St Kilda Rd · Free collection', dayNum: 4, order: 3 },
+  { lat: -37.8217, lng: 144.9563, emoji: '🏙', title: 'Eureka Skydeck 88', sub: '297m views · $25 AUD', dayNum: 4, order: 4 },
 
-  // Day 5 — Yarra Valley Wine Tour
+  // Day 5 — Phillip Island
   { ...H, dayNum: 5, order: 0 },
-  { lat: -37.6556, lng: 145.4956, emoji: '🍷', title: 'Yering Station', sub: 'First winery in Victoria', dayNum: 5, order: 1 },
-  { lat: -37.6756, lng: 145.6956, emoji: '🍯', title: 'De Bortoli Wines', sub: 'Noble One dessert wine', dayNum: 5, order: 2 },
-  { lat: -37.7049, lng: 145.3851, emoji: '🥂', title: 'Domaine Chandon', sub: 'Sparkling wine · stunning views', dayNum: 5, order: 3 },
+  { lat: -38.3925, lng: 145.5467, emoji: '🐨', title: 'Maru Koala & Animal Park', sub: 'Grantville · hold koalas & feed kangaroos', dayNum: 5, order: 1 },
+  { lat: -38.5558, lng: 145.3561, emoji: '🏖', title: 'Cape Woolamai', sub: 'Pink granite cliffs · Southern Ocean views', dayNum: 5, order: 2 },
+  { lat: -38.5044, lng: 145.1321, emoji: '🦭', title: 'Seal Rocks — The Nobbies', sub: "Australia's largest fur seal colony", dayNum: 5, order: 3 },
+  { lat: -38.4542, lng: 145.2371, emoji: '🍽', title: 'Cowes', sub: 'Main town · seafood dinner', dayNum: 5, order: 4 },
+  { lat: -38.5078, lng: 145.1519, emoji: '🐧', title: 'Penguin Parade — Summerlands Beach', sub: '1,000+ Little Penguins storm ashore', dayNum: 5, order: 5 },
 
-  // Day 6 — Shrine Sunrise + Penguins
+  // Day 6 — Yarra Valley
   { ...H, dayNum: 6, order: 0 },
-  { lat: -37.8306, lng: 144.9736, emoji: '🕊', title: 'Shrine of Remembrance', sub: 'Sunrise 06:45 · Free', dayNum: 6, order: 1 },
-  { lat: -37.8662, lng: 144.9803, emoji: '🎡', title: 'St Kilda Foreshore', sub: 'Afternoon walk', dayNum: 6, order: 2 },
-  { lat: -37.8678, lng: 144.9819, emoji: '🐧', title: 'St Kilda Breakwater — Penguins', sub: 'Little Penguins after sunset · FREE', dayNum: 6, order: 3 },
-
-  // Day 7 — Great Ocean Road
-  { ...H, dayNum: 7, order: 0 },
-  { lat: -38.4032, lng: 144.3227, emoji: '🏄', title: 'Bells Beach', sub: 'Legendary surf break', dayNum: 7, order: 1 },
-  { lat: -38.5510, lng: 143.9820, emoji: '🦘', title: 'Kennett River — Koalas', sub: 'Wild koalas in gum trees', dayNum: 7, order: 2 },
-  { lat: -38.7521, lng: 143.6743, emoji: '🐟', title: 'Apollo Bay', sub: 'Lunch · Fresh fish & chips', dayNum: 7, order: 3 },
-  { lat: -38.6643, lng: 143.1051, emoji: '🌊', title: 'Twelve Apostles', sub: 'Iconic limestone sea stacks', dayNum: 7, order: 4 },
-  { lat: -38.6650, lng: 143.1035, emoji: '🏖', title: 'Gibson Steps', sub: 'Base-level beach & cliff views', dayNum: 7, order: 5 },
-  { lat: -38.7101, lng: 143.0320, emoji: '🌉', title: 'London Bridge', sub: 'Dramatic coastal rock arch', dayNum: 7, order: 6 },
+  { lat: -37.6556, lng: 145.4956, emoji: '🍷', title: 'Yering Station', sub: "Victoria's first vineyard (1838)", dayNum: 6, order: 1 },
+  { lat: -37.7049, lng: 145.3851, emoji: '🥂', title: 'Domaine Chandon', sub: 'Sparkling wine · stunning views', dayNum: 6, order: 2 },
+  { lat: -37.6756, lng: 145.6956, emoji: '🍯', title: 'De Bortoli Wines', sub: 'Noble One dessert wine', dayNum: 6, order: 3 },
 ];
 
 // ─────────────────────────────────────────
@@ -1779,36 +1736,118 @@ const LANDMARKS = {
     duration: '15–20 min',
     tips: "🔑 Evening light (17:00–18:00) perfectly illuminates the west-facing arch. Look down into the churning ocean below the arch for the most dramatic angle. The wind at this exposed headland can be fierce — hold children's hands near the clifftop."
   },
+  'melbourne-zoo': {
+    name: 'Melbourne Zoo',
+    photos: [
+      { url: WC('Melbourne_Zoo.jpg'), cap: 'Melbourne Zoo — one of the oldest zoos in the world, established 1862' },
+      { url: WC('Melbourne_Zoo_-_Butterfly_House.jpg'), cap: 'Butterfly House — 1,000+ free-flying butterflies from Australian rainforests' },
+    ],
+    desc: "Melbourne Zoo in Royal Park is the oldest zoo in Australia and one of the oldest in the world, opening in 1862. Covering 22 hectares, it houses over 320 species including lions, elephants, gorillas, orangutans, sun bears, and meerkats. The Trail of the Elephants is a world-class exhibit. The butterfly house features 1,000+ free-flying tropical and Australian rainforest butterflies. Run by Zoos Victoria, it is Victoria's most visited paid attraction.",
+    why: "Melbourne Zoo is genuinely world-class — the gorilla rainforest exhibit and the butterfly house alone justify the entry. The zoo is designed for family exploration; the Kids Zoo area is excellent for young children. August weekday mornings are uncrowded and perfect for extended visits.",
+    fees: [
+      { label: 'Adult', val: '~$40 AUD · book online to save ~$5' },
+      { label: 'Child (4–15)', val: '~$19 AUD · under 4 free' },
+      { label: 'Family (2A + 2C)', val: '~$102 AUD online' },
+      { label: 'Parking', val: 'Zoo carpark off Elliott Ave · $12 AUD' },
+    ],
+    hours: 'Daily 09:00–17:00 (last entry 16:30)',
+    duration: '3–4 hours',
+    tips: "🔑 Butterfly House opens at 09:30 — visit first before it warms up and fills. The free daily keeper talks are scheduled at the entrance; pick up the timetable on arrival. Book online at zoo.org.au for discounted tickets."
+  },
+  'loch-ard': {
+    name: 'Loch Ard Gorge',
+    photos: [
+      { url: WC('Loch_Ard_Gorge.jpg'), cap: 'Loch Ard Gorge — 70m limestone cliffs enclosing a sheltered beach' },
+      { url: WC('Loch_Ard_Gorge_beach.jpg'), cap: "The gorge beach — only accessible via the cliff path from above" },
+    ],
+    desc: "Loch Ard Gorge is named after the clipper ship Loch Ard, which wrecked here on 1 June 1878, killing 52 of the 54 people aboard. Only two survivors — Tom Pearce (18) and Eva Carmichael (19) — made it to the sheltered beach inside the gorge. Pearce scrambled up the 70m cliffs to get help. The narrow gorge is flanked by sheer limestone walls and opens to a stunning enclosed beach with calm turquoise water, a dramatic contrast to the violent Southern Ocean outside.",
+    why: "The shipwreck story is one of Australia's most gripping — 52 people died just metres from safety. Walking down to the beach at the base of the 70m cliffs is profoundly different from the top. The enclosed cove feels prehistoric. This is the stop most visitors rush past — don't.",
+    fees: [
+      { label: 'Entry', val: 'FREE · no gate fee' },
+      { label: 'Parking', val: 'FREE at Loch Ard Gorge carpark' },
+      { label: 'Walk to beach', val: '300m boardwalk from carpark — walk DOWN to beach' },
+      { label: 'Shipwreck tour', val: 'Included in Twelve Apostles visitor centre' },
+    ],
+    hours: 'Open 24/7 · visitor facilities 09:00–17:00',
+    duration: '45–60 min',
+    tips: "🔑 Walk ALL THE WAY DOWN to the beach — the cliff-top view does not do it justice. The enclosed beach at the base is one of the most extraordinary natural spaces on the GOR. Combine with Gibson Steps (5 min drive) for two contrasting perspectives."
+  },
+  'maru-koala': {
+    name: 'Maru Koala & Animal Park',
+    photos: [
+      { url: WC('Phascolarctos_cinereus.jpg'), cap: 'Koala (Phascolarctos cinereus) — the species at Maru Koala Park in Grantville' },
+      { url: WC('Kangaroo_feeding.jpg'), cap: 'Hand-feeding kangaroos and wallabies at Maru Animal Park' },
+    ],
+    desc: "Maru Koala & Animal Park in Grantville is a small family-run wildlife sanctuary on the South Gippsland Highway, perfectly positioned on the drive from Melbourne to Phillip Island. The main experiences are a koala photo encounter (hold a koala while a ranger takes photos) and hand-feeding kangaroos, wallabies, and other Australian animals in an open yard. The relaxed, informal setting means much less queuing than larger sanctuaries.",
+    why: "The most accessible koala-holding experience near Melbourne, timed perfectly on the Phillip Island drive. Unlike large zoos, the atmosphere is personal and unhurried — kids get extended time with the animals. The koala photo session is genuinely memorable and the kangaroo feeding area is completely open.",
+    fees: [
+      { label: 'Park entry', val: '~$24 AUD adult · ~$15 child (3–15)' },
+      { label: 'Koala photo', val: '~$30 AUD additional — book ahead' },
+      { label: 'Under 3', val: 'FREE' },
+      { label: 'Parking', val: 'FREE on-site' },
+    ],
+    hours: 'Daily 10:00–17:00',
+    duration: '45–75 min',
+    tips: "🔑 Book the koala photo online — walk-in koala holds are limited and sell out. Go straight to koala encounter on arrival before the tour groups. Buy kangaroo feed pellets at the entrance ($2) for the open yard."
+  },
+  'cape-woolamai': {
+    name: 'Cape Woolamai',
+    photos: [
+      { url: WC('Cape_Woolamai.jpg'), cap: 'Cape Woolamai — the eastern tip of Phillip Island, with dramatic pink granite headlands' },
+      { url: WC('Cape_Woolamai_surf_beach.jpg'), cap: 'Cape Woolamai Surf Beach — powerful Bass Strait swell and rugged cliffs' },
+    ],
+    desc: "Cape Woolamai is the eastern tip of Phillip Island and its highest point at 76 metres. The headland features dramatic pink granite formations sculpted by Southern Ocean waves over millions of years. The cape is a Ramsar-listed internationally significant wetland and hosts the world's largest short-tailed shearwater (muttonbird) colony — over 300,000 birds nest in the grassy slopes between September and April. The clifftop walking tracks offer sweeping views over Bass Strait.",
+    why: "The pink granite formations are unique in Victoria — otherworldly shapes carved by the Southern Ocean. The clifftop tracks give the most dramatic Bass Strait views on Phillip Island. In August the muttonbirds are absent but the scenery and wild weather are at their peak.",
+    fees: [
+      { label: 'Entry', val: 'FREE · public headland' },
+      { label: 'Parking', val: 'FREE at Cape Woolamai carpark' },
+      { label: 'Main walk', val: '3.8km circuit — allow 1.5 hrs' },
+      { label: 'Short track', val: '1.5km to clifftop — allow 30–45 min' },
+    ],
+    hours: 'Open 24/7 · exposed headland — check conditions',
+    duration: '45–90 min',
+    tips: "🔑 Bring windproof layers — Cape Woolamai is fully exposed to Bass Strait and can be brutal in August. The clifftop lookout is accessible in 15 min. The pink granite boulders photograph beautifully with wide angle in overcast light."
+  },
+  'penguin-parade': {
+    name: 'Penguin Parade — Summerlands Beach',
+    photos: [
+      { url: WC('Little_Penguin_Eudyptula_minor.jpg'), cap: 'Little Penguins (Eudyptula minor) — world\'s smallest penguin, 33cm tall' },
+      { url: WC('Penguin_Parade_Phillip_Island.jpg'), cap: 'Penguin Parade at Summerlands Beach — hundreds of penguins flood ashore at dusk' },
+    ],
+    desc: "Each evening at dusk, the world's largest Little Penguin colony returns from Bass Strait to their burrows at Summerlands Beach on Phillip Island's south coast. Over 32,000 penguins nest here — the largest Little Penguin colony on Earth. In August (nesting season), penguin activity is at its peak with chicks in burrows and both parents making daily fishing trips. The professional viewing facilities include an elevated boardwalk and underground tunnel giving eye-level views as penguins parade past.",
+    why: "Witnessing over 1,000 penguins flood ashore in successive waves is one of Australia's greatest wildlife spectacles — completely unlike the casual St Kilda breakwater experience. The scale, infrastructure, and the sheer number of birds make this world-class. August is nesting season — one of the best months.",
+    fees: [
+      { label: 'General viewing', val: '$29 AUD adult · $15 child (4–15)' },
+      { label: 'Premium Plus (underground)', val: '$80 AUD adult · $45 child' },
+      { label: 'Under 4', val: 'FREE' },
+      { label: 'Parking', val: 'FREE at Summerlands visitor centre' },
+    ],
+    hours: 'Gates open 2 hrs before sunset · August sunset ~17:40–17:50',
+    duration: '1.5–2 hours',
+    tips: "🔑 Book WEEKS ahead — it sells out. No cameras with flash (strictly enforced — penguins disorientate and can miss burrows). Arrive early for best boardwalk position. Penguins don't care about humans — they'll walk between your feet. Dress warmly, it's cold after dark."
+  },
 };
 
 const LM_PATTERNS = [
-  { re: /Federation Square/,           lid: 'fed-sq' },
-  { re: /St Paul.*Cathedral/,          lid: 'st-pauls' },
-  { re: /State Library/,               lid: 'state-lib' },
-  { re: /Carlton Gardens/,             lid: 'carlton-gardens' },
-  { re: /St Patrick.*Cathedral/,       lid: 'st-patricks' },
-  { re: /Fitzroy Gardens/,             lid: 'fitzroy-gardens' },
-  { re: /Hosier Lane/,                 lid: 'hosier-lane' },
-  { re: /Birrarung Marr/,              lid: 'birrarung' },
-  { re: /Queen Victoria Market/,       lid: 'qv-market' },
-  { re: /NGV International/,           lid: 'ngv' },
-  { re: /Eureka Skydeck/,              lid: 'eureka' },
-  { re: /Luna Park/,                   lid: 'luna-park' },
-  { re: /Brighton Beach/,              lid: 'brighton' },
-  { re: /Puffing Billy/,               lid: 'puffing-billy' },
-  { re: /Healesville Sanctuary/,       lid: 'healesville' },
-  { re: /Shrine of Remembrance/,       lid: 'shrine' },
-  { re: /Penguin|St Kilda Breakwater/, lid: 'penguins' },
-  { re: /Twelve Apostles/,             lid: 'twelve-apostles' },
-  { re: /Bells Beach/,                 lid: 'bells-beach' },
-  { re: /Apollo Bay/,                  lid: 'apollo-bay' },
-  { re: /Melbourne Town Hall|Block Arcade/, lid: 'town-hall' },
-  { re: /laneways walk|Degraves/,      lid: 'degraves' },
-  { re: /St Kilda Pier/,               lid: 'st-kilda-pier' },
-  { re: /Yering Station/,              lid: 'yering' },
-  { re: /Domaine Chandon/,             lid: 'domaine-chandon' },
-  { re: /Kennett River/,               lid: 'kennett-river' },
-  { re: /London Bridge/,               lid: 'london-bridge-gor' },
+  { re: /Federation Square/,        lid: 'fed-sq' },
+  { re: /Fitzroy Gardens/,          lid: 'fitzroy-gardens' },
+  { re: /Hosier Lane/,              lid: 'hosier-lane' },
+  { re: /Queen Victoria Market/,    lid: 'qv-market' },
+  { re: /NGV International/,        lid: 'ngv' },
+  { re: /Eureka Skydeck/,           lid: 'eureka' },
+  { re: /Bells Beach/,              lid: 'bells-beach' },
+  { re: /Kennett River/,            lid: 'kennett-river' },
+  { re: /Apollo Bay/,               lid: 'apollo-bay' },
+  { re: /Twelve Apostles/,          lid: 'twelve-apostles' },
+  { re: /Loch Ard Gorge/,           lid: 'loch-ard' },
+  { re: /London Bridge/,            lid: 'london-bridge-gor' },
+  { re: /Yering Station/,           lid: 'yering' },
+  { re: /Domaine Chandon/,          lid: 'domaine-chandon' },
+  { re: /laneways walk|Degraves/,   lid: 'degraves' },
+  { re: /Melbourne Zoo/,            lid: 'melbourne-zoo' },
+  { re: /Maru Koala/,               lid: 'maru-koala' },
+  { re: /Cape Woolamai/,            lid: 'cape-woolamai' },
+  { re: /Penguin Parade/,           lid: 'penguin-parade' },
 ];
 
 const FLIGHTS = {
