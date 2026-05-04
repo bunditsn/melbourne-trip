@@ -179,6 +179,8 @@
     .lm-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .lm-slide.img-err { background: linear-gradient(135deg,#0b2545,#1b4f8a); }
     .lm-slide.img-err img { display: none; }
+    .lm-loading-ring { width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.25); border-top-color: #fff; border-radius: 50%; animation: lm-spin 0.8s linear infinite; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+    @keyframes lm-spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
     .lm-slide-cap { position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; padding: 32px 14px 10px; background: linear-gradient(transparent,rgba(0,0,0,0.65)); color: white; font-size: 12px; }
     .lm-nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; background: rgba(0,0,0,0.4); color: white; border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 22px; line-height: 36px; text-align: center; padding: 0; transition: background 0.2s; }
     .lm-nav:hover { background: rgba(0,0,0,0.75); }
@@ -1902,28 +1904,52 @@ const FLIGHT_PATTERNS = [
   { re: /SQ714/, fid: 'sq714' },
 ];
 
+async function loadLandmarkPhotos(lid, ss) {
+  const lm = LANDMARKS[lid];
+  const q = encodeURIComponent(lm.name + ' filetype:bitmap');
+  const api = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${q}&gsrnamespace=6&prop=imageinfo&iiprop=url&iiurlwidth=900&format=json&origin=*&gsrlimit=6`;
+  let imgs = [];
+  try {
+    const data = await fetch(api).then(r => r.json());
+    const pages = Object.values(data?.query?.pages || {});
+    imgs = pages
+      .filter(p => p.imageinfo?.[0]?.thumburl || p.imageinfo?.[0]?.url)
+      .map(p => ({
+        url: p.imageinfo[0].thumburl || p.imageinfo[0].url,
+        cap: p.title.replace('File:','').replace(/_/g,' ').replace(/\.[^.]+$/,'')
+      })).slice(0, 4);
+  } catch(_) {}
+  // fall back to static photos if API gave nothing
+  if (!imgs.length) {
+    imgs = (lm.photos || []).map(p => ({ url: p.url, cap: p.cap }));
+  }
+  if (!imgs.length) {
+    ss.innerHTML = '<div class="lm-slide active img-err"></div>';
+    return;
+  }
+  const nav = imgs.length > 1 ? `
+    <button class="lm-nav prev" onclick="slideNav(event,'${lid}',-1)">&#8249;</button>
+    <button class="lm-nav next" onclick="slideNav(event,'${lid}',+1)">&#8250;</button>
+    <div class="lm-dots">${imgs.map((_,i) => `<button class="lm-dot${i===0?' active':''}" onclick="slideTo(event,'${lid}',${i})"></button>`).join('')}</div>` : '';
+  ss.innerHTML = imgs.map((img,i) => `
+    <div class="lm-slide${i===0?' active':''}">
+      <img src="${img.url}" alt="${img.cap}" loading="lazy" onerror="this.closest('.lm-slide').classList.add('img-err')">
+      <div class="lm-slide-cap">${img.cap}</div>
+    </div>`).join('') + nav;
+  ss.dataset.idx = '0';
+  ss.classList.remove('lm-loading');
+}
+
 function buildPanel(lid) {
   const lm = LANDMARKS[lid];
   if (!lm) return '';
-  const slides = lm.photos.map((p, i) => `
-    <div class="lm-slide${i === 0 ? ' active' : ''}">
-      <img src="${p.url}" alt="${p.cap}" loading="lazy"
-           onerror="this.closest('.lm-slide').classList.add('img-err')">
-      <div class="lm-slide-cap">${p.cap}</div>
-    </div>`).join('');
-  const multiPhoto = lm.photos.length > 1;
-  const dots = multiPhoto ? lm.photos.map((_, i) =>
-    `<button class="lm-dot${i === 0 ? ' active' : ''}" onclick="slideTo(event,'${lid}',${i})"></button>`
-  ).join('') : '';
-  const navBtns = multiPhoto ? `
-    <button class="lm-nav prev" onclick="slideNav(event,'${lid}',-1)">&#8249;</button>
-    <button class="lm-nav next" onclick="slideNav(event,'${lid}',+1)">&#8250;</button>
-    <div class="lm-dots">${dots}</div>` : '';
   const fees = lm.fees.map(f =>
     `<div class="lm-fee-item"><div class="lm-fee-label">${f.label}</div><div class="lm-fee-val">${f.val}</div></div>`
   ).join('');
   return `
-    <div class="lm-slideshow" id="ss-${lid}" data-idx="0">${slides}${navBtns}</div>
+    <div class="lm-slideshow lm-loading" id="ss-${lid}" data-idx="0">
+      <div class="lm-slide active"><div class="lm-loading-ring"></div></div>
+    </div>
     <div class="lm-info">
       <p class="lm-desc">${lm.desc}</p>
       <div class="lm-why"><strong>✨ Why it's worth visiting:</strong> ${lm.why}</div>
@@ -2009,7 +2035,7 @@ function buildFlightPanel(fid) {
 
 // Auto-inject expand behavior into matching itinerary timeline items
 (function injectExpandables() {
-  function attachPanel(li, hintText, buildFn) {
+  function attachPanel(li, hintText, buildFn, lid) {
     li.classList.add('lm-item');
     const strong = li.querySelector('strong');
     if (strong) {
@@ -2029,7 +2055,10 @@ function buildFlightPanel(fid) {
         p.closest('li')?.querySelector('.lm-hint')?.classList.remove('open');
       });
       if (!isOpen) {
-        if (!panel.innerHTML) panel.innerHTML = buildFn();
+        if (!panel.innerHTML) {
+          panel.innerHTML = buildFn();
+          if (lid) loadLandmarkPhotos(lid, document.getElementById('ss-' + lid));
+        }
         panel.classList.add('open');
         li.querySelector('.lm-hint')?.classList.add('open');
         setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 60);
@@ -2042,7 +2071,7 @@ function buildFlightPanel(fid) {
 
     const lmMatch = LM_PATTERNS.find(p => p.re.test(text));
     if (lmMatch && LANDMARKS[lmMatch.lid]) {
-      attachPanel(li, 'info', () => buildPanel(lmMatch.lid));
+      attachPanel(li, 'info', () => buildPanel(lmMatch.lid), lmMatch.lid);
       return;
     }
 
