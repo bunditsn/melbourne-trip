@@ -201,6 +201,13 @@
     .lm-tips { background: #fef9c3; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #78350f; line-height: 1.6; }
     @media (max-width:600px) { .lm-expand { margin-left:-20px; } .lm-fee-grid { grid-template-columns:1fr 1fr; } }
 
+    /* AIRCRAFT IMAGE ON ARROW */
+    .fl-aircraft-img {
+      width: 140px; height: 58px; object-fit: contain;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.55));
+      flex-shrink: 0;
+    }
+
     /* FLIGHT EXPAND IN TIMELINE */
     .fl-panel { background: linear-gradient(135deg,var(--navy),var(--blue)); color: white; padding: 20px 22px; }
     .fl-panel-hdr { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; opacity: 0.6; margin-bottom: 14px; }
@@ -491,6 +498,7 @@
           <div class="date-label">16 Aug</div>
         </div>
         <div class="flight-line">
+          <img class="fl-aircraft-img" src="https://commons.wikimedia.org/w/index.php?title=Special:FilePath/Singapore_Airlines_Boeing_737-800.jpg&width=900" alt="Boeing 737-800" onerror="this.style.display='none'">
           <div class="arrow"></div>
           <div class="num">SQ721</div>
           <div class="dur">2h 30m</div>
@@ -513,6 +521,7 @@
           <div class="date-label">16 Aug</div>
         </div>
         <div class="flight-line">
+          <img class="fl-aircraft-img" src="https://commons.wikimedia.org/w/index.php?title=Special:FilePath/Singapore_Airlines_Boeing_777-300ER_Zhao.jpg&width=900" alt="Boeing 777-300ER" onerror="this.style.display='none'">
           <div class="arrow"></div>
           <div class="num">SQ227</div>
           <div class="dur">8h 25m</div>
@@ -542,6 +551,7 @@
           <div class="date-label">23 Aug</div>
         </div>
         <div class="flight-line">
+          <img class="fl-aircraft-img" src="https://commons.wikimedia.org/w/index.php?title=Special:FilePath/Singapore_Airlines_Boeing_777-300ER_Zhao.jpg&width=900" alt="Boeing 777-300ER" onerror="this.style.display='none'">
           <div class="arrow"></div>
           <div class="num">SQ238</div>
           <div class="dur">7h 50m</div>
@@ -564,6 +574,7 @@
           <div class="date-label">23 Aug</div>
         </div>
         <div class="flight-line">
+          <img class="fl-aircraft-img" src="https://commons.wikimedia.org/w/index.php?title=Special:FilePath/Singapore_Airlines_Airbus_A350-900_(48458412466).jpg&width=900" alt="Airbus A350-900" onerror="this.style.display='none'">
           <div class="arrow"></div>
           <div class="num">SQ714</div>
           <div class="dur">2h 30m</div>
@@ -1864,6 +1875,7 @@ const LM_PATTERNS = [
 const FLIGHTS = {
   'sq721': {
     flightNum: 'SQ721', airline: 'Singapore Airlines', aircraft: 'Boeing 737-800',
+    aircraftImg: WC('Singapore_Airlines_Boeing_737-800.jpg'),
     from: { code: 'BKK', city: 'Bangkok Suvarnabhumi', terminal: 'Terminal 1', time: '13:35', date: 'Sun 16 Aug' },
     to:   { code: 'SIN', city: 'Singapore Changi', terminal: 'Terminal 3', time: '17:05', date: 'Sun 16 Aug' },
     duration: '2h 30m', class: 'Economy',
@@ -1872,6 +1884,7 @@ const FLIGHTS = {
   },
   'sq227': {
     flightNum: 'SQ227', airline: 'Singapore Airlines', aircraft: 'Boeing 777-300ER',
+    aircraftImg: WC('Singapore_Airlines_Boeing_777-300ER_Zhao.jpg'),
     from: { code: 'SIN', city: 'Singapore Changi', terminal: 'Terminal 3', time: '21:50', date: 'Sun 16 Aug' },
     to:   { code: 'MEL', city: 'Melbourne Tullamarine', terminal: 'Terminal 2 (Intl)', time: '08:15', date: 'Mon 17 Aug' },
     duration: '8h 25m', class: 'Economy',
@@ -1880,6 +1893,7 @@ const FLIGHTS = {
   },
   'sq238': {
     flightNum: 'SQ238', airline: 'Singapore Airlines', aircraft: 'Boeing 777-300ER',
+    aircraftImg: WC('Singapore_Airlines_Boeing_777-300ER_Zhao.jpg'),
     from: { code: 'MEL', city: 'Melbourne Tullamarine', terminal: 'Terminal 2 (Intl)', time: '09:35', date: 'Sun 23 Aug' },
     to:   { code: 'SIN', city: 'Singapore Changi', terminal: 'Terminal 3', time: '15:25', date: 'Sun 23 Aug' },
     duration: '7h 50m', class: 'Economy',
@@ -1887,7 +1901,8 @@ const FLIGHTS = {
     tip: '💡 Set an early alarm. MEL T2 International is straightforward but allow time for 6 pax check-in with bags. Duty free at MEL T2 departures has good Australian whisky and Haigh\'s Chocolates if you forgot souvenirs.'
   },
   'sq714': {
-    flightNum: 'SQ714', airline: 'Singapore Airlines', aircraft: 'Airbus A350 / A320',
+    flightNum: 'SQ714', airline: 'Singapore Airlines', aircraft: 'Airbus A350-900',
+    aircraftImg: WC('Singapore_Airlines_Airbus_A350-900_(48458412466).jpg'),
     from: { code: 'SIN', city: 'Singapore Changi', terminal: 'Terminal 3', time: '17:30', date: 'Sun 23 Aug' },
     to:   { code: 'BKK', city: 'Bangkok Suvarnabhumi', terminal: 'Terminal 1', time: '19:00', date: 'Sun 23 Aug' },
     duration: '2h 30m', class: 'Economy',
@@ -1992,6 +2007,7 @@ function buildFlightPanel(fid) {
           <div class="dt">${f.from.date}</div>
         </div>
         <div class="fl-mid">
+          ${f.aircraftImg ? `<img class="fl-aircraft-img" src="${f.aircraftImg}" alt="${f.aircraft}" onerror="this.style.display='none'">` : ''}
           <div class="arrow"></div>
           <div class="num">${f.flightNum}</div>
           <div class="dur">${f.duration}</div>
