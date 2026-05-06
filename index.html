@@ -146,6 +146,42 @@
     /* FOOTER */
     footer { text-align: center; padding: 24px 16px; font-size: 12px; color: var(--gray-400); }
 
+    /* ── PASSWORD GATE ── */
+    #pw-gate {
+      position: fixed; inset: 0; z-index: 9999; display: flex;
+      align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 60%, var(--sky) 100%);
+    }
+    #pw-gate::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .pw-box {
+      position: relative; background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.22); border-radius: 24px;
+      padding: 44px 36px; text-align: center; max-width: 360px; width: 90%;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+    }
+    .pw-box .pw-icon { font-size: 48px; margin-bottom: 14px; }
+    .pw-box h2 { color: white; font-size: 22px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 4px; }
+    .pw-box p { color: rgba(255,255,255,0.65); font-size: 13px; margin-bottom: 28px; }
+    .pw-box input {
+      width: 100%; padding: 13px 16px; border-radius: 12px;
+      border: 1.5px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.12);
+      color: white; font-size: 16px; text-align: center; letter-spacing: 2px;
+      outline: none; margin-bottom: 12px;
+    }
+    .pw-box input::placeholder { color: rgba(255,255,255,0.4); letter-spacing: 0; font-size: 14px; }
+    .pw-box input:focus { border-color: var(--teal); background: rgba(255,255,255,0.18); }
+    .pw-box button {
+      width: 100%; padding: 13px; border-radius: 12px; border: none;
+      background: var(--teal); color: white; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: background 0.2s; letter-spacing: 0.3px;
+    }
+    .pw-box button:hover { background: #00d4f5; }
+    .pw-error { color: #fca5a5; font-size: 13px; margin-top: 12px; min-height: 18px; }
+
     /* MAP POPUP */
     .leaflet-popup-content { font-size: 13px; line-height: 1.5; }
     .popup-title { font-weight: 700; color: var(--navy); font-size: 14px; }
@@ -242,6 +278,17 @@
   </style>
 </head>
 <body>
+
+<div id="pw-gate">
+  <div class="pw-box">
+    <div class="pw-icon">✈️</div>
+    <h2>Melbourne Trip 2026</h2>
+    <p>Family access only · Enter password to continue</p>
+    <input type="password" id="pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+    <button onclick="checkPw()">Enter →</button>
+    <div class="pw-error" id="pw-error"></div>
+  </div>
+</div>
 
 <header>
   <div class="badge">Family Trip</div>
@@ -2157,6 +2204,26 @@ function buildFlightPanel(fid) {
     }
   });
 })();
+
+// ── PASSWORD GATE ──
+(function() {
+  if (localStorage.getItem('melb_trip_auth') === '1')
+    document.getElementById('pw-gate').style.display = 'none';
+})();
+
+function checkPw() {
+  const input = document.getElementById('pw-input');
+  const err   = document.getElementById('pw-error');
+  if (input.value === 'Melbourne2026') {
+    localStorage.setItem('melb_trip_auth', '1');
+    document.getElementById('pw-gate').style.display = 'none';
+  } else {
+    err.textContent = 'Wrong password — try again';
+    input.value = '';
+    input.focus();
+    setTimeout(() => err.textContent = '', 3000);
+  }
+}
 </script>
 </body>
 </html>
