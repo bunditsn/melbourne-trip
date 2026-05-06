@@ -728,6 +728,9 @@
         <div class="hl-title">Superior Apartment 2 Bedrooms, Balcony, Kitchen</div>
         <div class="hl-sub">21 Riverside Ave, Southbank VIC 3006 · Floors 4–9 · Check-in: Mon 17 Aug · Check-out: Sun 23 Aug (6 nights)</div>
       </div>
+      <div class="lm-slideshow" id="ss-hotel" data-idx="0" style="border-radius:10px;margin-bottom:18px;">
+        <div class="lm-slide active"><div class="lm-loading-ring"></div></div>
+      </div>
       <div class="grid-2">
         <div>
           <h3>Apartment Includes</h3>
@@ -799,18 +802,6 @@
         </div>
       </div>
     </div>
-    <div class="card">
-      <h2>📸 Hotel Photos</h2>
-      <div class="hotel-gallery-label">🏢 Hotel Exterior &amp; Surroundings</div>
-      <div id="hotel-gallery-ext" class="hotel-gallery loading">
-        <div class="lm-loading-ring" style="position:static;transform:none;margin:auto;"></div>
-      </div>
-      <div class="hotel-gallery-label">🛏 Your Room · Superior Apartment 2 Bedrooms · Balcony · Kitchen</div>
-      <div id="hotel-gallery-room" class="hotel-gallery loading">
-        <div class="lm-loading-ring" style="position:static;transform:none;margin:auto;"></div>
-      </div>
-    </div>
-
   </div>
 
   <!-- ═══════════════ ACTIVITIES ═══════════════ -->
@@ -2150,20 +2141,19 @@ const HOTEL_PHOTOS = {
   ]
 };
 
-function renderHotelGallery(el, imgs) {
-  el.innerHTML = imgs.map(img => `
-    <div class="hotel-photo-item">
-      <img src="${img.url}" alt="${img.cap}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='none'">
-      <div class="hotel-photo-cap">${img.cap}</div>
-    </div>`).join('');
-  el.classList.remove('loading');
-}
-
 function loadHotelPhotos() {
-  const extEl = document.getElementById('hotel-gallery-ext');
-  const roomEl = document.getElementById('hotel-gallery-room');
-  if (extEl) renderHotelGallery(extEl, HOTEL_PHOTOS.exterior);
-  if (roomEl) renderHotelGallery(roomEl, HOTEL_PHOTOS.room);
+  const ss = document.getElementById('ss-hotel');
+  if (!ss) return;
+  const imgs = [...HOTEL_PHOTOS.room, ...HOTEL_PHOTOS.exterior];
+  const nav = `
+    <button class="lm-nav prev" onclick="slideNav(event,'hotel',-1)">&#8249;</button>
+    <button class="lm-nav next" onclick="slideNav(event,'hotel',+1)">&#8250;</button>
+    <div class="lm-dots">${imgs.map((_,i) => `<button class="lm-dot${i===0?' active':''}" onclick="slideTo(event,'hotel',${i})"></button>`).join('')}</div>`;
+  ss.innerHTML = imgs.map((img,i) => `
+    <div class="lm-slide${i===0?' active':''}">
+      <img src="${img.url}" alt="${img.cap}" loading="lazy" onerror="this.closest('.lm-slide').classList.add('img-err')">
+      <div class="lm-slide-cap">${img.cap}</div>
+    </div>`).join('') + nav;
 }
 loadHotelPhotos();
 
