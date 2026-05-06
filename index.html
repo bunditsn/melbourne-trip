@@ -2081,49 +2081,55 @@ const FLIGHT_PATTERNS = [
   { re: /SQ714/, fid: 'sq714' },
 ];
 
-async function wcSearch(query, limit) {
-  const q = encodeURIComponent(query + ' filetype:bitmap');
-  const api = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${q}&gsrnamespace=6&prop=imageinfo&iiprop=url&iiurlwidth=900&format=json&origin=*&gsrlimit=${limit || 6}`;
-  try {
-    const data = await fetch(api).then(r => r.json());
-    return Object.values(data?.query?.pages || {})
-      .filter(p => p.imageinfo?.[0]?.thumburl || p.imageinfo?.[0]?.url)
-      .map(p => ({ url: p.imageinfo[0].thumburl || p.imageinfo[0].url, cap: p.title.replace('File:','').replace(/_/g,' ').replace(/\.[^.]+$/,'') }));
-  } catch(_) { return []; }
-}
+const CDN = 'https://image-tc.galaxy.tf/';
+const HOTEL_PHOTOS = {
+  exterior: [
+    { url: CDN+'wijpeg-6iy4hw8zi4aki75hscggtlgwm/quay-west-suites-melbourne-exterior-2_standard.jpg',  cap: 'Quay West Suites Southbank — hotel exterior entrance' },
+    { url: CDN+'wijpeg-81243reby0wyklu8uqg6p578k/colab-quaywest-smg-1122-789fbf_standard.jpg',         cap: 'Quay West Suites Southbank — building facade' },
+    { url: CDN+'wijpeg-cz2hdnqo8p082f345x5bhfeyl/melbourne-from-balcony-daylight_standard.jpg',         cap: 'Melbourne CBD & Princes Bridge — view from balcony' },
+    { url: CDN+'wijpeg-c8m45cjspk8il8gdcuz2ntwgt/qwm11004_standard.jpg',                               cap: 'Magnesium mineral spa pool & heated lap pool' },
+    { url: CDN+'wijpeg-8dgbyipquf72l7000vdqprch1/colab-quaywest-smg-0882-daedf1_standard.jpg',         cap: 'Hotel facilities & gym' },
+    { url: CDN+'wijpeg-2iwi1dvrflbvzjwn72mi1hixu/uay-west-melbourne-jarrah-restaurant-4-7f3ced_standard.jpg', cap: 'Jarrah Restaurant & Bar on-site' },
+  ],
+  room: [
+    { url: CDN+'wijpeg-3rswqmjwcygnpnjbmuufe5oy0/2-bedroom-premium-apartment-living-room_standard.jpg',  cap: '2-Bedroom Apartment — spacious lounge & living area' },
+    { url: CDN+'wijpeg-9t67nh4c0x90jkzcpbogda7vr/2-bedroom-premium-apartment-kitchen-2_standard.jpg',    cap: '2-Bedroom Apartment — full kitchen with oven & dishwasher' },
+    { url: CDN+'wijpeg-7q20u7nn3ro5sp9gdd3vvw9yf/2-bedroom-premium-apartment-dining-room_standard.jpg',  cap: '2-Bedroom Apartment — dining area with city outlook' },
+    { url: CDN+'wijpeg-5go4icb3nz346beh97rjstqjr/1-bedroom-superior-suite-city-river-view-bedroom_standard.jpg', cap: 'Superior Suite bedroom — city & river view' },
+    { url: CDN+'wijpeg-b0gtkaot3yjq1f687sbzhhu58/1-bedroom-superior-suite-southbank-view-balcony-3_standard.jpg', cap: 'Private balcony — Southbank & Yarra River views' },
+    { url: CDN+'wijpeg-5ivykef5jnr0d2rbnhpzuq57p/1-bedroom-superior-suite-southbank-view-kitchen_standard.jpg',  cap: 'Superior Suite kitchen — Southbank view' },
+  ]
+};
 
 function renderHotelGallery(el, imgs) {
-  if (!imgs.length) {
-    el.innerHTML = '<div class="hotel-photo-item"><div class="hotel-photo-err"></div></div>';
-  } else {
-    el.innerHTML = imgs.map(img => `
-      <div class="hotel-photo-item">
-        <img src="${img.url}" alt="${img.cap}" loading="lazy" onerror="this.parentNode.querySelector('img').style.display='none'">
-        <div class="hotel-photo-cap">${img.cap}</div>
-      </div>`).join('');
-  }
+  el.innerHTML = imgs.map(img => `
+    <div class="hotel-photo-item">
+      <img src="${img.url}" alt="${img.cap}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='none'">
+      <div class="hotel-photo-cap">${img.cap}</div>
+    </div>`).join('');
   el.classList.remove('loading');
 }
 
-async function loadHotelPhotos() {
+function loadHotelPhotos() {
   const extEl = document.getElementById('hotel-gallery-ext');
   const roomEl = document.getElementById('hotel-gallery-room');
-  if (!extEl || !roomEl) return;
-
-  // Hotel exterior — try specific property name first, fall back to Southbank area shots
-  let extImgs = await wcSearch('Quay West Suites Southbank Melbourne');
-  if (extImgs.length < 2) extImgs = (extImgs.concat(await wcSearch('Southbank Melbourne Yarra River promenade apartments'))).slice(0, 4);
-  renderHotelGallery(extEl, extImgs.slice(0, 4));
-
-  // Room — try serviced apartment interiors relevant to 2BR style
-  let roomImgs = await wcSearch('Melbourne luxury serviced apartment two bedroom kitchen');
-  if (roomImgs.length < 2) roomImgs = (roomImgs.concat(await wcSearch('hotel suite bedroom apartment Melbourne interior'))).slice(0, 4);
-  renderHotelGallery(roomEl, roomImgs.slice(0, 4));
+  if (extEl) renderHotelGallery(extEl, HOTEL_PHOTOS.exterior);
+  if (roomEl) renderHotelGallery(roomEl, HOTEL_PHOTOS.room);
 }
 loadHotelPhotos();
 
 async function loadLandmarkPhotos(lid, ss) {
   const lm = LANDMARKS[lid];
+  async function wcSearch(query) {
+    const q = encodeURIComponent(query + ' filetype:bitmap');
+    const api = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${q}&gsrnamespace=6&prop=imageinfo&iiprop=url&iiurlwidth=900&format=json&origin=*&gsrlimit=6`;
+    try {
+      const data = await fetch(api).then(r => r.json());
+      return Object.values(data?.query?.pages || {})
+        .filter(p => p.imageinfo?.[0]?.thumburl || p.imageinfo?.[0]?.url)
+        .map(p => ({ url: p.imageinfo[0].thumburl || p.imageinfo[0].url, cap: p.title.replace('File:','').replace(/_/g,' ').replace(/\.[^.]+$/,'') }));
+    } catch(_) { return []; }
+  }
   let imgs = (await wcSearch(lm.name)).slice(0, 4);
   // fall back to static photos if API gave nothing
   if (!imgs.length) {
