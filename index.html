@@ -128,6 +128,19 @@
     .gear-badge.leica { background: #f3e8ff; color: #6d28d9; }
     .photo-spot p { font-size: 13px; color: var(--gray-700); margin-bottom: 4px; }
     .golden-hour { font-size: 12px; color: var(--gold); font-weight: 600; }
+    .gear-badge.leica-q { background:#fee2e2; color:#991b1b; }
+    .gear-badge.lumix { background:#dbeafe; color:#1e40af; }
+    .gear-badge.insta { background:#ffedd5; color:#c2410c; }
+    .sun-moon-bar { font-size:12px; background:#fef9c3; border:1px solid #fde047; border-radius:6px; padding:5px 10px; margin-bottom:8px; color:#713f12; display:flex; flex-wrap:wrap; gap:8px; }
+    .sun-moon-bar span { display:flex; align-items:center; gap:4px; }
+    .spot-gallery { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-bottom:10px; border-radius:8px; overflow:hidden; min-height:90px; position:relative; }
+    .spot-gallery.loading { background:linear-gradient(135deg,#f3f4f6,#e5e7eb); }
+    .spot-photo { aspect-ratio:4/3; overflow:hidden; background:#e5e7eb; position:relative; }
+    .spot-photo img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.3s; }
+    .spot-photo:hover img { transform:scale(1.05); }
+    html.dark .sun-moon-bar { background:#1a1500; border-color:#78350f; color:#fbbf24; }
+    html.dark .spot-gallery.loading { background:linear-gradient(135deg,#1e293b,#0f172a); }
+    html.dark .spot-photo { background:#334155; }
 
     /* TIPS */
     .tip-category { margin-bottom: 20px; }
@@ -357,7 +370,7 @@
     <span>✈️ Aug 17 – 23, 2026</span>
     <span>🏨 Quay West Suites Southbank</span>
     <span>🚐 8-Seat Kia Carnival / iMax</span>
-    <span>📷 Leica M10 + DJI Mini 3 Pro</span>
+    <span>📷 Leica M10 · Q1 · Lumix S9 · Mavic Mini 3 Pro</span>
   </div>
 </header>
 
@@ -970,112 +983,257 @@
   <!-- ═══════════════ PHOTO SPOTS ═══════════════ -->
   <div id="tab-photos" class="tab-content">
 
+    <!-- Gear Overview -->
     <div class="card">
-      <h2>📷 Photography Overview</h2>
-      <div class="grid-2">
+      <h2>📷 Your Camera Kit</h2>
+      <div class="grid-2" style="margin-bottom:12px;">
         <div class="highlight">
-          <div class="hl-title">Leica M10</div>
-          <div class="hl-sub">Rangefinder · 24MP full-frame · Best for: street, architecture, portrait, low-light city scenes. Quiet shutter perfect for candid moments.</div>
+          <div class="hl-title">Leica M10 Leitzpark Edition</div>
+          <div class="hl-sub">Rangefinder · 24MP full-frame · M-mount · Special edition with red dot engraving · Quiet shutter — perfect for candid street and low-light city scenes</div>
         </div>
         <div class="highlight">
-          <div class="hl-title">DJI Mini 3 Pro</div>
-          <div class="hl-sub">249g sub-250g class · 4K 60fps · Check CASA regulations for each location. Most parks require permits. Check casa.gov.au.</div>
+          <div class="hl-title">Leica Q1</div>
+          <div class="hl-sub">Fixed 28mm Summilux f/1.7 · Compact full-frame · Built-in OIS · Best for: wide environmental, street, quick grab shots — always on you</div>
         </div>
       </div>
-      <div class="tip-box"><strong>CASA Drone Rules (Australia):</strong> Fly below 120m AGL, 5.5km from aerodromes, not over people, not in national parks without permits. Register if drone &gt;250g. Mini 3 Pro at 249g is sub-250g but always check the current rules. Many coastal parks restrict drones.</div>
+      <div style="margin-bottom:12px;">
+        <div style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:8px;">M-Mount Lenses (for Leica M10 + Lumix S9 via adapter)</div>
+        <div class="grid-3">
+          <div class="highlight">
+            <div class="hl-title">35mm Summilux-M f/1.4 Steelrim</div>
+            <div class="hl-sub">Classic field-of-view · streets, architecture, environment · Steelrim bokeh signature</div>
+          </div>
+          <div class="highlight">
+            <div class="hl-title">50mm Noctilux-M f/1.2</div>
+            <div class="hl-sub">Dreamlike rendering at f/1.2 · portraits, night city, vineyard · the "King of Bokeh"</div>
+          </div>
+          <div class="highlight">
+            <div class="hl-title">90mm APO-Summicron-M f/2.0</div>
+            <div class="hl-sub">Razor-sharp telephoto · wildlife, compressed architecture, Puffing Billy steam from distance</div>
+          </div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-bottom:12px;">
+        <div class="highlight">
+          <div class="hl-title">Lumix S9 + M-to-L Adapter</div>
+          <div class="hl-sub">L-mount mirrorless · 4K 60fps open-gate · Mounts all 3 Leica M lenses via adapter · captures the <strong>Leica Glow</strong> — spherical aberration wide-open renders as a dreamy cinematic signature in video</div>
+        </div>
+        <div class="highlight">
+          <div class="hl-title">DJI Mavic Mini 3 Pro</div>
+          <div class="hl-sub">249g sub-250g · 4K 60fps · HDR video · Check CASA rules per location. Register at casa.gov.au. Fly below 120m, 5.5km from aerodromes, not over people.</div>
+        </div>
+      </div>
+      <div class="highlight">
+        <div class="hl-title">Insta360 X5 — Where to use it on this trip</div>
+        <div class="hl-sub">360° action cam · best for immersive perspectives rather than traditional photography. Suggested uses: <strong>inside the Puffing Billy carriage</strong> (dangling legs + forest tunnel from inside), <strong>dashboard mount on GOR drive</strong> (full 360° coastal road journey), <strong>hotel pool/indoor spaces</strong> (wide interior feel), <strong>Penguin Parade approach walk</strong> (penguin waddling past feet in 360°). Note: no flash rules at Penguin Parade — check if the IR emitter is disabled in your settings.</div>
+      </div>
+      <div class="tip-box" style="margin-top:12px;"><strong>☀️ August Melbourne sun:</strong> Sunrise ~07:08 azimuth 66° (ENE) · Sunset ~17:48 azimuth 294° (WNW) · Golden hours 07:08–07:45 and 17:15–17:48. Moon: waxing crescent Aug 17–19, first quarter Aug 20–21, waxing gibbous Aug 22–23 — moon visible in evening northern sky.</div>
+    </div>
+
+    <!-- Photo Spots -->
+    <div class="photo-spot">
+      <h3>📸 Brighton Beach Bathing Boxes — Sunrise Alignment</h3>
+      <div class="gear">
+        <span class="gear-badge leica-q">Leica Q1 · 28mm f/1.7</span>
+        <span class="gear-badge leica">M10 + 35mm Summilux</span>
+        <span class="gear-badge drone">Mavic Mini 3 Pro</span>
+        <span class="gear-badge lumix">Lumix S9 video</span>
+      </div>
+      <div class="sun-moon-bar">
+        <span>☀️ <strong>Sunrise aligns here</strong> — sun rises at 66° (ENE) directly over Port Phillip Bay, lighting the east-facing boxes</span>
+        <span>🌅 07:08 AM · arrive 06:45 to set up</span>
+      </div>
+      <div class="spot-gallery loading" id="sp-brighton"><div class="lm-loading-ring" style="position:absolute;top:50%;left:50%;"></div></div>
+      <p><strong>Best time:</strong> Sunrise 07:08 AM — sun rises over the bay and hits the box facades directly. August low sun angle = warm long shadows between boxes.</p>
+      <p><strong>Subject:</strong> 82 colourful Victorian-era bathing boxes; sun reflection on bay; families on foreshore; aerial colour grid from above</p>
+      <p><strong>Drone:</strong> Brighton foreshore open coastal area — generally drone-friendly, confirm with Bayside Council. Aerial of coloured boxes from above is iconic.</p>
+      <div class="golden-hour">🎨 Q1 28mm for wide box + bay scene · M10 35mm for tighter environment · 90mm for compressed boxes stacked</div>
     </div>
 
     <div class="photo-spot">
-      <h3>📸 Hosier Lane</h3>
-      <div class="gear"><span class="gear-badge leica">Leica M10</span><span class="gear-badge">35mm f/2</span></div>
-      <p><strong>Best time:</strong> Early morning (before crowds) or blue hour dusk</p>
-      <p><strong>Subject:</strong> Street art murals, textures, people interacting with art</p>
-      <p><strong>Settings:</strong> Zone focus at f/4–5.6, ISO 400–800 in morning shadow</p>
-      <div class="golden-hour">🌅 Best light: 08:00–09:00 or 17:00–18:00</div>
+      <h3>📸 Southbank & Yarra — Blue Hour + Moon</h3>
+      <div class="gear">
+        <span class="gear-badge leica-q">Leica Q1 · 28mm f/1.7</span>
+        <span class="gear-badge leica">M10 + 50mm Noctilux f/1.2</span>
+        <span class="gear-badge lumix">Lumix S9 video</span>
+      </div>
+      <div class="sun-moon-bar">
+        <span>🌙 <strong>Moon alignment Aug 22–23</strong> — waxing gibbous rises NE ~16:00, sits above CBD skyline during blue hour</span>
+        <span>🌆 Blue hour 17:48–18:30 — city lights + last sky colour</span>
+      </div>
+      <div class="spot-gallery loading" id="sp-southbank"><div class="lm-loading-ring" style="position:absolute;top:50%;left:50%;"></div></div>
+      <p><strong>Best time:</strong> 17:30–18:30 — city lights reflecting in the Yarra; waxing gibbous moon visible NE above skyline on Aug 22–23</p>
+      <p><strong>Subject:</strong> Crown towers, Eureka Tower, Flinders St reflections, Princes Bridge; moon above CBD; Lumix S9 + Noctilux for dreamy city video</p>
+      <p><strong>Drone:</strong> CBD airspace is controlled — requires CASA approval. Shoot from Birrarung Marr (north bank) or Princes Walk on tripod.</p>
+      <div class="golden-hour">🌆 Noctilux f/1.2 on Lumix S9 wide-open = Leica Glow on city lights — dreamy cinematic bokeh video</div>
     </div>
 
     <div class="photo-spot">
-      <h3>📸 State Library of Victoria — La Trobe Reading Room</h3>
-      <div class="gear"><span class="gear-badge leica">Leica M10</span><span class="gear-badge">28mm f/2.8</span></div>
-      <p><strong>Best time:</strong> 10:00–12:00 — natural light from dome above</p>
-      <p><strong>Subject:</strong> Octagonal dome, balconies, readers — symmetrical overhead shot</p>
-      <p><strong>Settings:</strong> Tripod if allowed (confirm rules), ISO 800–1600, f/5.6</p>
-      <div class="golden-hour">🏛 Octagonal dome — one of Melbourne's most photogenic interiors</div>
+      <h3>📸 Shrine of Remembrance — Dawn + Moon</h3>
+      <div class="gear">
+        <span class="gear-badge leica">M10 + 50mm Noctilux f/1.2</span>
+        <span class="gear-badge leica">M10 + 35mm Summilux</span>
+        <span class="gear-badge drone">Mavic Mini 3 Pro</span>
+        <span class="gear-badge lumix">Lumix S9 video</span>
+      </div>
+      <div class="sun-moon-bar">
+        <span>☀️ Sunrise 07:08 · golden light on Ionic columns from ENE</span>
+        <span>🌙 Aug 20–21 first quarter moon — visible north above CBD at dusk from forecourt steps</span>
+      </div>
+      <div class="spot-gallery loading" id="sp-shrine"><div class="lm-loading-ring" style="position:absolute;top:50%;left:50%;"></div></div>
+      <p><strong>Best time:</strong> 06:45–07:30 dawn, or 17:30 dusk facing north (CBD + moon on Aug 20–21)</p>
+      <p><strong>Subject:</strong> Shrine columns at golden hour; forecourt pool reflection of columns; CBD skyline north from steps; moon above CBD from steps</p>
+      <p><strong>Drone:</strong> Domain parkland — check restrictions. Aerial of Shrine + Botanic Gardens is extraordinary. Must be 5.5km clear of Moorabbin Airport (8.5km away — check CASA app).</p>
+      <div class="golden-hour">🌅 Stand on forecourt steps facing north at 07:15 — low sun from ENE catches the columns and long shadow falls west across the lawn</div>
     </div>
 
     <div class="photo-spot">
-      <h3>📸 Shrine of Remembrance — Sunrise</h3>
-      <div class="gear"><span class="gear-badge leica">Leica M10</span><span class="gear-badge drone">DJI Mini 3 Pro</span><span class="gear-badge">50mm f/2</span></div>
-      <p><strong>Best time:</strong> 06:45–07:30 — golden light on Ionic columns</p>
-      <p><strong>Subject:</strong> Shrine steps + CBD skyline to north; CBD reflection in forecourt pool</p>
-      <p><strong>Drone:</strong> Domain parkland area — check if restricted. Stunning aerial of Shrine + Botanic Gardens. Must be 5.5km clear of Moorabbin Airport.</p>
-      <div class="golden-hour">🌅 Sunrise ~07:05 in August — arrive 06:45 to set up</div>
+      <h3>📸 Hosier Lane — Street Art</h3>
+      <div class="gear">
+        <span class="gear-badge leica-q">Leica Q1 · 28mm f/1.7</span>
+        <span class="gear-badge leica">M10 + 35mm Summilux</span>
+        <span class="gear-badge lumix">Lumix S9 + 35mm walk video</span>
+      </div>
+      <div class="sun-moon-bar">
+        <span>☀️ Lane runs N-S — shadowed most of day · best soft light: overcast (Melbourne winter = ideal diffused light)</span>
+        <span>🕗 Arrive before 09:00 to shoot without crowds</span>
+      </div>
+      <div class="spot-gallery loading" id="sp-hosier"><div class="lm-loading-ring" style="position:absolute;top:50%;left:50%;"></div></div>
+      <p><strong>Best time:</strong> Early morning 07:30–09:00 or dusk 17:00–18:00 (quieter + better light)</p>
+      <p><strong>Subject:</strong> Layered murals, textures, people interacting with art, perspective down the lane</p>
+      <p><strong>Settings:</strong> Zone focus at f/4–5.6 · ISO 400–800 in shadow · Lumix S9 + 35mm Summilux for walk-through video with Leica signature colour</p>
+      <div class="golden-hour">🎨 Q1 28mm wide for full lane perspective · 35mm Summilux for detail and texture shots</div>
     </div>
 
     <div class="photo-spot">
       <h3>📸 Puffing Billy Steam Train</h3>
-      <div class="gear"><span class="gear-badge leica">Leica M10</span><span class="gear-badge drone">DJI Mini 3 Pro*</span><span class="gear-badge">90mm f/2</span></div>
-      <p><strong>Best time:</strong> Any morning — steam clouds are thicker in August cold</p>
-      <p><strong>Subject:</strong> Kids dangling legs from vintage carriages; steam plumes in forest; Belgrave platform departure</p>
-      <p><strong>Drone:</strong> *Check rules carefully — Dandenong Ranges has restricted airspace near Belgrave. Ground-level shots only may be safest.</p>
-      <div class="golden-hour">🚂 Position yourself at Menzies Creek overbridge or forest clearing for train-through-steam shots</div>
+      <div class="gear">
+        <span class="gear-badge leica">M10 + 90mm APO f/2</span>
+        <span class="gear-badge leica-q">Leica Q1 in-carriage</span>
+        <span class="gear-badge lumix">Lumix S9 + 90mm video</span>
+        <span class="gear-badge insta">Insta360 X5 in-carriage</span>
+      </div>
+      <div class="sun-moon-bar">
+        <span>☀️ Aug 22 departs 10:00 — sun already up, side-lit steam clouds · low winter sun from NE</span>
+        <span>🌫 August cold = thicker steam plumes — best month for steam shots</span>
+      </div>
+      <div class="spot-gallery loading" id="sp-puffing"><div class="lm-loading-ring" style="position:absolute;top:50%;left:50%;"></div></div>
+      <p><strong>Best shots:</strong> 90mm APO on M10 from trackside or Menzies Creek overbridge for compressed steam-through-forest · Q1 wide for in-carriage dangling legs · Insta360 X5 mounted on carriage for immersive 360° journey</p>
+      <p><strong>Lumix S9 video:</strong> 90mm Noctilux-equivalent compression + Leica Glow wide-open = cinematic steam train footage</p>
+      <p><strong>Drone:</strong> ⚠️ Dandenong Ranges has restricted airspace near Belgrave — check CASA app before flying. Ground shots are safer.</p>
+      <div class="golden-hour">🚂 Position at Menzies Creek overbridge — train approaches through forest with steam backlit by winter sun</div>
     </div>
 
     <div class="photo-spot">
-      <h3>📸 Twelve Apostles — Late Afternoon</h3>
-      <div class="gear"><span class="gear-badge leica">Leica M10</span><span class="gear-badge">28mm f/2.8</span></div>
-      <p><strong>Best time:</strong> 15:30–17:30 — sun moves west, side-lighting on limestone stacks</p>
-      <p><strong>Subject:</strong> Sea stacks from clifftop lookout; Gibson Steps beach for base-level dramatic angle; long exposure at dusk</p>
-      <p><strong>Drone:</strong> ⚠️ Port Campbell National Park — drones require Parks Victoria permit. Obtain before visit or use helicopter tours instead.</p>
-      <div class="golden-hour">🌊 Gibson Steps: descend 86 steps to beach — powerful foreground with 30m stacks behind</div>
+      <h3>📸 St Kilda Pier — Crescent Moon + Penguins</h3>
+      <div class="gear">
+        <span class="gear-badge leica">M10 + 50mm Noctilux f/1.2</span>
+        <span class="gear-badge leica">M10 + 90mm APO f/2</span>
+        <span class="gear-badge lumix">Lumix S9 low-light video</span>
+      </div>
+      <div class="sun-moon-bar">
+        <span>🌙 <strong>Aug 17–19 crescent moon</strong> — visible in western sky after sunset over Port Phillip Bay from the pier</span>
+        <span>🐧 Penguins arrive at breakwater ~17:45–18:15 · NO flash</span>
+      </div>
+      <div class="spot-gallery loading" id="sp-stkilda"><div class="lm-loading-ring" style="position:absolute;top:50%;left:50%;"></div></div>
+      <p><strong>Best time:</strong> 17:15–18:30 — catch sunset + crescent moon over the bay (Aug 17–19), then stay for penguins</p>
+      <p><strong>Subject:</strong> Waxing crescent moon low over Port Phillip Bay at dusk; pier silhouette; penguins waddling past feet in dim light</p>
+      <p><strong>Penguin settings:</strong> Noctilux f/1.2, ISO 3200–6400, 1/30s — no flash allowed. Lumix S9 video in low light with Noctilux Glow.</p>
+      <div class="golden-hour">🌙 Aug 17–19: crescent moon sets ~21:00 over the bay — shoot the pier silhouette against last light with crescent above</div>
     </div>
 
     <div class="photo-spot">
-      <h3>📸 Yering Station / Domaine Chandon</h3>
-      <div class="gear"><span class="gear-badge leica">Leica M10</span><span class="gear-badge drone">DJI Mini 3 Pro</span><span class="gear-badge">50mm f/2</span></div>
-      <p><strong>Best time:</strong> Mid-morning (10:00–12:00) — soft winter light on vineyard rows</p>
-      <p><strong>Subject:</strong> Vineyard rows with autumn vines (bare in August — minimal leaves but dramatic geometry); Yering Station's stone building; tasting room portraits</p>
-      <p><strong>Drone:</strong> Private property — ask winery permission. Most are accommodating for small drones. Vineyard rows from above are stunning.</p>
-      <div class="golden-hour">🍷 August vines are dormant (bare) — strong graphic lines for aerial photography</div>
+      <h3>📸 Twelve Apostles — Side-lit Sunset</h3>
+      <div class="gear">
+        <span class="gear-badge leica-q">Leica Q1 · 28mm wide</span>
+        <span class="gear-badge leica">M10 + 35mm Summilux</span>
+        <span class="gear-badge drone">Mavic Mini 3 Pro*</span>
+        <span class="gear-badge lumix">Lumix S9 video sweep</span>
+      </div>
+      <div class="sun-moon-bar">
+        <span>☀️ <strong>Sunset alignment</strong> — sun sets at 294° (WNW) · stacks face west · perfect golden side-lighting 16:00–17:48</span>
+        <span>🌅 Visit 15:30–17:48 for best light on the stacks</span>
+      </div>
+      <div class="spot-gallery loading" id="sp-apostles"><div class="lm-loading-ring" style="position:absolute;top:50%;left:50%;"></div></div>
+      <p><strong>Best time:</strong> 15:30–17:48 — sun descends to WNW, side-lighting turns the limestone stacks gold. Final 30 min of light is magical.</p>
+      <p><strong>Subject:</strong> Stacks from clifftop lookout; Gibson Steps beach for base-level shots; long exposure at dusk on tripod</p>
+      <p><strong>Drone:</strong> ⚠️ Port Campbell National Park — Parks Victoria permit required. Helicopter tours give similar aerial view legally.</p>
+      <div class="golden-hour">🌊 Gibson Steps: descend 86 steps — photograph from beach level with 40m stacks towering above and Southern Ocean behind</div>
     </div>
 
     <div class="photo-spot">
-      <h3>📸 Brighton Beach Bathing Boxes</h3>
-      <div class="gear"><span class="gear-badge leica">Leica M10</span><span class="gear-badge drone">DJI Mini 3 Pro</span><span class="gear-badge">35mm f/2</span></div>
-      <p><strong>Best time:</strong> Morning, golden hour (sun rises behind boxes from the east)</p>
-      <p><strong>Subject:</strong> 82 colourful Victorian-era bathing boxes along the foreshore</p>
-      <p><strong>Drone:</strong> Brighton foreshore — generally drone-friendly coastal open area, but check local council rules. Aerial of coloured boxes from above is iconic.</p>
-      <div class="golden-hour">🎨 Morning light best — boxes face east toward the bay</div>
+      <h3>📸 State Library — La Trobe Reading Room</h3>
+      <div class="gear">
+        <span class="gear-badge leica-q">Leica Q1 · 28mm f/1.7</span>
+        <span class="gear-badge leica">M10 + 35mm Summilux</span>
+        <span class="gear-badge lumix">Lumix S9 interior video</span>
+      </div>
+      <div class="sun-moon-bar">
+        <span>☀️ Dome skylights — best natural light 10:00–12:00 when sun is higher in the northern sky</span>
+      </div>
+      <div class="spot-gallery loading" id="sp-statelib"><div class="lm-loading-ring" style="position:absolute;top:50%;left:50%;"></div></div>
+      <p><strong>Best time:</strong> 10:00–12:00 — soft natural light floods the octagonal dome from above</p>
+      <p><strong>Subject:</strong> 35m octagonal dome from below; symmetrical overhead shot; readers at desks; balcony railings</p>
+      <p><strong>Settings:</strong> Q1 f/2.8, ISO 800–1600 · M10 35mm f/2, ISO 1600 · Tripod if allowed — confirm with staff. Lumix S9 for smooth panning interior video.</p>
+      <div class="golden-hour">🏛 Q1 28mm widest possible for full dome capture · shoot from dead centre looking straight up</div>
     </div>
 
     <div class="photo-spot">
-      <h3>📸 Southbank & Yarra River at Blue Hour</h3>
-      <div class="gear"><span class="gear-badge leica">Leica M10</span><span class="gear-badge drone">DJI Mini 3 Pro</span><span class="gear-badge">28mm f/2</span></div>
-      <p><strong>Best time:</strong> 17:30–18:30 — city lights reflecting in the Yarra</p>
-      <p><strong>Subject:</strong> Crown towers, Eureka Tower, Flinders St Station reflections; Princes Bridge</p>
-      <p><strong>Drone:</strong> CBD airspace is controlled/restricted — likely requires CASA approval. Best shot from ground with Leica on tripod from Princes Walk north bank.</p>
-      <div class="golden-hour">🌆 Shoot from Birrarung Marr looking west for the classic Melbourne skyline</div>
+      <h3>📸 Yarra Valley Wineries — Vineyard Geometry</h3>
+      <div class="gear">
+        <span class="gear-badge leica">M10 + 50mm Noctilux f/1.2</span>
+        <span class="gear-badge leica">M10 + 35mm Summilux</span>
+        <span class="gear-badge drone">Mavic Mini 3 Pro</span>
+        <span class="gear-badge lumix">Lumix S9 + Noctilux video</span>
+      </div>
+      <div class="sun-moon-bar">
+        <span>☀️ Aug 22 afternoon — sun from W/NW lights vineyard rows at 13:00–17:00 from a low winter angle</span>
+        <span>🍷 Aug vines are dormant — bare rows = dramatic graphic geometry for aerial</span>
+      </div>
+      <div class="spot-gallery loading" id="sp-winery"><div class="lm-loading-ring" style="position:absolute;top:50%;left:50%;"></div></div>
+      <p><strong>Best shots:</strong> Noctilux f/1.2 portrait of family at cellar door with vineyard bokeh behind; 35mm Summilux for row geometry; drone aerial of bare winter vineyard rows</p>
+      <p><strong>Lumix S9 video:</strong> Noctilux wide-open = Leica Glow on vineyard + sparkling wine bubbles — cinematic holiday video</p>
+      <p><strong>Drone:</strong> Ask each winery for permission — most are accommodating. Chandon and Oakridge have expansive grounds ideal for aerial.</p>
+      <div class="golden-hour">🍷 Chandon lawn in afternoon light — Noctilux at f/1.2, family portraits against the Yarra Ranges</div>
     </div>
 
+    <!-- Camera Settings Guide -->
     <div class="card" style="margin-top:18px;">
-      <h2>⚙️ Camera Settings Guide — August Melbourne</h2>
+      <h2>⚙️ Camera Settings — August Melbourne</h2>
       <div class="grid-2">
         <div>
-          <h3>Leica M10 — Outdoor Daytime</h3>
+          <h3>Leica M10 · Leica Q1 — Daytime</h3>
           <div class="info-row"><span class="label">Architecture</span><span class="val">f/8, 1/250s, ISO 100–200</span></div>
           <div class="info-row"><span class="label">Street</span><span class="val">f/4–5.6, 1/500s, ISO 400 (overcast) / 200 (sunny)</span></div>
           <div class="info-row"><span class="label">Landscape</span><span class="val">f/8–11, 1/125s, ISO 100</span></div>
-          <div class="info-row"><span class="label">Nature/wildlife</span><span class="val">f/4, 1/500–1000s, ISO 400–800</span></div>
+          <div class="info-row"><span class="label">Wildlife</span><span class="val">f/4, 1/500–1000s, ISO 400–800</span></div>
+          <div class="info-row"><span class="label">Noctilux glow</span><span class="val">f/1.2, 1/1000–4000s, ISO 100 — use ND if needed</span></div>
         </div>
         <div>
-          <h3>Leica M10 — Low Light / Blue Hour</h3>
-          <div class="info-row"><span class="label">City at dusk</span><span class="val">f/2–2.8, 1/60s, ISO 1600–3200</span></div>
+          <h3>Leica M10 · Q1 — Low Light / Blue Hour</h3>
+          <div class="info-row"><span class="label">City dusk</span><span class="val">f/2–2.8, 1/60s, ISO 1600–3200</span></div>
           <div class="info-row"><span class="label">Interior</span><span class="val">f/2, 1/30–1/60s, ISO 3200–6400</span></div>
           <div class="info-row"><span class="label">Tripod night</span><span class="val">f/8, 15–30s, ISO 100 (light trails)</span></div>
-          <div class="info-row"><span class="label">Penguin dusk</span><span class="val">f/2, 1/30s, ISO 3200 — NO flash</span></div>
+          <div class="info-row"><span class="label">Penguins</span><span class="val">Noctilux f/1.2, 1/30s, ISO 6400 — NO flash</span></div>
         </div>
       </div>
-      <div class="tip-box" style="margin-top:12px;"><strong>DJI Mini 3 Pro settings:</strong> Use ND8–ND16 in bright daylight for smooth video. D-Log M for colour grading flexibility. Set ISO to Auto with max ISO 800 for clean footage. Fly in Cine mode near people for smoother, slower movements.</div>
+      <div class="grid-2" style="margin-top:12px;">
+        <div>
+          <h3>Lumix S9 + M-to-L Adapter</h3>
+          <div class="info-row"><span class="label">Leica Glow video</span><span class="val">Noctilux f/1.2 open · 4K 25fps · ISO 800–1600</span></div>
+          <div class="info-row"><span class="label">Daytime video</span><span class="val">ND8–ND16 filter to control exposure wide-open</span></div>
+          <div class="info-row"><span class="label">Colour profile</span><span class="val">V-Log for maximum grading latitude</span></div>
+          <div class="info-row"><span class="label">Shutter rule</span><span class="val">2× frame rate (25fps → 1/50s) for natural motion blur</span></div>
+        </div>
+        <div>
+          <h3>DJI Mavic Mini 3 Pro</h3>
+          <div class="info-row"><span class="label">Resolution</span><span class="val">4K 60fps or 4K HDR 30fps</span></div>
+          <div class="info-row"><span class="label">Daytime</span><span class="val">ND8–ND16 · D-Log M · ISO 100 · 1/60–1/120s</span></div>
+          <div class="info-row"><span class="label">Movement</span><span class="val">Cine mode near people — smooth and slow</span></div>
+          <div class="info-row"><span class="label">CASA rule</span><span class="val">Below 120m · 30m from people · away from airports</span></div>
+        </div>
+      </div>
+      <div class="tip-box" style="margin-top:12px;"><strong>Insta360 X5 tips:</strong> Set to 8K 360° for maximum reframe flexibility in post. Use Invisible Selfie Stick mode so the pole disappears. For Puffing Billy, mount to carriage window ledge with a small clamp — shoot in 5.7K 30fps for the handrail/legs-dangling perspective. For the GOR drive, suction mount on windscreen. Export as "Reframe" or "Me Mode" in the app for conventional video.</div>
     </div>
   </div>
 
@@ -2142,6 +2300,38 @@ const HOTEL_PHOTOS = {
     { url: CDN+'wijpeg-5ivykef5jnr0d2rbnhpzuq57p/1-bedroom-superior-suite-southbank-view-kitchen_standard.jpg',  cap: 'Superior Suite kitchen — Southbank view' },
   ]
 };
+
+async function loadPhotoSpotGalleries() {
+  const spots = [
+    { id: 'sp-brighton',  q: 'Brighton Beach bathing boxes Melbourne' },
+    { id: 'sp-southbank', q: 'Southbank Melbourne Yarra River skyline night' },
+    { id: 'sp-shrine',    q: 'Shrine of Remembrance Melbourne sunrise' },
+    { id: 'sp-hosier',    q: 'Hosier Lane Melbourne street art graffiti' },
+    { id: 'sp-puffing',   q: 'Puffing Billy steam train Dandenong Ranges' },
+    { id: 'sp-stkilda',   q: 'St Kilda Pier Melbourne sunset penguins' },
+    { id: 'sp-apostles',  q: 'Twelve Apostles Great Ocean Road Victoria sunset' },
+    { id: 'sp-statelib',  q: 'State Library Victoria La Trobe Reading Room dome' },
+    { id: 'sp-winery',    q: 'Yarra Valley winery vineyard rows aerial' },
+  ];
+  for (const s of spots) {
+    const el = document.getElementById(s.id);
+    if (!el) continue;
+    const q = encodeURIComponent(s.q + ' filetype:bitmap');
+    const api = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${q}&gsrnamespace=6&prop=imageinfo&iiprop=url&iiurlwidth=600&format=json&origin=*&gsrlimit=4`;
+    try {
+      const data = await fetch(api).then(r => r.json());
+      const imgs = Object.values(data?.query?.pages || {})
+        .filter(p => p.imageinfo?.[0]?.thumburl || p.imageinfo?.[0]?.url)
+        .map(p => ({ url: p.imageinfo[0].thumburl || p.imageinfo[0].url }))
+        .slice(0, 3);
+      if (imgs.length) {
+        el.innerHTML = imgs.map(img => `<div class="spot-photo"><img src="${img.url}" loading="lazy" onerror="this.style.display='none'"></div>`).join('');
+        el.classList.remove('loading');
+      }
+    } catch(_) { el.classList.remove('loading'); }
+  }
+}
+loadPhotoSpotGalleries();
 
 function loadHotelPhotos() {
   const ss = document.getElementById('ss-hotel');
