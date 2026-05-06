@@ -194,6 +194,54 @@
       .flight-point .code { font-size: 22px; }
     }
 
+    /* ── DARK MODE ── */
+    html.dark { --gray-100:#0f172a; --gray-200:#1e293b; --gray-400:#64748b; --gray-700:#cbd5e1; --gray-800:#e2e8f0; --text:#e2e8f0; --card-shadow:0 2px 12px rgba(0,0,0,0.4); --white:#1e293b; }
+    html.dark body { background:#0f172a; color:#e2e8f0; }
+    html.dark .card, html.dark .day-card { background:#1e293b; }
+    html.dark .info-row .label { color:#60a5fa; }
+    html.dark .info-row .val { color:#cbd5e1; }
+    html.dark .tip-box { background:#0c2340; border-color:#1e4976; color:#93c5fd; }
+    html.dark .highlight { background:#162032; border-color:#1e3a5f; }
+    html.dark .hl-title { color:#e2e8f0; }
+    html.dark .hl-sub { color:#94a3b8; }
+    html.dark .timeline li::before { border-color:#1e293b; }
+    html.dark .timeline li .note { color:#64748b; }
+    html.dark h2, html.dark h3 { color:#e2e8f0; }
+    html.dark .spec-item { background:#0f172a; }
+    html.dark .s-lbl { color:#94a3b8; }
+    html.dark .tag { opacity:0.85; }
+    html.dark .lm-info { color:#cbd5e1; }
+    html.dark .lm-why { background:#0c2340; border-color:#1e4976; color:#93c5fd; }
+    html.dark .lm-fee-item { background:#0f172a; border-color:#334155; }
+    html.dark .lm-fee-label { color:#60a5fa; }
+    html.dark .lm-fee-val { color:#cbd5e1; }
+    html.dark .lm-meta-row { color:#94a3b8; }
+    html.dark .lm-tips { background:#162032; color:#93c5fd; }
+    html.dark table { background:#1e293b; }
+    html.dark th { background:#162032; color:#cbd5e1; }
+    html.dark td { border-color:#334155; color:#cbd5e1; }
+    html.dark tr:nth-child(even) td { background:#162032; }
+    html.dark .flight-card { background:#1e293b; }
+    html.dark .flight-point .code { color:#60a5fa; }
+    html.dark .flight-point .city { color:#94a3b8; }
+    html.dark .flight-notes { background:#0f172a; color:#94a3b8; }
+    html.dark .flight-tip { background:#0c2340; color:#93c5fd; }
+    html.dark .photo-spot-card { background:#1e293b; }
+    html.dark .golden-hour { background:#1a1500; color:#fbbf24; border-color:#78350f; }
+    html.dark .tip-item { border-color:#334155; color:#cbd5e1; }
+    html.dark .hotel-gallery.loading { background:linear-gradient(135deg,#1e293b,#0f172a); }
+    html.dark .hotel-photo-item { background:#334155; }
+    html.dark .hotel-gallery-label { color:#60a5fa; }
+    html.dark .day-filter-btn { background:#1e293b; color:#94a3b8; border-color:#334155; }
+    html.dark .day-filter-btn:hover { background:#162032; }
+    html.dark #route-info-bar { background:#162032; color:#cbd5e1; }
+    html.dark .popup-title { color:#60a5fa; }
+
+    /* ── DARK TOGGLE BUTTON ── */
+    #dark-toggle { position:fixed; top:12px; right:14px; z-index:500; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:#fff; border-radius:50%; width:38px; height:38px; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(6px); transition:background 0.2s,transform 0.2s; box-shadow:0 2px 8px rgba(0,0,0,0.25); }
+    #dark-toggle:hover { transform:scale(1.1); background:rgba(255,255,255,0.25); }
+    html.dark #dark-toggle { background:rgba(15,23,42,0.7); border-color:#334155; }
+
     /* ── HOTEL PHOTO GALLERY ── */
     .hotel-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; min-height: 140px; position: relative; border-radius: 10px; overflow: hidden; }
     .hotel-gallery.loading { background: linear-gradient(135deg,#f3f4f6,#e5e7eb); display: flex; align-items: center; justify-content: center; }
@@ -288,6 +336,7 @@
   </style>
 </head>
 <body>
+<button id="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
 
 <div id="pw-gate">
   <div class="pw-box">
@@ -2313,6 +2362,22 @@ function checkPw() {
     setTimeout(() => err.textContent = '', 3000);
   }
 }
+
+// ── DARK MODE ──
+function toggleDark() {
+  const isDark = document.documentElement.classList.toggle('dark');
+  document.getElementById('dark-toggle').textContent = isDark ? '☀️' : '🌙';
+  localStorage.setItem('darkMode', isDark ? '1' : '');
+}
+(function() {
+  if (localStorage.getItem('darkMode') === '1') {
+    document.documentElement.classList.add('dark');
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('dark-toggle');
+      if (btn) btn.textContent = '☀️';
+    });
+  }
+})();
 </script>
 </body>
 </html>
