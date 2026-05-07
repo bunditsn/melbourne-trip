@@ -334,6 +334,10 @@
     .fl-cell { background: rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 10px; }
     .fl-cell-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; opacity: 0.6; margin-bottom: 2px; }
     .fl-cell-val { font-size: 12px; font-weight: 600; }
+    .fl-seats { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 10px; }
+    .fl-seat-box { background: rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 11px; }
+    .fl-seat-family { font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; opacity: 0.6; margin-bottom: 3px; }
+    .fl-seat-nums { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
     .fl-note { background: rgba(255,255,255,0.1); border-radius: 8px; padding: 10px 12px; font-size: 12px; line-height: 1.55; margin-bottom: 6px; }
     .fl-tip { background: rgba(244,162,97,0.22); border-radius: 8px; padding: 10px 12px; font-size: 12px; line-height: 1.55; }
 
@@ -2285,10 +2289,11 @@ const LM_PATTERNS = [
 
 const FLIGHTS = {
   'sq721': {
-    flightNum: 'SQ721', airline: 'Singapore Airlines', aircraft: 'Boeing 737-800',
+    flightNum: 'SQ721', airline: 'Singapore Airlines', aircraft: 'Airbus A350-900',
     from: { code: 'BKK', city: 'Bangkok Suvarnabhumi', terminal: 'Terminal 1', time: '13:35', date: 'Sun 16 Aug' },
     to:   { code: 'SIN', city: 'Singapore Changi', terminal: 'Terminal 3', time: '17:05', date: 'Sun 16 Aug' },
     duration: '2h 30m', class: 'Economy',
+    seats: { lycka: '59A · 59B · 59C', nalyn: '60A · 60B · 60C' },
     notes: 'Meal service on this short hop. Arrive at BKK T1 at least 2.5 hours before departure (by 11:00). After landing, T3 arrivals is compact — easy transfer. 4h 45m layover before the main overnight flight.',
     tip: '💡 Changi T3 basement has a great hawker centre. Try Hainanese chicken rice or laksa for dinner — far better (and cheaper) than any airport restaurant. Jewel Changi waterfall is also in this terminal.'
   },
@@ -2297,22 +2302,25 @@ const FLIGHTS = {
     from: { code: 'SIN', city: 'Singapore Changi', terminal: 'Terminal 3', time: '21:50', date: 'Sun 16 Aug' },
     to:   { code: 'MEL', city: 'Melbourne Tullamarine', terminal: 'Terminal 2 (Intl)', time: '08:15', date: 'Mon 17 Aug' },
     duration: '8h 25m', class: 'Economy',
+    seats: { lycka: '56D · 56E · 56G', nalyn: '46A · 46B · 46C' },
     notes: 'Overnight flight — try to sleep after the first meal service. Melbourne AEST is Bangkok +3h. The 777 crosses Indonesia and the Timor Sea overnight. Breakfast is served ~90 min before arrival. Immigration + baggage typically 45–60 min.',
-    tip: '💡 Book exit row or bulkhead seats (rows 31–33 on 777) for extra legroom — worth it for a family of 6 on an 8h flight. Set watches to Melbourne time (UTC+10) before landing. Do not declare food items at biosecurity.'
+    tip: '💡 Seats confirmed. Set watches to Melbourne time (UTC+10) before landing. Do not declare food items at Australian biosecurity — penalties are severe. Breakfast served ~90 min before landing.'
   },
   'sq238': {
     flightNum: 'SQ238', airline: 'Singapore Airlines', aircraft: 'Boeing 777-300ER',
     from: { code: 'MEL', city: 'Melbourne Tullamarine', terminal: 'Terminal 2 (Intl)', time: '09:35', date: 'Sun 23 Aug' },
     to:   { code: 'SIN', city: 'Singapore Changi', terminal: 'Terminal 3', time: '15:25', date: 'Sun 23 Aug' },
     duration: '7h 50m', class: 'Economy',
+    seats: { lycka: '61D · 61E · 61G', nalyn: '60A · 60B · 60C' },
     notes: 'Check-in opens 07:35. Return the rental car at Ground Transport Hall — allow 30 min before check-in. Leave hotel by 06:00 for the car return. T2 International check-in can be slow on Sunday mornings. Only 2h 05m layover in SIN — go straight to gate on arrival.',
     tip: '💡 Set an early alarm. MEL T2 International is straightforward but allow time for 6 pax check-in with bags. Duty free at MEL T2 departures has good Australian whisky and Haigh\'s Chocolates if you forgot souvenirs.'
   },
   'sq714': {
-    flightNum: 'SQ714', airline: 'Singapore Airlines', aircraft: 'Airbus A350-900',
+    flightNum: 'SQ714', airline: 'Singapore Airlines', aircraft: 'Boeing 787 Dreamliner',
     from: { code: 'SIN', city: 'Singapore Changi', terminal: 'Terminal 3', time: '17:30', date: 'Sun 23 Aug' },
     to:   { code: 'BKK', city: 'Bangkok Suvarnabhumi', terminal: 'Terminal 1', time: '19:00', date: 'Sun 23 Aug' },
     duration: '2h 30m', class: 'Economy',
+    seats: { lycka: '54D · 54E · 54G', nalyn: '56D · 56E · 56G' },
     notes: 'Bangkok time is Singapore −1h, so the flight lands at 19:00 BKK local time despite departing at 17:30 SIN. BKK immigration typically 20–30 min. Short 2h layover in SIN — proceed directly airside to the departure gate.',
     tip: '💡 With only 2h 05m in SIN transit, there\'s no time for Jewel Changi. Stay airside and head straight to the gate. The holiday is officially over — until next time!'
   },
@@ -2499,6 +2507,17 @@ function buildFlightPanel(fid) {
         <span class="fl-badge-i">${f.class}</span>
         <span class="fl-badge-i">⏱ ${f.duration}</span>
       </div>
+      ${f.seats ? `
+      <div class="fl-seats">
+        <div class="fl-seat-box">
+          <div class="fl-seat-family">💺 Lycka's Family</div>
+          <div class="fl-seat-nums">${f.seats.lycka}</div>
+        </div>
+        <div class="fl-seat-box">
+          <div class="fl-seat-family">💺 Nalyn's Family</div>
+          <div class="fl-seat-nums">${f.seats.nalyn}</div>
+        </div>
+      </div>` : ''}
       <div class="fl-note">${f.notes}</div>
       ${f.tip ? `<div class="fl-tip">${f.tip}</div>` : ''}
     </div>`;
