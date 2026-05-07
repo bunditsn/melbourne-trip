@@ -320,7 +320,8 @@
     .fl-apt { text-align: center; }
     .fl-apt .code { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
     .fl-apt .city { font-size: 10px; opacity: 0.65; }
-    .fl-apt .time { font-size: 14px; font-weight: 600; margin-top: 3px; }
+    .fl-apt .terminal { font-size: 10px; opacity: 0.5; margin-top: 1px; }
+    .fl-apt .time { font-size: 14px; font-weight: 600; margin-top: 4px; }
     .fl-apt .dt { font-size: 10px; opacity: 0.55; }
     .fl-mid { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 80px; }
     .fl-mid .arrow { width: 100%; height: 2px; background: rgba(255,255,255,0.3); position: relative; }
@@ -2472,6 +2473,7 @@ function buildFlightPanel(fid) {
         <div class="fl-apt">
           <div class="code">${f.from.code}</div>
           <div class="city">${f.from.city}</div>
+          <div class="terminal">${f.from.terminal}</div>
           <div class="time">${f.from.time}</div>
           <div class="dt">${f.from.date}</div>
         </div>
@@ -2483,6 +2485,7 @@ function buildFlightPanel(fid) {
         <div class="fl-apt">
           <div class="code">${f.to.code}</div>
           <div class="city">${f.to.city}</div>
+          <div class="terminal">${f.to.terminal}</div>
           <div class="time">${f.to.time}</div>
           <div class="dt">${f.to.date}</div>
         </div>
@@ -2492,24 +2495,6 @@ function buildFlightPanel(fid) {
         <span class="fl-badge-i">${f.aircraft}</span>
         <span class="fl-badge-i">${f.class}</span>
         <span class="fl-badge-i">⏱ ${f.duration}</span>
-      </div>
-      <div class="fl-grid">
-        <div class="fl-cell">
-          <div class="fl-cell-label">Departs from</div>
-          <div class="fl-cell-val">${f.from.city}</div>
-        </div>
-        <div class="fl-cell">
-          <div class="fl-cell-label">Terminal</div>
-          <div class="fl-cell-val">${f.from.terminal}</div>
-        </div>
-        <div class="fl-cell">
-          <div class="fl-cell-label">Arrives at</div>
-          <div class="fl-cell-val">${f.to.city}</div>
-        </div>
-        <div class="fl-cell">
-          <div class="fl-cell-label">Terminal</div>
-          <div class="fl-cell-val">${f.to.terminal}</div>
-        </div>
       </div>
       <div class="fl-note">${f.notes}</div>
       ${f.tip ? `<div class="fl-tip">${f.tip}</div>` : ''}
