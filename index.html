@@ -346,11 +346,31 @@
 
     /* DAY FILTER */
     .day-filters { background: white; padding: 12px 16px; border-radius: 14px; box-shadow: var(--card-shadow); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-    .day-card.collapsed > :not(.day-header) { display: none; }
+    .day-card.collapsed > :not(.day-header):not(.weather-strip) { display: none; }
     .day-card.collapsed { cursor: pointer; margin-bottom: 8px; }
     .day-card.collapsed:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); opacity: 0.95; }
+    .day-card.collapsed .day-header { margin-bottom: 8px; }
     .day-card.collapsed .day-header::after { content: '›'; font-size: 20px; margin-left: auto; opacity: 0.4; }
     #map-wrap { border-radius: 14px; overflow: hidden; box-shadow: var(--card-shadow); margin-top: 12px; }
+    .weather-strip {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 5px 10px;
+      padding: 8px 14px; background: #f0f9ff; border: 1px solid #bae6fd;
+      border-radius: 9px; margin-bottom: 12px; font-size: 13px; min-height: 38px;
+    }
+    .wx-icon { font-size: 20px; line-height: 1; }
+    .wx-temp { font-weight: 700; color: var(--navy); font-size: 14px; }
+    .wx-desc { color: var(--gray-500); flex: 1; min-width: 80px; }
+    .wx-badge { background: #dbeafe; color: #1e40af; border-radius: 5px; padding: 2px 8px; font-size: 11px; font-weight: 600; }
+    .wx-rain { background: #ede9fe; color: #5b21b6; }
+    .wx-live { background: #dcfce7; color: #166534; }
+    .wx-avg { margin-left: auto; font-size: 10px; color: var(--gray-400); font-style: italic; }
+    .wx-loading { color: var(--gray-400); font-size: 12px; }
+    html.dark .weather-strip { background: rgba(14,30,45,0.6); border-color: #334155; }
+    html.dark .wx-temp { color: #93c5fd; }
+    html.dark .wx-desc { color: #94a3b8; }
+    html.dark .wx-badge { background: #1e3a5f; color: #93c5fd; }
+    html.dark .wx-rain { background: #3b1e6e; color: #c4b5fd; }
+    html.dark .wx-live { background: #14532d; color: #86efac; }
     .day-filter-btn {
       padding: 5px 12px; border-radius: 20px; border: 2px solid var(--gray-200);
       background: white; font-size: 12px; font-weight: 600; cursor: pointer;
@@ -1690,6 +1710,93 @@ document.querySelectorAll('#tab-itinerary .day-card').forEach(card => {
 
 // Initial render
 filterDay('all', document.querySelector('.day-filter-btn'));
+
+// ─────────────────────────────────────────
+// WEATHER FORECAST
+// ─────────────────────────────────────────
+
+const WEATHER_WMO = {
+  0:['☀️','Clear sky'], 1:['🌤','Mainly clear'], 2:['⛅','Partly cloudy'],
+  3:['☁️','Overcast'], 45:['🌫','Foggy'], 48:['🌫','Icy fog'],
+  51:['🌦','Light drizzle'], 53:['🌦','Drizzle'], 55:['🌧','Heavy drizzle'],
+  61:['🌧','Light rain'], 63:['🌧','Rain'], 65:['🌧','Heavy rain'],
+  71:['🌨','Light snow'], 73:['🌨','Snow'], 75:['❄️','Heavy snow'],
+  80:['🌦','Showers'], 81:['🌧','Rain showers'], 82:['⛈','Heavy showers'],
+  95:['⛈','Thunderstorm'],
+};
+
+const WEATHER_FALLBACK = {
+  '0':  { icon:'✈️', desc:'Travel day · BKK → MEL', special:true },
+  '1':  { icon:'⛅', min:7,  max:13, desc:'Partly cloudy',                precip:30, wind:18 },
+  '2':  { icon:'⛅', min:7,  max:14, desc:'Partly cloudy',                precip:25, wind:15 },
+  '3':  { icon:'🌧', min:6,  max:12, desc:'Coastal · Showers likely',     precip:50, wind:28 },
+  '4':  { icon:'🌤', min:7,  max:13, desc:'Partly sunny',                 precip:20, wind:14 },
+  '5':  { icon:'🌦', min:6,  max:11, desc:'Coastal · Showers possible',   precip:40, wind:25 },
+  '6':  { icon:'⛅', min:4,  max:14, desc:'Valley · Cold start, mild PM', precip:20, wind:12 },
+  'dep':{ icon:'🌤', min:7,  max:13, desc:'Partly cloudy',                precip:15, wind:15 },
+};
+
+function renderWeatherStrip(dayKey, d) {
+  const strip = document.querySelector(`.day-card[data-day="${dayKey}"] .weather-strip`);
+  if (!strip) return;
+  if (d.special) {
+    strip.innerHTML = `<span class="wx-icon">${d.icon}</span><span class="wx-desc" style="font-style:italic;">${d.desc}</span>`;
+  } else {
+    const rain  = d.precip >= 20 ? `<span class="wx-badge wx-rain">💧 ${d.precip}%</span>` : '';
+    const wind  = d.wind  ?  `<span class="wx-badge">💨 ${d.wind} km/h</span>` : '';
+    const badge = d.live  ? `<span class="wx-badge wx-live">Live</span>` : `<span class="wx-avg">Aug avg</span>`;
+    strip.innerHTML = `<span class="wx-icon">${d.icon}</span><span class="wx-temp">${d.min}°–${d.max}°C</span><span class="wx-desc">${d.desc}</span>${rain}${wind}${badge}`;
+  }
+  strip.classList.add('loaded');
+}
+
+async function fetchWeather() {
+  document.querySelectorAll('#tab-itinerary .day-card').forEach(card => {
+    if (!card.querySelector('.weather-strip')) {
+      const strip = document.createElement('div');
+      strip.className = 'weather-strip';
+      strip.innerHTML = '<span class="wx-loading">⏳ Loading forecast…</span>';
+      card.querySelector('.day-header').insertAdjacentElement('afterend', strip);
+    }
+  });
+
+  renderWeatherStrip('0', WEATHER_FALLBACK['0']);
+
+  const DATE_TO_DAY = {
+    '2026-08-17':'1','2026-08-18':'2','2026-08-19':'3',
+    '2026-08-20':'4','2026-08-21':'5','2026-08-22':'6','2026-08-23':'dep'
+  };
+
+  try {
+    const url = 'https://api.open-meteo.com/v1/forecast?latitude=-37.8136&longitude=144.9631' +
+      '&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode,windspeed_10m_max' +
+      '&timezone=Australia%2FMelbourne&start_date=2026-08-17&end_date=2026-08-23';
+    const res  = await fetch(url);
+    const data = await res.json();
+    const got  = new Set();
+
+    if (data.daily && data.daily.time && data.daily.time.length > 0) {
+      data.daily.time.forEach((date, i) => {
+        const dayKey = DATE_TO_DAY[date];
+        if (!dayKey) return;
+        const [icon, desc] = WEATHER_WMO[data.daily.weathercode[i]] || ['⛅','Partly cloudy'];
+        renderWeatherStrip(dayKey, {
+          icon, desc, live: true,
+          min:    Math.round(data.daily.temperature_2m_min[i]),
+          max:    Math.round(data.daily.temperature_2m_max[i]),
+          precip: data.daily.precipitation_probability_max[i] || 0,
+          wind:   Math.round(data.daily.windspeed_10m_max[i]  || 0),
+        });
+        got.add(dayKey);
+      });
+    }
+    Object.values(DATE_TO_DAY).forEach(k => { if (!got.has(k)) renderWeatherStrip(k, WEATHER_FALLBACK[k]); });
+  } catch {
+    ['1','2','3','4','5','6','dep'].forEach(k => renderWeatherStrip(k, WEATHER_FALLBACK[k]));
+  }
+}
+
+fetchWeather();
 
 // ─────────────────────────────────────────
 // LANDMARK EXPAND PANELS
