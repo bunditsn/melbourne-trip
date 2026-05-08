@@ -59,7 +59,7 @@
     .tab-content.active { display: block; }
 
     /* MAP */
-    #map { height: 480px; border-radius: 14px; box-shadow: var(--card-shadow); margin-bottom: 24px; }
+    #map { height: 420px; }
 
     /* CARDS */
     .card { background: white; border-radius: 14px; padding: 22px 24px; box-shadow: var(--card-shadow); margin-bottom: 18px; }
@@ -259,6 +259,9 @@
     #dark-toggle { position:fixed; top:12px; right:14px; z-index:500; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:#fff; border-radius:50%; width:38px; height:38px; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(6px); transition:background 0.2s,transform 0.2s; box-shadow:0 2px 8px rgba(0,0,0,0.25); }
     #dark-toggle:hover { transform:scale(1.1); background:rgba(255,255,255,0.25); }
     html.dark #dark-toggle { background:rgba(15,23,42,0.7); border-color:#334155; }
+    #lang-toggle { position:fixed; top:12px; right:60px; z-index:500; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:#fff; border-radius:20px; padding:0 12px; height:38px; font-size:12px; font-weight:700; letter-spacing:0.5px; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(6px); transition:background 0.2s,transform 0.2s; box-shadow:0 2px 8px rgba(0,0,0,0.25); white-space:nowrap; }
+    #lang-toggle:hover { transform:scale(1.05); background:rgba(255,255,255,0.25); }
+    html.dark #lang-toggle { background:rgba(15,23,42,0.7); border-color:#334155; }
 
     /* ── HOTEL PHOTO GALLERY ── */
     .hotel-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; min-height: 140px; position: relative; border-radius: 10px; overflow: hidden; }
@@ -342,7 +345,12 @@
     .fl-tip { background: rgba(244,162,97,0.22); border-radius: 8px; padding: 10px 12px; font-size: 12px; line-height: 1.55; }
 
     /* DAY FILTER */
-    .day-filters { background: white; padding: 12px 16px; border-radius: 14px 14px 0 0; box-shadow: var(--card-shadow); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .day-filters { background: white; padding: 12px 16px; border-radius: 14px; box-shadow: var(--card-shadow); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+    .day-card.collapsed > :not(.day-header) { display: none; }
+    .day-card.collapsed { cursor: pointer; margin-bottom: 8px; }
+    .day-card.collapsed:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); opacity: 0.95; }
+    .day-card.collapsed .day-header::after { content: '›'; font-size: 20px; margin-left: auto; opacity: 0.4; }
+    #map-wrap { border-radius: 14px; overflow: hidden; box-shadow: var(--card-shadow); margin-top: 12px; }
     .day-filter-btn {
       padding: 5px 12px; border-radius: 20px; border: 2px solid var(--gray-200);
       background: white; font-size: 12px; font-weight: 600; cursor: pointer;
@@ -359,100 +367,72 @@
   </style>
 </head>
 <body>
+<button id="lang-toggle" onclick="toggleLang()" title="Switch language / เปลี่ยนภาษา">ภาษาไทย</button>
 <button id="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
 
 <div id="pw-gate">
   <div class="pw-box">
     <div class="pw-icon">✈️</div>
-    <h2>Melbourne Trip 2026</h2>
-    <p>Family access only · Enter password to continue</p>
-    <input type="password" id="pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
-    <button onclick="checkPw()">Enter →</button>
+    <h2 data-i18n="pw.title">Melbourne Trip 2026</h2>
+    <p data-i18n="pw.subtitle">Family access only · Enter password to continue</p>
+    <input type="password" id="pw-input" data-i18n-placeholder="pw.placeholder" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+    <button onclick="checkPw()" data-i18n="pw.button">Enter →</button>
     <div class="pw-error" id="pw-error"></div>
   </div>
 </div>
 
 <header>
-  <div class="badge">Family Trip</div>
-  <h1>Melbourne, Australia</h1>
-  <p>Two Families · 6 Travellers · 7 Nights · August 2026</p>
+  <div class="badge" data-i18n="header.badge">Family Trip</div>
+  <h1 data-i18n="header.title">Melbourne, Australia</h1>
+  <p data-i18n="header.subtitle">Two Families · 6 Travellers · 7 Nights · August 2026</p>
   <div class="header-meta">
-    <span>✈️ Aug 17 – 23, 2026</span>
-    <span>🏨 Quay West Suites Southbank</span>
-    <span>🚐 8-Seat Kia Carnival / iMax</span>
-    <span>📷 Leica M10 · Q1 · Lumix S9 · Mavic Mini 3 Pro</span>
+    <span data-i18n="meta.dates">✈️ Aug 17 – 23, 2026</span>
+    <span data-i18n="meta.hotel">🏨 Quay West Suites Southbank</span>
+    <span data-i18n="meta.car">🚐 8-Seat Kia Carnival / iMax</span>
+    <span data-i18n="meta.camera">📷 Leica M10 · Q1 · Lumix S9 · Mavic Mini 3 Pro</span>
   </div>
 </header>
 
 <div class="tabs-wrap">
   <div class="tabs">
-    <button class="tab-btn active" onclick="showTab('map','this')">🗺 Map</button>
-    <button class="tab-btn" onclick="showTab('itinerary','this')">📅 Itinerary</button>
-    <button class="tab-btn" onclick="showTab('flights','this')">✈️ Flights</button>
-    <button class="tab-btn" onclick="showTab('hotel','this')">🏨 Hotel</button>
-    <button class="tab-btn" onclick="showTab('activities','this')">🎯 Activities</button>
-    <button class="tab-btn" onclick="showTab('car','this')">🚐 Car</button>
-    <button class="tab-btn" onclick="showTab('photos','this')">📷 Photo Spots</button>
-    <button class="tab-btn" onclick="showTab('tips','this')">💡 Tips</button>
-    <button class="tab-btn" onclick="showTab('expenses','this')">💰 Expenses</button>
+    <button class="tab-btn active" onclick="showTab('itinerary',this)" data-i18n="tab.itinerary">📅 Itinerary</button>
+    <button class="tab-btn" onclick="showTab('flights','this')" data-i18n="tab.flights">✈️ Flights</button>
+    <button class="tab-btn" onclick="showTab('hotel','this')" data-i18n="tab.hotel">🏨 Hotel</button>
+    <button class="tab-btn" onclick="showTab('activities','this')" data-i18n="tab.activities">🎯 Activities</button>
+    <button class="tab-btn" onclick="showTab('car','this')" data-i18n="tab.car">🚐 Car</button>
+    <button class="tab-btn" onclick="showTab('photos','this')" data-i18n="tab.photos">📷 Photo Spots</button>
+    <button class="tab-btn" onclick="showTab('tips','this')" data-i18n="tab.tips">💡 Tips</button>
+    <button class="tab-btn" onclick="showTab('expenses','this')" data-i18n="tab.expenses">💰 Expenses</button>
   </div>
 </div>
 
 <main>
 
   <!-- ═══════════════ MAP ═══════════════ -->
-  <div id="tab-map" class="tab-content active">
+  <!-- ═══════════════ ITINERARY + MAP ═══════════════ -->
+  <div id="tab-itinerary" class="tab-content active">
     <div class="day-filters">
       <span style="font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;flex-shrink:0;margin-right:2px;">Day:</span>
-      <button class="day-filter-btn active" style="--dc:#64748b" onclick="filterDay('all',this)">All</button>
-      <button class="day-filter-btn" style="--dc:#6366f1" onclick="filterDay(0,this)">D0 · Travel</button>
-      <button class="day-filter-btn" style="--dc:#0ea5e9" onclick="filterDay(1,this)">D1 · Arrival</button>
-      <button class="day-filter-btn" style="--dc:#10b981" onclick="filterDay(2,this)">D2 · Zoo</button>
-      <button class="day-filter-btn" style="--dc:#f97316" onclick="filterDay(3,this)">D3 · GOR</button>
-      <button class="day-filter-btn" style="--dc:#8b5cf6" onclick="filterDay(4,this)">D4 · Recovery</button>
-      <button class="day-filter-btn" style="--dc:#14b8a6" onclick="filterDay(5,this)">D5 · Phillip Island</button>
-      <button class="day-filter-btn" style="--dc:#dc2626" onclick="filterDay(6,this)">D6 · Yarra Valley</button>
+      <button class="day-filter-btn active" style="--dc:#64748b" data-dayval="all" onclick="filterDay('all',this)">All</button>
+      <button class="day-filter-btn" style="--dc:#6366f1" data-dayval="0" onclick="filterDay(0,this)">D0 · Travel</button>
+      <button class="day-filter-btn" style="--dc:#0ea5e9" data-dayval="1" onclick="filterDay(1,this)">D1 · Arrival</button>
+      <button class="day-filter-btn" style="--dc:#10b981" data-dayval="2" onclick="filterDay(2,this)">D2 · Zoo</button>
+      <button class="day-filter-btn" style="--dc:#f97316" data-dayval="3" onclick="filterDay(3,this)">D3 · GOR</button>
+      <button class="day-filter-btn" style="--dc:#8b5cf6" data-dayval="4" onclick="filterDay(4,this)">D4 · Recovery</button>
+      <button class="day-filter-btn" style="--dc:#14b8a6" data-dayval="5" onclick="filterDay(5,this)">D5 · Phillip Is.</button>
+      <button class="day-filter-btn" style="--dc:#dc2626" data-dayval="6" onclick="filterDay(6,this)">D6 · Yarra Valley</button>
+      <button class="day-filter-btn" style="--dc:#6366f1" data-dayval="dep" onclick="filterDay('dep',this)">Dep · 23 Aug</button>
     </div>
-    <div id="route-info-bar" class="route-info-bar">
-      <span id="route-label"></span>
-      <span id="route-status" class="r-status"></span>
-    </div>
-    <div style="background:white;border-radius:0 0 14px 14px;overflow:hidden;box-shadow:var(--card-shadow);">
-      <div id="map" style="border-radius:0 0 14px 14px;"></div>
-    </div>
-    <div class="grid-3" style="margin-top:18px;">
-      <div class="card" style="padding:16px;">
-        <div class="section-label">Hotel Base</div>
-        <strong style="font-size:14px;">Quay West Suites Southbank</strong>
-        <p style="font-size:13px;color:var(--gray-400);margin-top:4px;">21 Riverside Ave, Southbank VIC 3006</p>
-      </div>
-      <div class="card" style="padding:16px;">
-        <div class="section-label">Day Colors</div>
-        <div style="font-size:12px;line-height:2;display:flex;flex-wrap:wrap;gap:0 14px;">
-          <span>🟢 D2 Zoo</span><span>🟠 D3 GOR</span><span>🟣 D4 CBD</span>
-          <span>🟢 D5 Phillip Is.</span><span>🔴 D6 Wine</span>
-        </div>
-      </div>
-      <div class="card" style="padding:16px;">
-        <div class="section-label">Total Drive Distance</div>
-        <div style="font-size:22px;font-weight:800;color:var(--navy);">~720 km</div>
-        <div style="font-size:12px;color:var(--gray-400);">over 7 days incl. GOR</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════ ITINERARY ═══════════════ -->
-  <div id="tab-itinerary" class="tab-content">
 
     <!-- Day 0: Travel -->
-    <div class="day-card" style="border-left-color:#6366f1;">
+    <div class="day-card collapsed" data-day="0" style="border-left-color:#6366f1;">
       <div class="day-header">
-        <span class="day-num">Day 0</span>
-        <span class="day-date">Sunday 16 Aug → Monday 17 Aug</span>
-        <span class="status-badge confirmed">✓ Confirmed</span>
-        <span class="day-title">— Travel Day</span>
+        <span class="day-num" data-i18n="day0.num">Day 0</span>
+        <span class="day-date" data-i18n="day0.date">Sunday 16 Aug → Monday 17 Aug</span>
+        <span class="status-badge confirmed" data-i18n="badge.confirmed">✓ Confirmed</span>
+        <span class="day-title" data-i18n="day0.title">— Travel Day</span>
       </div>
-      <ul class="timeline">
+      <div data-i18n-html="day0.body"><ul class="timeline">
         <li><span class="time">13:35</span> Depart Bangkok (BKK) on <strong>SQ721</strong> <span class="tag tag-drive">2h 30m</span></li>
         <li><span class="time">17:05</span> Arrive Singapore Changi (SIN) — Terminal 3 <span class="note">Singapore time (BKK+1h) · 4h 45m layover · dinner at hawker centre</span></li>
         <li><span class="time">21:50</span> Depart Singapore on <strong>SQ227</strong> to Melbourne <span class="tag tag-drive">~8h 25m</span></li>
@@ -461,34 +441,36 @@
         <li><span class="time">10:00</span> Drive to Quay West Suites Southbank (~35 min) — bag drop / early check-in request</li>
       </ul>
       <div class="tip-box"><strong>💡 Morning arrival:</strong> Land at 08:15 — best possible slot. Request early check-in when booking. If room isn't ready, leave bags with concierge and head to Southbank for brunch.</div>
+      </div>
     </div>
 
     <!-- Day 1: Arrival -->
-    <div class="day-card" style="border-left-color:var(--sky);">
+    <div class="day-card collapsed" data-day="1" style="border-left-color:var(--sky);">
       <div class="day-header">
-        <span class="day-num">Day 1</span>
-        <span class="day-date">Monday, 17 Aug</span>
-        <span class="status-badge tbc">⏳ TBC</span>
-        <span class="day-title">— Arrival + Easy Start</span>
+        <span class="day-num" data-i18n="day1.num">Day 1</span>
+        <span class="day-date" data-i18n="day1.date">Monday, 17 Aug</span>
+        <span class="status-badge tbc" data-i18n="badge.tbc">⏳ TBC</span>
+        <span class="day-title" data-i18n="day1.title">— Arrival + Easy Start</span>
       </div>
-      <ul class="timeline">
+      <div data-i18n-html="day1.body"><ul class="timeline">
         <li><span class="time">11:00</span> <strong>Federation Square</strong> — orientation, landmark architecture <span class="tag tag-photo">📷</span></li>
         <li><span class="time">12:00</span> Brunch at Southbank Promenade or Crown cafés <span class="tag tag-food">🍳</span></li>
         <li><span class="time">14:00</span> Check in hotel (if room ready) — rest and recover from jet lag <span class="note">It's 18:00 Bangkok time — your body needs this break</span></li>
         <li><span class="time">18:30</span> Chill dinner at Crown Riverwalk restaurants or Southbank <span class="tag tag-food">🍽</span></li>
       </ul>
       <div class="tip-box"><strong>💡 Arrival day rule:</strong> Do NOT over-schedule. Jet lag hits hardest in the early afternoon. A relaxed first day means far more energy for the remaining days — learned from experience.</div>
+      </div>
     </div>
 
     <!-- Day 2: Zoo + City -->
-    <div class="day-card" style="border-left-color:#10b981;">
+    <div class="day-card collapsed" data-day="2" style="border-left-color:#10b981;">
       <div class="day-header">
-        <span class="day-num">Day 2</span>
-        <span class="day-date">Tuesday, 18 Aug</span>
-        <span class="status-badge tbc">⏳ TBC</span>
-        <span class="day-title">— Melbourne Zoo + City</span>
+        <span class="day-num" data-i18n="day2.num">Day 2</span>
+        <span class="day-date" data-i18n="day2.date">Tuesday, 18 Aug</span>
+        <span class="status-badge tbc" data-i18n="badge.tbc">⏳ TBC</span>
+        <span class="day-title" data-i18n="day2.title">— Melbourne Zoo + City</span>
       </div>
-      <ul class="timeline">
+      <div data-i18n-html="day2.body"><ul class="timeline">
         <li><span class="time">09:00</span> <strong>Melbourne Zoo</strong> — Royal Park · lions, elephants, gorillas, butterfly house <span class="tag tag-nature">🦁</span><span class="note">Open 09:00–17:00 · ~$40 adult, $19 child · book online</span></li>
         <li><span class="time">12:30</span> Lunch inside zoo or picnic in Royal Park <span class="tag tag-food">🥪</span></li>
         <li><span class="time">14:00</span> <strong>Fitzroy Gardens & Cook's Cottage</strong> — fairy tree, playground, English garden <span class="tag tag-nature">🌿</span></li>
@@ -496,17 +478,18 @@
         <li><span class="time">19:00</span> Dinner — Crown, Southbank, or Flinders Lane <span class="tag tag-food">🍽</span></li>
       </ul>
       <div class="tip-box"><strong>💡 Zoo tip:</strong> Melbourne Zoo (est. 1862) is one of the world's oldest. The Butterfly House is magical — 1,000+ free-flying butterflies. Go early to beat queues. Book online and save ~$5/ticket.</div>
+      </div>
     </div>
 
     <!-- Day 3: Great Ocean Road -->
-    <div class="day-card" style="border-left-color:#f97316;">
+    <div class="day-card collapsed" data-day="3" style="border-left-color:#f97316;">
       <div class="day-header">
-        <span class="day-num">Day 3</span>
-        <span class="day-date">Wednesday, 19 Aug</span>
-        <span class="status-badge tbc">⏳ TBC</span>
-        <span class="day-title">— Great Ocean Road · Full Day</span>
+        <span class="day-num" data-i18n="day3.num">Day 3</span>
+        <span class="day-date" data-i18n="day3.date">Wednesday, 19 Aug</span>
+        <span class="status-badge tbc" data-i18n="badge.tbc">⏳ TBC</span>
+        <span class="day-title" data-i18n="day3.title">— Great Ocean Road · Full Day</span>
       </div>
-      <div class="tip-box" style="margin-bottom:12px;"><strong>⚠️ Biggest day of the trip:</strong> ~13–14 hours, 420 km round trip. Early departure is non-negotiable. Bring windbreakers — it's cold on the apostles cliffs. Snacks + water in the car.</div>
+      <div data-i18n-html="day3.body"><div class="tip-box" style="margin-bottom:12px;"><strong>⚠️ Biggest day of the trip:</strong> ~13–14 hours, 420 km round trip. Early departure is non-negotiable. Bring windbreakers — it's cold on the apostles cliffs. Snacks + water in the car.</div>
       <ul class="timeline">
         <li><span class="time">06:30</span> Depart hotel — drive west via M1 Princes Fwy <span class="tag tag-drive">🚐</span></li>
         <li><span class="time">08:30</span> <strong>Bells Beach</strong> — legendary surf break, red-ochre clifftop views <span class="tag tag-photo">📷</span></li>
@@ -521,17 +504,18 @@
         <li><span class="time">20:15</span> Arrive hotel — dinner near hotel or order in</li>
       </ul>
       <div class="tip-box"><strong>📷 Photo timing:</strong> Twelve Apostles face west — 15:00–17:00 gives golden side-lighting. London Bridge catches last rays at 17:30–18:00. Don't rush Loch Ard Gorge — the beach at the base is extraordinary.</div>
+      </div>
     </div>
 
     <!-- Day 4: Recovery -->
-    <div class="day-card" style="border-left-color:#8b5cf6;">
+    <div class="day-card collapsed" data-day="4" style="border-left-color:#8b5cf6;">
       <div class="day-header">
-        <span class="day-num">Day 4</span>
-        <span class="day-date">Thursday, 20 Aug</span>
-        <span class="status-badge tbc">⏳ TBC</span>
-        <span class="day-title">— Recovery Day + CBD</span>
+        <span class="day-num" data-i18n="day4.num">Day 4</span>
+        <span class="day-date" data-i18n="day4.date">Thursday, 20 Aug</span>
+        <span class="status-badge tbc" data-i18n="badge.tbc">⏳ TBC</span>
+        <span class="day-title" data-i18n="day4.title">— Recovery Day + CBD</span>
       </div>
-      <ul class="timeline">
+      <div data-i18n-html="day4.body"><ul class="timeline">
         <li><span class="time">09:30</span> Sleep in — late breakfast at hotel or Southbank café <span class="tag tag-food">☕</span></li>
         <li><span class="time">10:30</span> <strong>Queen Victoria Market</strong> — fresh produce, deli hall, souvenir shopping <span class="tag tag-food">🛒</span></li>
         <li><span class="time">12:30</span> Melbourne laneways walk — <strong>Degraves St</strong>, Centre Place, <strong>Hosier Lane</strong> <span class="tag tag-photo">📷</span></li>
@@ -540,17 +524,18 @@
         <li><span class="time">18:30</span> Dinner — Flinders Lane restaurants, Chin Chin, or Southbank <span class="tag tag-food">🍽</span></li>
       </ul>
       <div class="tip-box"><strong>💡 Recovery day rule:</strong> After GOR your legs and energy need rest. This day is car-free — walk everywhere, no fixed timings, go at the kids' pace. This day exists by design.</div>
+      </div>
     </div>
 
     <!-- Day 5: Phillip Island -->
-    <div class="day-card" style="border-left-color:#14b8a6;">
+    <div class="day-card collapsed" data-day="5" style="border-left-color:#14b8a6;">
       <div class="day-header">
-        <span class="day-num">Day 5</span>
-        <span class="day-date">Friday, 21 Aug</span>
-        <span class="status-badge tbc">⏳ TBC</span>
-        <span class="day-title">— Phillip Island · Wildlife + Penguin Parade</span>
+        <span class="day-num" data-i18n="day5.num">Day 5</span>
+        <span class="day-date" data-i18n="day5.date">Friday, 21 Aug</span>
+        <span class="status-badge tbc" data-i18n="badge.tbc">⏳ TBC</span>
+        <span class="day-title" data-i18n="day5.title">— Phillip Island · Wildlife + Penguin Parade</span>
       </div>
-      <ul class="timeline">
+      <div data-i18n-html="day5.body"><ul class="timeline">
         <li><span class="time">10:30</span> Relaxed departure — drive southeast via M1 Monash Fwy <span class="tag tag-drive">🚐</span></li>
         <li><span class="time">12:00</span> <strong>Maru Koala & Animal Park</strong> — hold koalas, hand-feed kangaroos (Grantville, on the way) <span class="tag tag-nature">🐨</span><span class="note">~1hr visit · ~$24 adult · book koala photo ahead · Philip Island Rd, Grantville</span></li>
         <li><span class="time">13:30</span> Continue to Phillip Island across the bridge (~45 min)</li>
@@ -561,17 +546,18 @@
         <li><span class="time">21:00</span> Return to Melbourne (~90 min) or stay overnight on island</li>
       </ul>
       <div class="tip-box"><strong>🐧 Penguin Parade vs St Kilda:</strong> This is an entirely different experience. Over 1,000 penguins flood ashore in waves with professional boardwalk viewing and underground tunnel. August is nesting season — one of the best months. Book online NOW — it sells out.</div>
+      </div>
     </div>
 
     <!-- Day 6: Puffing Billy + Yarra Valley -->
-    <div class="day-card" style="border-left-color:#dc2626;">
+    <div class="day-card collapsed" data-day="6" style="border-left-color:#dc2626;">
       <div class="day-header">
-        <span class="day-num">Day 6</span>
-        <span class="day-date">Saturday, 22 Aug</span>
-        <span class="status-badge confirmed">✓ Confirmed</span>
-        <span class="day-title">— Puffing Billy + Yarra Valley Wine Tour</span>
+        <span class="day-num" data-i18n="day6.num">Day 6</span>
+        <span class="day-date" data-i18n="day6.date">Saturday, 22 Aug</span>
+        <span class="status-badge confirmed" data-i18n="badge.confirmed">✓ Confirmed</span>
+        <span class="day-title" data-i18n="day6.title">— Puffing Billy + Yarra Valley Wine Tour</span>
       </div>
-      <div style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:10px;padding:10px 14px;font-size:13px;color:#064e3b;margin-bottom:8px;">
+      <div data-i18n-html="day6.body"><div style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:10px;padding:10px 14px;font-size:13px;color:#064e3b;margin-bottom:8px;">
         ✅ <strong>Puffing Billy BOOKED</strong> · Booking Ref: <strong>786964</strong> · 4 Adults + 2 Children · $218.00 AUD · Paid by Lycka's Family<br>
         <span style="opacity:0.75;">Collect tickets at Belgrave Station ticket window on the day · present Booking Ref 786964</span>
       </div>
@@ -599,17 +585,18 @@
       </ul>
       <div class="tip-box" style="background:#fef2f2;border-color:#fca5a5;color:#991b1b;margin-bottom:8px;"><strong>📅 Booking reminder — Rochford Wines lunch:</strong> Book a table for 6 pax at ~13:15 on 22 Aug 2026. Contact Rochford Wines directly to reserve — confirm with A Plus driver (+61 432 341 784) for exact timing.</div>
       <div class="tip-box"><strong>💡 Puffing Billy tips:</strong> Arrive by 09:00 sharp — the train <strong>cannot be held</strong>. Collect tickets at the station ticket window (not gates — queue forms early). Coal soot lands on clothes — wear dark colours or bring a change top. Kids must sit supervised on carriage sills (max 2 children per adult).</div>
+      </div>
     </div>
 
     <!-- Departure -->
-    <div class="day-card" style="border-left-color:#6366f1;">
+    <div class="day-card collapsed" data-day="dep" style="border-left-color:#6366f1;">
       <div class="day-header">
-        <span class="day-num">Departure</span>
-        <span class="day-date">Sunday, 23 Aug</span>
-        <span class="status-badge confirmed">✓ Confirmed</span>
-        <span class="day-title">— Fly Melbourne → Bangkok</span>
+        <span class="day-num" data-i18n="dayDep.num">Departure</span>
+        <span class="day-date" data-i18n="dayDep.date">Sunday, 23 Aug</span>
+        <span class="status-badge confirmed" data-i18n="badge.confirmed">✓ Confirmed</span>
+        <span class="day-title" data-i18n="dayDep.title">— Fly Melbourne → Bangkok</span>
       </div>
-      <ul class="timeline">
+      <div data-i18n-html="dayDep.body"><ul class="timeline">
         <li><span class="time">05:45</span> Wake up — pack, final check of apartment</li>
         <li><span class="time">06:30</span> Hotel checkout · drive to Melbourne Airport (~35 min) <span class="tag tag-drive">🚐</span></li>
         <li><span class="time">07:05</span> Return rental car — Ground Transport Hall</li>
@@ -618,14 +605,23 @@
         <li><span class="time">15:25</span> Arrive Singapore Changi (SIN) — 2h 05m layover</li>
         <li><span class="time">17:30</span> Depart Singapore on <strong>SQ714</strong> → Bangkok <span class="tag tag-drive">2h 30m</span></li>
         <li><span class="time">19:00</span> Arrive Bangkok (BKK) — home! 🏠 <span class="note">Bangkok time (SIN−1h)</span></li>
-      </ul>
+      </ul></div>
+    </div>
+
+    <!-- Map panel -->
+    <div id="route-info-bar" class="route-info-bar">
+      <span id="route-label"></span>
+      <span id="route-status" class="r-status"></span>
+    </div>
+    <div id="map-wrap">
+      <div id="map"></div>
     </div>
 
   </div>
 
   <!-- ═══════════════ FLIGHTS ═══════════════ -->
   <div id="tab-flights" class="tab-content">
-
+  <div data-i18n-html="section.flights">
     <div class="flight-card">
       <h2>✈️ Outbound — Bangkok to Melbourne</h2>
       <div style="margin-bottom:8px;font-size:13px;opacity:0.7;text-transform:uppercase;letter-spacing:1px;">Sunday, 16 August 2026 → Monday, 17 August 2026</div>
@@ -748,11 +744,11 @@
         <div class="info-row"><span class="label">Sunset MEL Aug</span><span class="val">~17:45–18:00</span></div>
       </div>
     </div>
-  </div>
+  </div></div>
 
   <!-- ═══════════════ HOTEL ═══════════════ -->
   <div id="tab-hotel" class="tab-content">
-
+  <div data-i18n-html="section.hotel">
     <div class="card">
       <h2>🏨 Quay West Suites Southbank</h2>
       <div style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:10px;padding:10px 14px;font-size:13px;color:#064e3b;margin-bottom:14px;">
@@ -837,11 +833,11 @@
         </div>
       </div>
     </div>
-  </div>
+  </div></div>
 
   <!-- ═══════════════ ACTIVITIES ═══════════════ -->
   <div id="tab-activities" class="tab-content">
-
+  <div data-i18n-html="section.activities">
     <div class="card">
       <h2>🎯 Activity Overview</h2>
       <div class="spec-grid">
@@ -959,11 +955,11 @@
         </div>
       </div>
     </div>
-  </div>
+  </div></div>
 
   <!-- ═══════════════ CAR ═══════════════ -->
   <div id="tab-car" class="tab-content">
-
+  <div data-i18n-html="section.car">
     <div class="card">
       <h2>🚐 8-Seat Rental Vehicle</h2>
       <div class="spec-grid">
@@ -1025,11 +1021,11 @@
       <div class="info-row"><span class="label">Waze</span><span class="val">Good for real-time traffic on CBD routes</span></div>
       <div class="info-row"><span class="label">Data SIM</span><span class="val">Optus/Telstra prepaid $30–$40 for 30–50GB. Buy at airport.</span></div>
     </div>
-  </div>
+  </div></div>
 
   <!-- ═══════════════ PHOTO SPOTS ═══════════════ -->
   <div id="tab-photos" class="tab-content">
-
+  <div data-i18n-html="section.photos">
     <!-- Gear Overview -->
     <div class="card">
       <h2>📷 Your Camera Kit</h2>
@@ -1282,11 +1278,11 @@
       </div>
       <div class="tip-box" style="margin-top:12px;"><strong>Insta360 X5 tips:</strong> Set to 8K 360° for maximum reframe flexibility in post. Use Invisible Selfie Stick mode so the pole disappears. For Puffing Billy, mount to carriage window ledge with a small clamp — shoot in 5.7K 30fps for the handrail/legs-dangling perspective. For the GOR drive, suction mount on windscreen. Export as "Reframe" or "Me Mode" in the app for conventional video.</div>
     </div>
-  </div>
+  </div></div>
 
   <!-- ═══════════════ TIPS ═══════════════ -->
   <div id="tab-tips" class="tab-content">
-
+  <div data-i18n-html="section.tips">
     <div class="grid-2">
       <div class="card">
         <div class="tip-category">
@@ -1380,11 +1376,11 @@
       </div>
     </div>
 
-  </div>
+  </div></div>
 
   <!-- ═══════════════ EXPENSES ═══════════════ -->
   <div id="tab-expenses" class="tab-content">
-
+  <div data-i18n-html="section.expenses">
     <div class="card">
       <h2>💰 Trip Expenses Log</h2>
       <p style="font-size:13px;color:var(--gray-400);margin-bottom:16px;">Lycka's Family = Bundit's family · Nalyn's Family = friend's family · To settle at end of trip</p>
@@ -1478,11 +1474,11 @@
       </div>
     </div>
 
-  </div>
+  </div></div>
 
 </main>
 
-<footer>
+<footer data-i18n="footer">
   Melbourne Trip Planner · August 2026 · Two Families, 6 Pax · Built with Leaflet.js + OpenStreetMap
 </footer>
 
@@ -1495,7 +1491,7 @@ function showTab(id) {
   document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-' + id).classList.add('active');
   event.currentTarget.classList.add('active');
-  if (id === 'map') setTimeout(() => map.invalidateSize(), 100);
+  if (id === 'itinerary') setTimeout(() => map.invalidateSize(), 100);
 }
 
 // ─────────────────────────────────────────
@@ -1616,11 +1612,26 @@ async function filterDay(day, btn) {
   btn.classList.add('active');
   clearMap();
 
-  const bar   = document.getElementById('route-info-bar');
-  const label = document.getElementById('route-label');
+  const bar    = document.getElementById('route-info-bar');
+  const label  = document.getElementById('route-label');
   const status = document.getElementById('route-status');
 
-  if (day === 'all') {
+  // Show/hide day cards
+  document.querySelectorAll('#tab-itinerary .day-card').forEach(card => {
+    if (day === 'all') {
+      card.style.display = '';
+      card.classList.add('collapsed');
+    } else {
+      const match = card.dataset.day === String(day);
+      card.style.display = match ? '' : 'none';
+      if (match) card.classList.remove('collapsed');
+    }
+  });
+
+  setTimeout(() => map.invalidateSize(), 80);
+
+  // 'all' or 'dep' → show all pins, no route
+  if (day === 'all' || day === 'dep') {
     bar.className = 'route-info-bar';
     const seen = new Set();
     pinsData.forEach(p => {
@@ -1639,7 +1650,6 @@ async function filterDay(day, btn) {
   const dayPins = pinsData.filter(p => p.dayNum === day).sort((a, b) => a.order - b.order);
   const color = DAY_COLOR[day];
 
-  // Numbered markers (hotel stays as 🏨, other stops get 1, 2, 3…)
   let stopN = 0;
   dayPins.forEach(p => {
     const isHotel = p.emoji === '🏨';
@@ -1652,7 +1662,6 @@ async function filterDay(day, btn) {
 
   map.fitBounds(L.latLngBounds(dayPins.map(p => [p.lat, p.lng])), { padding: [50, 50] });
 
-  // Route info bar
   bar.style.setProperty('--dc', color);
   label.textContent = DAY_LABEL[day];
   status.textContent = 'Loading route…';
@@ -1669,10 +1678,13 @@ async function filterDay(day, btn) {
   }
 }
 
-// Fix map when switching back to map tab
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (btn.textContent.trim().startsWith('🗺')) setTimeout(() => map.invalidateSize(), 150);
+// Collapsed card header click → jump to that day
+document.querySelectorAll('#tab-itinerary .day-card').forEach(card => {
+  card.querySelector('.day-header').addEventListener('click', () => {
+    if (!card.classList.contains('collapsed')) return;
+    const dayVal = card.dataset.day;
+    const btn = document.querySelector(`.day-filter-btn[data-dayval="${dayVal}"]`);
+    if (btn) filterDay(dayVal === 'dep' ? 'dep' : parseInt(dayVal), btn);
   });
 });
 
@@ -2524,6 +2536,7 @@ function buildFlightPanel(fid) {
 }
 
 // Auto-inject expand behavior into matching itinerary timeline items
+let attachPanelPublic;
 (function injectExpandables() {
   function attachPanel(li, hintText, buildFn, lid) {
     li.classList.add('lm-item');
@@ -2555,8 +2568,10 @@ function buildFlightPanel(fid) {
       }
     });
   }
+  attachPanelPublic = attachPanel;
 
   document.querySelectorAll('#tab-itinerary .timeline li').forEach(li => {
+    if (li.classList.contains('lm-item')) return; // already processed
     const text = li.textContent;
 
     const lmMatch = LM_PATTERNS.find(p => p.re.test(text));
@@ -2585,12 +2600,793 @@ function checkPw() {
     localStorage.setItem('melb_trip_auth', '1');
     document.getElementById('pw-gate').style.display = 'none';
   } else {
-    err.textContent = 'Wrong password — try again';
+    err.textContent = TRANSLATIONS[currentLang]['pw.error'] || 'Wrong password — try again';
     input.value = '';
     input.focus();
     setTimeout(() => err.textContent = '', 3000);
   }
 }
+
+// ── LANGUAGE TOGGLE ──
+let currentLang = localStorage.getItem('melb_lang') || 'en';
+
+const TRANSLATIONS = {
+  en: {
+    'header.badge': 'Family Trip',
+    'header.title': 'Melbourne, Australia',
+    'header.subtitle': 'Two Families · 6 Travellers · 7 Nights · August 2026',
+    'meta.dates': '✈️ Aug 17 – 23, 2026',
+    'meta.hotel': '🏨 Quay West Suites Southbank',
+    'meta.car': '🚐 8-Seat Kia Carnival / iMax',
+    'meta.camera': '📷 Leica M10 · Q1 · Lumix S9 · Mavic Mini 3 Pro',
+    'tab.map': '🗺 Map',
+    'tab.itinerary': '📅 Itinerary',
+    'tab.flights': '✈️ Flights',
+    'tab.hotel': '🏨 Hotel',
+    'tab.activities': '🎯 Activities',
+    'tab.car': '🚐 Car',
+    'tab.photos': '📷 Photo Spots',
+    'tab.tips': '💡 Tips',
+    'tab.expenses': '💰 Expenses',
+    'pw.title': 'Melbourne Trip 2026',
+    'pw.subtitle': 'Family access only · Enter password to continue',
+    'pw.placeholder': 'Password',
+    'pw.button': 'Enter →',
+    'pw.error': 'Wrong password — try again',
+    'map.day-label': 'Day:',
+    'map.all': 'All',
+    'map.d0': 'D0 · Travel',
+    'map.d1': 'D1 · Arrival',
+    'map.d2': 'D2 · Zoo',
+    'map.d3': 'D3 · GOR',
+    'map.d4': 'D4 · Recovery',
+    'map.d5': 'D5 · Phillip Island',
+    'map.d6': 'D6 · Yarra Valley',
+    'map.hotel-label': 'Hotel Base',
+    'map.colors-label': 'Day Colors',
+    'map.colors-list': '<span>🟢 D2 Zoo</span><span>🟠 D3 GOR</span><span>🟣 D4 CBD</span><span>🟢 D5 Phillip Is.</span><span>🔴 D6 Wine</span>',
+    'map.drive-label': 'Total Drive Distance',
+    'map.drive-note': 'over 7 days incl. GOR',
+    'badge.confirmed': '✓ Confirmed',
+    'badge.tbc': '⏳ TBC',
+    'day0.num': 'Day 0',
+    'day0.date': 'Sunday 16 Aug → Monday 17 Aug',
+    'day0.title': '— Travel Day',
+    'day1.num': 'Day 1',
+    'day1.date': 'Monday, 17 Aug',
+    'day1.title': '— Arrival + Easy Start',
+    'day2.num': 'Day 2',
+    'day2.date': 'Tuesday, 18 Aug',
+    'day2.title': '— Melbourne Zoo + City',
+    'day3.num': 'Day 3',
+    'day3.date': 'Wednesday, 19 Aug',
+    'day3.title': '— Great Ocean Road · Full Day',
+    'day4.num': 'Day 4',
+    'day4.date': 'Thursday, 20 Aug',
+    'day4.title': '— Recovery Day + CBD',
+    'day5.num': 'Day 5',
+    'day5.date': 'Friday, 21 Aug',
+    'day5.title': '— Phillip Island · Wildlife + Penguin Parade',
+    'day6.num': 'Day 6',
+    'day6.date': 'Saturday, 22 Aug',
+    'day6.title': '— Puffing Billy + Yarra Valley Wine Tour',
+    'dayDep.num': 'Departure',
+    'dayDep.date': 'Sunday, 23 Aug',
+    'dayDep.title': '— Fly Melbourne → Bangkok',
+    'footer': 'Melbourne Trip Planner · August 2026 · Two Families, 6 Pax · Built with Leaflet.js + OpenStreetMap',
+  },
+  th: {
+    'header.badge': 'ทริปครอบครัว',
+    'header.title': 'เมลเบิร์น, ออสเตรเลีย',
+    'header.subtitle': 'สองครอบครัว · 6 คน · 7 คืน · สิงหาคม 2026',
+    'meta.dates': '✈️ 17–23 ส.ค. 2026',
+    'meta.hotel': '🏨 Quay West Suites Southbank',
+    'meta.car': '🚐 Kia Carnival 8 ที่นั่ง / iMax',
+    'meta.camera': '📷 Leica M10 · Q1 · Lumix S9 · Mavic Mini 3 Pro',
+    'tab.map': '🗺 แผนที่',
+    'tab.itinerary': '📅 ตารางการเดินทาง',
+    'tab.flights': '✈️ เที่ยวบิน',
+    'tab.hotel': '🏨 โรงแรม',
+    'tab.activities': '🎯 กิจกรรม',
+    'tab.car': '🚐 รถเช่า',
+    'tab.photos': '📷 จุดถ่ายรูป',
+    'tab.tips': '💡 เคล็ดลับ',
+    'tab.expenses': '💰 ค่าใช้จ่าย',
+    'pw.title': 'ทริปเมลเบิร์น 2026',
+    'pw.subtitle': 'เฉพาะสมาชิกครอบครัว · กรอกรหัสผ่านเพื่อดำเนินการต่อ',
+    'pw.placeholder': 'รหัสผ่าน',
+    'pw.button': 'เข้าสู่ระบบ →',
+    'pw.error': 'รหัสผ่านผิด — ลองอีกครั้ง',
+    'map.day-label': 'วัน:',
+    'map.all': 'ทั้งหมด',
+    'map.d0': 'วัน 0 · เดินทาง',
+    'map.d1': 'วัน 1 · มาถึง',
+    'map.d2': 'วัน 2 · สวนสัตว์',
+    'map.d3': 'วัน 3 · GOR',
+    'map.d4': 'วัน 4 · พัก/CBD',
+    'map.d5': 'วัน 5 · Phillip Island',
+    'map.d6': 'วัน 6 · Yarra Valley',
+    'map.hotel-label': 'ที่พักหลัก',
+    'map.colors-label': 'สีแต่ละวัน',
+    'map.colors-list': '<span>🟢 วัน2 สวนสัตว์</span><span>🟠 วัน3 GOR</span><span>🟣 วัน4 CBD</span><span>🟢 วัน5 Phillip Is.</span><span>🔴 วัน6 ไวน์</span>',
+    'map.drive-label': 'ระยะทางรวม',
+    'map.drive-note': 'ใน 7 วัน รวม GOR',
+    'badge.confirmed': '✓ ยืนยันแล้ว',
+    'badge.tbc': '⏳ ยังไม่แน่นอน',
+    'day0.num': 'วัน 0',
+    'day0.date': 'อาทิตย์ 16 ส.ค. → จันทร์ 17 ส.ค.',
+    'day0.title': '— วันเดินทาง',
+    'day1.num': 'วัน 1',
+    'day1.date': 'จันทร์ 17 ส.ค.',
+    'day1.title': '— มาถึง + เริ่มต้นสบายๆ',
+    'day2.num': 'วัน 2',
+    'day2.date': 'อังคาร 18 ส.ค.',
+    'day2.title': '— สวนสัตว์เมลเบิร์น + เมือง',
+    'day3.num': 'วัน 3',
+    'day3.date': 'พุธ 19 ส.ค.',
+    'day3.title': '— Great Ocean Road · เต็มวัน',
+    'day4.num': 'วัน 4',
+    'day4.date': 'พฤหัส 20 ส.ค.',
+    'day4.title': '— วันพักฟื้น + CBD',
+    'day5.num': 'วัน 5',
+    'day5.date': 'ศุกร์ 21 ส.ค.',
+    'day5.title': '— Phillip Island · สัตว์ป่า + Penguin Parade',
+    'day6.num': 'วัน 6',
+    'day6.date': 'เสาร์ 22 ส.ค.',
+    'day6.title': '— Puffing Billy + ทัวร์ไวน์ Yarra Valley',
+    'dayDep.num': 'วันเดินทางกลับ',
+    'dayDep.date': 'อาทิตย์ 23 ส.ค.',
+    'dayDep.title': '— บินกลับ เมลเบิร์น → กรุงเทพฯ',
+    'footer': 'แผนเที่ยวเมลเบิร์น · สิงหาคม 2026 · สองครอบครัว 6 คน · สร้างด้วย Leaflet.js + OpenStreetMap',
+  }
+};
+
+// ── SECTION HTML TRANSLATIONS ──
+// Thai HTML for day card bodies (landmark names kept in English for expand-panel matching)
+TRANSLATIONS.th['day0.body'] = `<ul class="timeline">
+  <li><span class="time">13:35</span> ออกจากกรุงเทพฯ (BKK) เที่ยวบิน <strong>SQ721</strong> <span class="tag tag-drive">2h 30m</span></li>
+  <li><span class="time">17:05</span> ถึง Singapore Changi (SIN) — Terminal 3 <span class="note">เวลาสิงคโปร์ (BKK+1h) · รอ 4h 45m · กินข้าวเย็นที่ hawker centre</span></li>
+  <li><span class="time">21:50</span> ออกจากสิงคโปร์ เที่ยวบิน <strong>SQ227</strong> ไปเมลเบิร์น <span class="tag tag-drive">~8h 25m</span></li>
+  <li><span class="time">08:15</span> <strong>ถึงสนามบินเมลเบิร์น (MEL)</strong> — จันทร์ 17 ส.ค. <span class="note">ตม. + รับกระเป๋า ~45–60 นาที</span></li>
+  <li><span class="time">09:15</span> รับ Kia Carnival 8 ที่นั่ง / Hyundai iMax — Ground Transport Hall</li>
+  <li><span class="time">10:00</span> ขับไป Quay West Suites Southbank (~35 นาที) — ฝากกระเป๋า / ขอ early check-in</li>
+</ul>
+<div class="tip-box"><strong>💡 มาถึงตอนเช้า:</strong> ลงจอด 08:15 — ช่วงเวลาดีที่สุด ขอ early check-in ตอนจอง ถ้าห้องยังไม่พร้อม ฝากกระเป๋ากับ concierge แล้วไปทานอาหารเช้าที่ Southbank</div>`;
+
+TRANSLATIONS.th['day1.body'] = `<ul class="timeline">
+  <li><span class="time">11:00</span> <strong>Federation Square</strong> — ปฐมนิเทศ สถาปัตยกรรมสำคัญ <span class="tag tag-photo">📷</span></li>
+  <li><span class="time">12:00</span> มื้อสาย Southbank Promenade หรือคาเฟ่ Crown <span class="tag tag-food">🍳</span></li>
+  <li><span class="time">14:00</span> Check in โรงแรม (ถ้าห้องพร้อม) — พักผ่อนแก้ jet lag <span class="note">ตอนนี้เวลากรุงเทพฯ 18:00 — ร่างกายต้องการพัก</span></li>
+  <li><span class="time">18:30</span> กินข้าวเย็นแบบสบายๆ ที่ Crown Riverwalk หรือ Southbank <span class="tag tag-food">🍽</span></li>
+</ul>
+<div class="tip-box"><strong>💡 กฎวันแรก:</strong> อย่าจัดตารางแน่นเกินไป Jet lag มักจะหนักช่วงบ่ายต้น วันแรกที่ผ่อนคลายจะทำให้มีพลังงานมากขึ้นสำหรับวันที่เหลือ — ประสบการณ์จริง</div>`;
+
+TRANSLATIONS.th['day2.body'] = `<ul class="timeline">
+  <li><span class="time">09:00</span> <strong>Melbourne Zoo</strong> — Royal Park · สิงโต ช้าง กอริลลา บ้านผีเสื้อ <span class="tag tag-nature">🦁</span><span class="note">เปิด 09:00–17:00 · ~$40 ผู้ใหญ่, $19 เด็ก · จองออนไลน์</span></li>
+  <li><span class="time">12:30</span> กินข้าวกลางวันในสวนสัตว์หรือปิกนิก Royal Park <span class="tag tag-food">🥪</span></li>
+  <li><span class="time">14:00</span> <strong>Fitzroy Gardens & Cook's Cottage</strong> — ต้นไม้นางฟ้า สนามเด็กเล่น สวนอังกฤษ <span class="tag tag-nature">🌿</span></li>
+  <li><span class="time">16:00</span> ตัวเลือก: <strong>Hosier Lane</strong> street art walk, <strong>Federation Square</strong> <span class="tag tag-photo">📷</span></li>
+  <li><span class="time">19:00</span> กินข้าวเย็น — Crown, Southbank, หรือ Flinders Lane <span class="tag tag-food">🍽</span></li>
+</ul>
+<div class="tip-box"><strong>💡 เคล็ดลับสวนสัตว์:</strong> Melbourne Zoo (ก่อตั้ง 1862) เป็นหนึ่งในสวนสัตว์ที่เก่าแก่ที่สุดในโลก บ้านผีเสื้อน่าทึ่งมาก — ผีเสื้อบินอิสระกว่า 1,000 ตัว ไปแต่เช้าเพื่อหลีกเลี่ยงคิว จองตั๋วออนไลน์ที่ zoo.org.au</div>`;
+
+TRANSLATIONS.th['day3.body'] = `<div class="tip-box" style="margin-bottom:12px;"><strong>⚠️ วันที่ยิ่งใหญ่ที่สุดของทริป:</strong> ~13–14 ชั่วโมง เดินทาง 420 กม. ต้องออกเดินทางแต่เช้าตรู่ เตรียมเสื้อกันลม — หนาวบน cliffs Apostles นำขนมและน้ำติดรถ</div>
+<ul class="timeline">
+  <li><span class="time">06:30</span> ออกจากโรงแรม ขับผ่าน M1 Princes Fwy ทางทิศตะวันตก <span class="tag tag-drive">🚐</span></li>
+  <li><span class="time">08:30</span> <strong>Bells Beach</strong> — ชายหาดเซิร์ฟในตำนาน วิวหน้าผาสีแดง-ส้ม <span class="tag tag-photo">📷</span></li>
+  <li><span class="time">09:30</span> <strong>Lorne</strong> — เมืองริมทะเลน่ารัก จอดดื่มกาแฟ + แวะเบเกอรี่ <span class="tag tag-food">☕</span></li>
+  <li><span class="time">11:00</span> <strong>Kennett River</strong> — โคอาล่าป่าในต้นกัม (เลี้ยวซ้ายที่ caravan park!) <span class="tag tag-nature">🐨</span></li>
+  <li><span class="time">12:30</span> <strong>Apollo Bay</strong> — กินข้าวกลางวันที่ท่าเรือ ปลาและมันฝรั่งสด <span class="tag tag-food">🐟</span></li>
+  <li><span class="time">15:00</span> <strong>Twelve Apostles</strong> — เสาหินปูน วิวหน้าผา <span class="tag tag-photo">📷</span><span class="note">แสงบ่ายตกลงทางทิศตะวันตก ช่วงเวลาสวยที่สุด</span></li>
+  <li><span class="time">16:00</span> <strong>Loch Ard Gorge</strong> — หุบเขาดราม่า เรื่องราวเรือจมปี 1878 เดินลงไปหาด <span class="tag tag-photo">📷</span><span class="note">5 นาทีทางทิศตะวันตก Apostles · ฟรี · ต้องลงไปถึงชายหาด — อย่าข้ามไป</span></li>
+  <li><span class="time">17:00</span> <strong>Gibson Steps</strong> — บันได 86 ขั้นลงถึงระดับชายหาด ถ่ายรูปโคนหน้าผา <span class="tag tag-photo">📷</span></li>
+  <li><span class="time">17:45</span> <strong>London Bridge</strong> — โค้งหินปูนริมทะเล <span class="tag tag-photo">📷</span></li>
+  <li><span class="time">18:15</span> เดินทางกลับผ่าน Princes Hwy (เส้นทางเร็วกว่า)</li>
+  <li><span class="time">20:15</span> ถึงโรงแรม กินข้าวเย็นใกล้โรงแรมหรือสั่งมากิน</li>
+</ul>
+<div class="tip-box"><strong>📷 จังหวะถ่ายรูป:</strong> Twelve Apostles หันหน้าทิศตะวันตก — 15:00–17:00 ได้แสงข้างสวย London Bridge รับแสงสุดท้าย 17:30–18:00 อย่ารีบ Loch Ard Gorge — ชายหาดที่โคนหน้าผาพิเศษมาก</div>`;
+
+TRANSLATIONS.th['day4.body'] = `<ul class="timeline">
+  <li><span class="time">09:30</span> ตื่นสาย อาหารเช้าช้าที่โรงแรมหรือคาเฟ่ Southbank <span class="tag tag-food">☕</span></li>
+  <li><span class="time">10:30</span> <strong>Queen Victoria Market</strong> — ผลิตผลสด ห้องอาหาร ของที่ระลึก <span class="tag tag-food">🛒</span></li>
+  <li><span class="time">12:30</span> เดิน Melbourne laneways — <strong>Degraves St</strong>, Centre Place, <strong>Hosier Lane</strong> <span class="tag tag-photo">📷</span></li>
+  <li><span class="time">14:00</span> ตัวเลือก: <strong>NGV International</strong> (ฟรี · เพดานกระจก Great Hall) หรือ <strong>Eureka Skydeck 88</strong> (~$25) <span class="tag tag-culture">🎨</span></li>
+  <li><span class="time">16:00</span> เดิน Southbank Promenade ดื่มกาแฟริม Yarra</li>
+  <li><span class="time">18:30</span> กินข้าวเย็น — Flinders Lane, Chin Chin, หรือ Southbank <span class="tag tag-food">🍽</span></li>
+</ul>
+<div class="tip-box"><strong>💡 กฎวันพักฟื้น:</strong> หลัง GOR ขาและพลังงานต้องพัก วันนี้ไม่ต้องใช้รถ เดินทุกที่ ไม่มีเวลาตายตัว ไปตามจังหวะเด็กๆ วันนี้มีในแผนเพื่อเหตุผลนี้</div>`;
+
+TRANSLATIONS.th['day5.body'] = `<ul class="timeline">
+  <li><span class="time">10:30</span> ออกเดินทางแบบไม่รีบ ขับทางทิศตะวันออกเฉียงใต้ M1 Monash Fwy <span class="tag tag-drive">🚐</span></li>
+  <li><span class="time">12:00</span> <strong>Maru Koala & Animal Park</strong> — อุ้มโคอาล่า ให้อาหารจิงโจ้ (Grantville ระหว่างทาง) <span class="tag tag-nature">🐨</span><span class="note">~1 ชั่วโมง · ~$24 ผู้ใหญ่ · จองโคอาล่าล่วงหน้า · Philip Island Rd, Grantville</span></li>
+  <li><span class="time">13:30</span> ขับต่อไป Phillip Island ข้ามสะพาน (~45 นาที)</li>
+  <li><span class="time">14:15</span> <strong>Cape Woolamai</strong> — หน้าผาหินแกรนิตสีชมพู วิว Southern Ocean <span class="tag tag-photo">📷</span></li>
+  <li><span class="time">16:00</span> <strong>Seal Rocks — The Nobbies</strong> — อาณานิคมแมวน้ำขนปุยที่ใหญ่ที่สุดในออสเตรเลีย (~6,000 ตัว) <span class="tag tag-nature">🦭</span><span class="note">ทางเดินบอร์ดวอล์กฟรี · ปลายด้านตะวันตก Phillip Island</span></li>
+  <li><span class="time">17:30</span> กินข้าวเย็นที่ <strong>Cowes</strong> — เมืองหลักของ Phillip Island อาหารทะเลหรืออาหาร pub <span class="tag tag-food">🍽</span></li>
+  <li><span class="time">19:00</span> <strong>Penguin Parade</strong> — Summerlands Beach · เพนกวินจิ๋วกว่า 1,000 ตัว เดินขึ้นฝั่ง 🐧<span class="note">ต้องจองล่วงหน้าหลายสัปดาห์ · ~$29 ผู้ใหญ่, $15 เด็ก · ประตูเปิด 2 ชั่วโมงก่อนพระอาทิตย์ตก</span></li>
+  <li><span class="time">21:00</span> กลับเมลเบิร์น (~90 นาที) หรือค้างคืนบนเกาะ</li>
+</ul>
+<div class="tip-box"><strong>🐧 Penguin Parade vs St Kilda:</strong> ประสบการณ์ต่างกันโดยสิ้นเชิง เพนกวินกว่า 1,000 ตัวขึ้นฝั่งเป็นระลอก มีทางเดินชมระดับมืออาชีพและอุโมงค์ใต้ดิน เดือนสิงหาคมเป็นฤดูทำรัง — หนึ่งในเดือนที่ดีที่สุด จองออนไลน์เดี๋ยวนี้ — ขายหมดเร็ว</div>`;
+
+TRANSLATIONS.th['day6.body'] = `<div style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:10px;padding:10px 14px;font-size:13px;color:#064e3b;margin-bottom:8px;">
+  ✅ <strong>Puffing Billy จองแล้ว</strong> · เลขที่จอง: <strong>786964</strong> · ผู้ใหญ่ 4 + เด็ก 2 · $218.00 AUD · ครอบครัว Lycka จ่าย<br>
+  <span style="opacity:0.75;">รับตั๋วที่ช่องขายตั๋ว Belgrave Station วันนั้น · แสดงเลขที่จอง 786964</span>
+</div>
+<div style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:10px;padding:10px 14px;font-size:13px;color:#064e3b;margin-bottom:12px;">
+  ✅ <strong>A Plus Private Tour จองแล้ว</strong> · คนขับคนไทย · มัดจำ 4,650 บาท · ครอบครัว Nalyn จ่าย · ติดต่อ: <strong>+61 432 341 784</strong><br>
+  <span style="opacity:0.75;">จ่ายส่วนที่เหลือวันนั้น · รับที่ Quay West Suites 08:00 · ทริปทั้งหมด ~9.5–10 ชั่วโมง</span>
+</div>
+<div class="tip-box" style="margin-bottom:12px;"><strong>🗺 แผนการของวัน:</strong> คนขับ A Plus รับทุกคน 08:00 — <strong>ไม่ต้องใช้ Kia วันนี้</strong> ขับไป Belgrave (~55 นาที) นั่ง Puffing Billy ไป Menzies Creek และกลับ (10:00–11:54) ช่วงบ่ายทัวร์ไวน์: แวะช็อกโกแลต Yarra Valley Chocolaterie กินมื้อกลางวันที่ <strong>Rochford Wines</strong> ดื่มสปาร์กลิ้งที่ <strong>Chandon Australia</strong> จบที่ <strong>Yering Station</strong> กลับโรงแรม ~18:00 รวม ~9.5–10 ชั่วโมง</div>
+<ul class="timeline">
+  <li><span class="time">08:00</span> <strong>คนขับ A Plus มารับ</strong> ที่ล็อบบี้ Quay West Suites — ไม่ต้องใช้ Kia วันนี้ <span class="tag tag-drive">🚐</span></li>
+  <li><span class="time">09:00</span> ถึง Belgrave Station — รับตั๋ว Puffing Billy ที่ช่องขาย <span class="note">เปิดรับ 60 นาทีก่อนออกเดินทาง · ถ่ายรูปหัวรถจักรไอน้ำเตรียมพร้อม</span></li>
+  <li><span class="time">10:00</span> <strong>Puffing Billy ออกจาก Belgrave</strong> → Menzies Creek <span class="tag tag-photo">📷</span><span class="note">ตารางเวลาตายตัว · ห้อยขาออกนอกตู้โดยสาร · ป่า mountain ash · ~45 นาที</span></li>
+  <li><span class="time">10:45</span> ถึง <strong>Menzies Creek Station</strong> — สำรวจสถานีมรดก วิวสะพาน trestle ถ่ายรูป <span class="tag tag-photo">📷</span></li>
+  <li><span class="time">11:10</span> รถไฟขากลับ Menzies Creek → Belgrave</li>
+  <li><span class="time">11:54</span> กลับที่ Belgrave — ขึ้นรถตู้ A Plus ขับไป Yarra Valley (~35 นาที) <span class="tag tag-drive">🚐</span></li>
+  <li><span class="time">12:30</span> <strong>Yarra Valley Chocolaterie &amp; Ice Creamery</strong> — ช็อกโกแลตอาร์ตีซาน ไอศกรีม กาแฟ <span class="tag tag-food">🍫</span><span class="note">ชิมช็อกโกแลต ไอศกรีมเด็กๆ กาแฟร้อน · เลือกช็อกโกแลตติดกลับบ้าน (~30 นาที)</span></li>
+  <li><span class="time">13:15</span> <strong>Rochford Wines</strong> — มื้อกลางวันวิวไร่องุ่น <span class="tag tag-food">🍷</span><span class="note">~10 นาที · จองโต๊ะล่วงหน้า 6 คน · ใช้เวลา 1.5 ชั่วโมง</span></li>
+  <li><span class="time">14:50</span> ขับไป <strong>Chandon Australia</strong> (~10 นาที) <span class="tag tag-drive">🚐</span></li>
+  <li><span class="time">15:00</span> <strong>Chandon Australia</strong> — ไวน์ Moët &amp; Chandon สปาร์กลิ้งพรีเมียม เดินชม lawns <span class="tag tag-photo">📷</span><span class="note">สปาร์กลิ้ง méthode traditionnelle · วิว Yarra Ranges ชั้นยอด (~50 นาที)</span></li>
+  <li><span class="time">16:00</span> ขับไป <strong>Yering Station</strong> (~10 นาที) <span class="tag tag-drive">🚐</span></li>
+  <li><span class="time">16:15</span> <strong>Yering Station</strong> — ไร่องุ่นแรกของ Victoria (ก่อตั้ง 1838) · โรงไวน์หินบลูสโตน · ชิม Pinot Noir <span class="tag tag-photo">📷</span><span class="note">ไร่องุ่นที่ถ่ายรูปมากที่สุดใน valley · ใช้เวลา ~45 นาที</span></li>
+  <li><span class="time">17:00</span> คนขับ A Plus ขับกลับ Melbourne CBD (~55 นาที EastLink) <span class="tag tag-drive">🚐</span></li>
+  <li><span class="time">17:55</span> ถึง Quay West Suites — เปลี่ยนเสื้อผ้า</li>
+  <li><span class="time">19:30</span> มื้อเย็นส่งท้าย — Flower Drum, Chin Chin, หรือ Vue de monde <span class="tag tag-food">🍽</span></li>
+</ul>
+<div class="tip-box" style="background:#fef2f2;border-color:#fca5a5;color:#991b1b;margin-bottom:8px;"><strong>📅 เตือนจอง — มื้อกลางวัน Rochford Wines:</strong> จองโต๊ะ 6 คน ~13:15 วันที่ 22 ส.ค. 2026 ติดต่อ Rochford Wines โดยตรง ยืนยันเวลากับคนขับ A Plus (+61 432 341 784)</div>
+<div class="tip-box"><strong>💡 เคล็ดลับ Puffing Billy:</strong> ถึงก่อน 09:00 — รถไฟ<strong>ออกตรงเวลา</strong> รับตั๋วที่ช่องขาย (ไม่ใช่ประตูขึ้น) ควันถ่านหินติดเสื้อ — ใส่เสื้อสีเข้มหรือเตรียมเสื้อสำรอง เด็กต้องนั่งภายใต้การดูแลบนขอบตู้ (เด็กสูงสุด 2 คนต่อผู้ใหญ่ 1 คน)</div>`;
+
+TRANSLATIONS.th['dayDep.body'] = `<ul class="timeline">
+  <li><span class="time">05:45</span> ตื่นนอน — เก็บของ ตรวจสอบห้องพักครั้งสุดท้าย</li>
+  <li><span class="time">06:30</span> Check out โรงแรม · ขับไปสนามบินเมลเบิร์น (~35 นาที) <span class="tag tag-drive">🚐</span></li>
+  <li><span class="time">07:05</span> คืนรถเช่า — Ground Transport Hall</li>
+  <li><span class="time">07:35</span> เปิด check-in — T2 International · ตรวจรักษาความปลอดภัย + ตม.ขาออก</li>
+  <li><span class="time">09:35</span> ออกจากเมลเบิร์น เที่ยวบิน <strong>SQ238</strong> → สิงคโปร์ <span class="tag tag-drive">7h 50m</span></li>
+  <li><span class="time">15:25</span> ถึง Singapore Changi (SIN) — แวะพัก 2h 05m</li>
+  <li><span class="time">17:30</span> ออกจากสิงคโปร์ เที่ยวบิน <strong>SQ714</strong> → กรุงเทพฯ <span class="tag tag-drive">2h 30m</span></li>
+  <li><span class="time">19:00</span> ถึงกรุงเทพฯ (BKK) — กลับบ้าน! 🏠 <span class="note">เวลากรุงเทพฯ (SIN−1h)</span></li>
+</ul>`;
+
+// ── SECTION HTML TRANSLATIONS (other tabs) ──
+TRANSLATIONS.en['section.flights'] = document.querySelector('[data-i18n-html="section.flights"]')?.innerHTML || '';
+TRANSLATIONS.en['section.hotel'] = document.querySelector('[data-i18n-html="section.hotel"]')?.innerHTML || '';
+TRANSLATIONS.en['section.activities'] = document.querySelector('[data-i18n-html="section.activities"]')?.innerHTML || '';
+TRANSLATIONS.en['section.car'] = document.querySelector('[data-i18n-html="section.car"]')?.innerHTML || '';
+TRANSLATIONS.en['section.photos'] = document.querySelector('[data-i18n-html="section.photos"]')?.innerHTML || '';
+TRANSLATIONS.en['section.tips'] = document.querySelector('[data-i18n-html="section.tips"]')?.innerHTML || '';
+TRANSLATIONS.en['section.expenses'] = document.querySelector('[data-i18n-html="section.expenses"]')?.innerHTML || '';
+
+TRANSLATIONS.th['section.flights'] = `
+<div class="flight-card">
+  <h2>✈️ ขาไป — กรุงเทพฯ ไปเมลเบิร์น</h2>
+  <div style="margin-bottom:8px;font-size:13px;opacity:0.7;text-transform:uppercase;letter-spacing:1px;">อาทิตย์ 16 สิงหาคม 2026 → จันทร์ 17 สิงหาคม 2026</div>
+  <div class="flight-row">
+    <div class="flight-point"><div class="code">BKK</div><div class="city">กรุงเทพฯ สุวรรณภูมิ</div><div class="time">13:35</div><div class="date-label">16 ส.ค.</div></div>
+    <div class="flight-line"><div class="arrow"></div><div class="num">SQ721</div><div class="dur">2h 30m</div></div>
+    <div class="flight-point"><div class="code">SIN</div><div class="city">Singapore Changi</div><div class="time">17:05</div><div class="date-label">16 ส.ค.</div></div>
+  </div>
+  <div style="background:rgba(255,255,255,0.1);border-radius:8px;padding:8px 12px;font-size:13px;margin:8px 0;">
+    ⏱ แวะ Changi: <strong>4h 45m</strong> — Terminal 3 กินข้าวเย็นที่ hawker centre แวะ Jewel Changi ถ้ามีเวลา
+  </div>
+  <div class="flight-row">
+    <div class="flight-point"><div class="code">SIN</div><div class="city">Singapore Changi</div><div class="time">21:50</div><div class="date-label">16 ส.ค.</div></div>
+    <div class="flight-line"><div class="arrow"></div><div class="num">SQ227</div><div class="dur">8h 25m</div></div>
+    <div class="flight-point"><div class="code">MEL</div><div class="city">Melbourne Tullamarine</div><div class="time">08:15</div><div class="date-label">17 ส.ค.</div></div>
+  </div>
+  <div style="margin-top:12px;"><span class="flight-badge">Singapore Airlines</span><span class="flight-badge">เดินทางรวม ~18h 40m</span><span class="flight-badge">AEST = BKK +3h</span></div>
+</div>
+<div class="flight-card" style="background:linear-gradient(135deg,#065f46,#047857);">
+  <h2>✈️ ขากลับ — เมลเบิร์น ไปกรุงเทพฯ</h2>
+  <div style="margin-bottom:8px;font-size:13px;opacity:0.7;text-transform:uppercase;letter-spacing:1px;">อาทิตย์ 23 สิงหาคม 2026</div>
+  <div class="flight-row">
+    <div class="flight-point"><div class="code">MEL</div><div class="city">Melbourne Tullamarine</div><div class="time">09:35</div><div class="date-label">23 ส.ค.</div></div>
+    <div class="flight-line"><div class="arrow"></div><div class="num">SQ238</div><div class="dur">7h 50m</div></div>
+    <div class="flight-point"><div class="code">SIN</div><div class="city">Singapore Changi</div><div class="time">15:25</div><div class="date-label">23 ส.ค.</div></div>
+  </div>
+  <div style="background:rgba(255,255,255,0.1);border-radius:8px;padding:8px 12px;font-size:13px;margin:8px 0;">
+    ⏱ แวะ Changi: <strong>2h 05m</strong> — ผ่าน transit ตรงไปประตูขึ้นเครื่องได้เลย
+  </div>
+  <div class="flight-row">
+    <div class="flight-point"><div class="code">SIN</div><div class="city">Singapore Changi</div><div class="time">17:30</div><div class="date-label">23 ส.ค.</div></div>
+    <div class="flight-line"><div class="arrow"></div><div class="num">SQ714</div><div class="dur">2h 30m</div></div>
+    <div class="flight-point"><div class="code">BKK</div><div class="city">กรุงเทพฯ สุวรรณภูมิ</div><div class="time">19:00</div><div class="date-label">23 ส.ค.</div></div>
+  </div>
+  <div style="margin-top:12px;"><span class="flight-badge">Singapore Airlines</span><span class="flight-badge">เปิด check-in 07:35</span><span class="flight-badge">ถึงสนามบิน 07:00</span></div>
+</div>
+<div class="grid-2">
+  <div class="card">
+    <h2>📋 เช็กลิสต์เที่ยวบิน</h2>
+    <div class="info-row"><span class="label">หนังสือเดินทาง</span><span class="val">ทุกคน 6 คน — ต้องใช้ได้ถึง 6+ เดือนหลัง ส.ค. 2026</span></div>
+    <div class="info-row"><span class="label">ETA ออสเตรเลีย</span><span class="val">ผู้ใหญ่ทุกคนต้องสมัคร — ฟรีผ่านแอป APC</span></div>
+    <div class="info-row"><span class="label">Biosecurity</span><span class="val">แจ้งอาหาร พืช ทุกอย่างที่ด่าน arrivals</span></div>
+    <div class="info-row"><span class="label">สัมภาระ</span><span class="val">ตรวจสอบนโยบาย SQ — โดยทั่วไป 30kg economy checked</span></div>
+    <div class="info-row"><span class="label">เลือกที่นั่ง</span><span class="val">จองร่วมกัน — 6 ที่นั่ง 2 ครอบครัว</span></div>
+    <div class="info-row"><span class="label">อาหาร</span><span class="val">เลือกอาหารพิเศษล่วงหน้าทางออนไลน์</span></div>
+  </div>
+  <div class="card">
+    <h2>⏰ เขตเวลา</h2>
+    <div class="info-row"><span class="label">กรุงเทพฯ (ICT)</span><span class="val">UTC+7</span></div>
+    <div class="info-row"><span class="label">สิงคโปร์ (SGT)</span><span class="val">UTC+8 (+1h จาก BKK)</span></div>
+    <div class="info-row"><span class="label">เมลเบิร์น (AEST)</span><span class="val">UTC+10 (+3h จาก BKK ใน ส.ค.)</span></div>
+    <div class="info-row"><span class="label">Daylight saving</span><span class="val">AEST ในเดือนสิงหาคม (ไม่มี DST)</span></div>
+    <div class="info-row"><span class="label">พระอาทิตย์ขึ้น MEL ส.ค.</span><span class="val">~7:00–7:20 (ฤดูหนาว)</span></div>
+    <div class="info-row"><span class="label">พระอาทิตย์ตก MEL ส.ค.</span><span class="val">~17:45–18:00</span></div>
+  </div>
+</div>`;
+
+TRANSLATIONS.th['section.hotel'] = `
+<div class="card">
+  <h2>🏨 Quay West Suites Southbank</h2>
+  <div style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:10px;padding:10px 14px;font-size:13px;color:#064e3b;margin-bottom:14px;">
+    ✅ <strong>จองโรงแรมแล้ว</strong> · Unravel Ref: <strong>4DNAM37SCC</strong> · ผู้ใหญ่ 4 เด็ก 2 · 81,007 บาท · ครอบครัว Lycka จ่าย<br>
+    <span style="opacity:0.75;">แพ็กเกจ Bed &amp; Breakfast · นโยบายยกเลิก: ไม่คืนเงินตั้งแต่ 6 พ.ค. 2026</span>
+  </div>
+  <div class="highlight">
+    <div class="hl-title">Superior Apartment 2 ห้องนอน ระเบียง ครัว</div>
+    <div class="hl-sub">21 Riverside Ave, Southbank VIC 3006 · ชั้น 4–9 · Check-in: จ. 17 ส.ค. · Check-out: อา. 23 ส.ค. (6 คืน)</div>
+  </div>
+  <div class="lm-slideshow" id="ss-hotel" data-idx="0" style="border-radius:10px;margin-bottom:18px;"><div class="lm-slide active"><div class="lm-loading-ring"></div></div></div>
+  <div class="grid-2">
+    <div>
+      <h3>ห้องพักรวม</h3>
+      <div class="info-row"><span class="label">ประเภทห้อง</span><span class="val">Superior Apartment · 2 ห้องนอน · ชั้น 4–9</span></div>
+      <div class="info-row"><span class="label">แพ็กเกจ</span><span class="val">รวมอาหารเช้าทุกวัน</span></div>
+      <div class="info-row"><span class="label">ครัว</span><span class="val">ครัวเต็มรูปแบบ — เตาอบ เตาแก๊ส เครื่องล้างจาน ตู้เย็น</span></div>
+      <div class="info-row"><span class="label">ห้องนั่งเล่น</span><span class="val">โซฟาแยก + โต๊ะกินข้าว ระเบียงส่วนตัว</span></div>
+      <div class="info-row"><span class="label">ซักรีด</span><span class="val">เครื่องซักผ้า/อบผ้าในห้อง</span></div>
+      <div class="info-row"><span class="label">แม่บ้าน</span><span class="val">บริการรายวัน — เปลี่ยนผ้าขนหนูและผ้าปูที่นอน</span></div>
+      <div class="info-row"><span class="label">อินเทอร์เน็ต</span><span class="val">WiFi ความเร็วสูงฟรี</span></div>
+      <div class="info-row"><span class="label">ที่จอดรถ</span><span class="val">ที่จอดรถในร่มของโรงแรม — ยืนยันและจองล่วงหน้า</span></div>
+    </div>
+    <div>
+      <h3>สิ่งอำนวยความสะดวก</h3>
+      <div class="info-row"><span class="label">สระว่ายน้ำ</span><span class="val">สระน้ำแร่แมกนีเซียม สระว่ายน้ำ และ hot tub</span></div>
+      <div class="info-row"><span class="label">สปา/ยิม</span><span class="val">ยิม สปา ห้องซาวน่า</span></div>
+      <div class="info-row"><span class="label">คอนเซียร์จ</span><span class="val">24 ชั่วโมง — จองทัวร์ ร้านอาหาร</span></div>
+      <div class="info-row"><span class="label">ร้านอาหาร</span><span class="val">Jarrah Restaurant &amp; Bar ในโรงแรม</span></div>
+      <div class="info-row"><span class="label">ที่ตั้ง</span><span class="val">เดินถึง Crown, NGV, Southgate, แม่น้ำ Yarra</span></div>
+      <div class="info-row"><span class="label">ขนส่ง</span><span class="val">Flinders St Station เดิน 10 นาที · รถรางฟรี CBD ใกล้ๆ</span></div>
+    </div>
+  </div>
+</div>
+<div class="grid-2">
+  <div class="card">
+    <h2>🛏 การจัดห้อง</h2>
+    <p style="font-size:14px;color:var(--gray-700);margin-bottom:12px;">อพาร์ตเมนต์เดียว สองครอบครัว — หนึ่งครอบครัวหนึ่งห้อง:</p>
+    <div class="info-row"><span class="label">ห้องนอน 1</span><span class="val">ครอบครัว Lycka</span></div>
+    <div class="info-row"><span class="label">ห้องนอน 2</span><span class="val">ครอบครัว Nalyn</span></div>
+    <div class="tip-box" style="margin-top:12px;">จองชั้น 4–9 ขอชั้นสูงกว่าตอน check-in ถ้าว่าง วิวจะดีกว่า</div>
+  </div>
+  <div class="card">
+    <h2>🛒 ซูเปอร์มาร์เก็ตใกล้เคียง</h2>
+    <p style="font-size:14px;color:var(--gray-700);margin-bottom:10px;">ซูเปอร์มาร์เก็ตใกล้สุด:</p>
+    <div class="info-row"><span class="label">Woolworths</span><span class="val">Melbourne Central เดิน 10 นาที</span></div>
+    <div class="info-row"><span class="label">Coles</span><span class="val">Crown Complex เดิน 5 นาที</span></div>
+    <div class="info-row"><span class="label">IGA Express</span><span class="val">Southbank Blvd เดิน 3 นาที</span></div>
+    <div class="tip-box" style="margin-top:10px;">เตรียมอาหารเช้าและของว่างในครัวของอพาร์ตเมนต์ ประหยัดได้ ~80 AUD/วัน เมื่อเทียบกับกินนอกบ้านทุกมื้อ</div>
+  </div>
+</div>
+<div class="card">
+  <h2>📍 ที่ตั้งและระยะทาง</h2>
+  <div class="grid-3">
+    <div class="highlight"><div class="hl-title">ใจกลาง CBD</div><div class="hl-sub">🚶 เดิน 10–15 นาที ถึง Fed Square, Flinders St</div></div>
+    <div class="highlight"><div class="hl-title">Crown Melbourne</div><div class="hl-sub">🚶 เดิน 5 นาที — คาสิโน โรงภาพยนตร์ ร้านอาหาร</div></div>
+    <div class="highlight"><div class="hl-title">NGV International</div><div class="hl-sub">🚶 เดิน 8 นาที ตาม Southbank Promenade</div></div>
+    <div class="highlight"><div class="hl-title">สนามบินเมลเบิร์น</div><div class="hl-sub">🚐 35–40 นาที ผ่าน Tullamarine Fwy (M2)</div></div>
+    <div class="highlight"><div class="hl-title">St Kilda</div><div class="hl-sub">🚐 ขับ 20 นาที ผ่าน St Kilda Rd</div></div>
+    <div class="highlight"><div class="hl-title">Melbourne Zoo</div><div class="hl-sub">🚐 15 นาที ผ่าน Royal Pde / Flemington Rd</div></div>
+  </div>
+</div>`;
+
+TRANSLATIONS.th['section.activities'] = `
+<div class="card">
+  <h2>🎯 ภาพรวมกิจกรรม</h2>
+  <div class="spec-grid">
+    <div class="spec-item"><div class="s-val">7</div><div class="s-lbl">ทริปวันเดย์</div></div>
+    <div class="spec-item"><div class="s-val">6</div><div class="s-lbl">คน</div></div>
+    <div class="spec-item"><div class="s-val">~$800</div><div class="s-lbl">งบกิจกรรม AUD</div></div>
+    <div class="spec-item"><div class="s-val">ฟรี</div><div class="s-lbl">โซนรถรางฟรี CBD</div></div>
+  </div>
+</div>
+<div class="card">
+  <h2>🚂 Puffing Billy Railway</h2>
+  <div style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:10px;padding:10px 14px;font-size:13px;color:#064e3b;margin-bottom:12px;">
+    ✅ <strong>จองแล้ว</strong> · เลขที่: <strong>786964</strong> · ผู้ใหญ่ 4 + เด็ก 2 · $218.00 AUD · ครอบครัว Lycka จ่าย<br>
+    <span style="opacity:0.75;">รับตั๋วที่ช่องขาย Belgrave Station วันนั้น · แสดงเลขที่ 786964</span>
+  </div>
+  <div class="info-row"><span class="label">วันที่</span><span class="val">เสาร์ 22 ส.ค. 2026 — วัน 6</span></div>
+  <div class="info-row"><span class="label">เส้นทาง</span><span class="val">Belgrave → Menzies Creek → Belgrave (ไปกลับ)</span></div>
+  <div class="info-row"><span class="label">ออกเดินทาง</span><span class="val">10:00 จาก Belgrave ตรงเวลา กลับถึง 11:54 (ตารางตายตัว)</span></div>
+  <div class="info-row"><span class="label">ขนส่ง</span><span class="val">คนขับ A Plus รับที่โรงแรม 08:00 — ไม่ต้องใช้ Kia วันนี้</span></div>
+  <div class="info-row"><span class="label">ระยะเวลา</span><span class="val">1h 54m รวม (45 นาทีต่อเที่ยว + เวลาที่ Menzies Creek)</span></div>
+  <div class="info-row"><span class="label">ไฮไลต์</span><span class="val">ห้อยขาออกนอกหน้าต่างตู้โดยสารเก่าผ่านป่า mountain ash</span></div>
+  <div class="tip-box"><strong>💡 วันนั้น:</strong> ถึง Belgrave ก่อน 09:00 รับตั๋วที่ช่องขาย (ไม่ใช่ประตู) รถไฟ<strong>ออกตรงเวลา</strong> ความหนาวเดือนสิงหาคม = ควันไอน้ำหนา ใส่เสื้อสีเข้มกันควันถ่านหิน</div>
+</div>
+<div class="card">
+  <h2>🍷 ทัวร์ไวน์ Yarra Valley — A Plus Private Tour</h2>
+  <div style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:10px;padding:10px 14px;font-size:13px;color:#064e3b;margin-bottom:12px;">
+    ✅ <strong>จองแล้ว</strong> · A Plus Private Tour · คนขับคนไทย · มัดจำ 4,650 บาท · ครอบครัว Nalyn จ่าย<br>
+    <span style="opacity:0.75;">จ่ายส่วนที่เหลือวันนั้น · ติดต่อ: +61 432 341 784 · ทริปทั้งหมด ~9.5–10 ชั่วโมง</span>
+  </div>
+  <div class="info-row"><span class="label">วันที่</span><span class="val">เสาร์ 22 ส.ค. 2026 — วัน 6 (ช่วงบ่าย หลัง Puffing Billy)</span></div>
+  <div class="info-row"><span class="label">รับ</span><span class="val">08:00 จากล็อบบี้ Quay West Suites — ทั้งวันกับคนขับ</span></div>
+  <div class="info-row"><span class="label">จุดที่ 1</span><span class="val">🍫 Yarra Valley Chocolaterie &amp; Ice Creamery (~12:30)</span></div>
+  <div class="info-row"><span class="label">จุดที่ 2</span><span class="val">🍽 Rochford Wines — มื้อกลางวันวิวไร่องุ่น (~13:15–14:45)</span></div>
+  <div class="info-row"><span class="label">จุดที่ 3</span><span class="val">🥂 Chandon Australia — สปาร์กลิ้ง Moët &amp; Chandon (~15:00–16:00)</span></div>
+  <div class="info-row"><span class="label">จุดที่ 4</span><span class="val">🍷 Yering Station — ไร่องุ่นแรกของ Victoria (1838) (~16:15–17:00)</span></div>
+  <div class="info-row"><span class="label">กลับ</span><span class="val">คนขับส่งที่โรงแรม ~17:55</span></div>
+  <div class="tip-box" style="background:#fef2f2;border-color:#fca5a5;color:#991b1b;margin-bottom:8px;"><strong>📅 จองมื้อกลางวัน Rochford Wines:</strong> จองโต๊ะ 6 คน ~13:15 วันที่ 22 ส.ค. 2026 ติดต่อโดยตรงและยืนยันกับคนขับ A Plus (+61 432 341 784)</div>
+  <div class="tip-box"><strong>💡 ผู้ใหญ่ทุกคนดื่มได้สบาย</strong> — คนขับ A Plus ขับระหว่างไวน์เนอรีทุกแห่ง ค่าชิมไวน์แยกต่างหาก (ประมาณ $15–25 ต่อคนต่อไวน์เนอรี)</div>
+</div>
+<div class="card">
+  <h2>🦁 สวนสัตว์เมลเบิร์น</h2>
+  <div class="info-row"><span class="label">วัน</span><span class="val">วัน 2 — อังคาร 18 ส.ค.</span></div>
+  <div class="info-row"><span class="label">ที่ตั้ง</span><span class="val">Elliott Ave, Royal Park (ขับ 15 นาทีจากโรงแรม)</span></div>
+  <div class="info-row"><span class="label">เวลาเปิด</span><span class="val">09:00–17:00 ทุกวัน (เข้าได้ถึง 16:30)</span></div>
+  <div class="info-row"><span class="label">ราคา</span><span class="val">~$40 ผู้ใหญ่ / $19 เด็ก (4–15) · จองออนไลน์ประหยัด ~$5</span></div>
+  <div class="info-row"><span class="label">ต้องไปดู</span><span class="val">บ้านผีเสื้อ (เปิด 09:30), ป่าฝนกอริลลา, Trail of the Elephants</span></div>
+  <div class="info-row"><span class="label">ระยะเวลา</span><span class="val">3–4 ชั่วโมง</span></div>
+  <div class="tip-box"><strong>💡 เคล็ดลับ:</strong> บ้านผีเสื้อก่อน — ผีเสื้อบินอิสระ 1,000+ ตัว จะแน่นก่อน 11:00 รับตารางการพูดคุยของผู้ดูแลสัตว์ที่ประตู จองตั๋วที่ zoo.org.au</div>
+</div>
+<div class="card">
+  <h2>🐧 Phillip Island — วันสัตว์ป่า</h2>
+  <div class="info-row"><span class="label">วัน</span><span class="val">วัน 5 — ศุกร์ 21 ส.ค.</span></div>
+  <div class="info-row"><span class="label">ขับรถ</span><span class="val">~140 กม. ทางทิศตะวันออกเฉียงใต้ M1 Monash Fwy · 1.5–2 ชั่วโมงต่อเที่ยว</span></div>
+  <div style="margin-top:12px;"><h3 style="font-size:14px;margin-bottom:8px;">🐨 จุดที่ 1 — Maru Koala &amp; Animal Park (Grantville)</h3>
+    <div class="info-row"><span class="label">ราคา</span><span class="val">~$24 ผู้ใหญ่ / $15 เด็ก · ถ่ายรูปโคอาล่า +$30 (จองล่วงหน้า)</span></div>
+    <div class="info-row"><span class="label">ไฮไลต์</span><span class="val">อุ้มโคอาล่า + ให้อาหารจิงโจ้และวอลลาบีในลานเปิด</span></div>
+    <div class="info-row"><span class="label">ระยะเวลา</span><span class="val">45–75 นาที บรรยากาศผ่อนคลาย</span></div>
+  </div>
+  <div style="margin-top:10px;"><h3 style="font-size:14px;margin-bottom:8px;">🌊 จุดที่ 2 — Cape Woolamai (Phillip Island)</h3>
+    <div class="info-row"><span class="label">ค่าเข้า</span><span class="val">ฟรี · แหลมสาธารณะ</span></div>
+    <div class="info-row"><span class="label">ไฮไลต์</span><span class="val">หน้าผาหินแกรนิตสีชมพู วิว Bass Strait เส้นทางเดิน 3.8 กม.</span></div>
+    <div class="info-row"><span class="label">ระยะเวลา</span><span class="val">45–90 นาที · มีลมแรง — ต้องใส่เสื้อกันลม</span></div>
+  </div>
+  <div style="margin-top:10px;"><h3 style="font-size:14px;margin-bottom:8px;">🦭 จุดที่ 3 — The Nobbies &amp; Seal Rocks</h3>
+    <div class="info-row"><span class="label">ค่าเข้า</span><span class="val">ทางเดินบอร์ดวอล์กฟรี · ปลายสุดตะวันตก Phillip Island</span></div>
+    <div class="info-row"><span class="label">ไฮไลต์</span><span class="val">อาณานิคมแมวน้ำขนปุยที่ใหญ่ที่สุดในออสเตรเลีย (~6,000 ตัว)</span></div>
+    <div class="info-row"><span class="label">ระยะเวลา</span><span class="val">30–45 นาที</span></div>
+  </div>
+  <div style="margin-top:10px;"><h3 style="font-size:14px;margin-bottom:8px;">🐧 จุดที่ 4 — Penguin Parade, Summerlands Beach</h3>
+    <div class="info-row"><span class="label">ราคา</span><span class="val">$29 ผู้ใหญ่ / $15 เด็ก (ทั่วไป) · $80/$45 Premium Plus (อุโมงค์ใต้ดิน)</span></div>
+    <div class="info-row"><span class="label">เวลา</span><span class="val">ประตูเปิด 2 ชั่วโมงก่อนพระอาทิตย์ตก · ส.ค. ตก ~17:45 · เพนกวินมา ~18:00</span></div>
+    <div class="info-row"><span class="label">ขนาด</span><span class="val">32,000 ตัวทำรังที่นี่ — อาณานิคม Little Penguin ที่ใหญ่ที่สุดในโลก</span></div>
+    <div class="info-row"><span class="label">สิงหาคม</span><span class="val">ฤดูทำรัง — หนึ่งในเดือนที่ดีที่สุด · ลูกเพนกวินในรัง</span></div>
+    <div class="info-row"><span class="label">กฎ</span><span class="val">ห้ามแฟลช ห้ามไฟฉาย ห้ามส่องโทรศัพท์ใส่เพนกวิน</span></div>
+  </div>
+  <div class="tip-box"><strong>⚠️ จอง Penguin Parade ล่วงหน้าหลายสัปดาห์</strong> — ขายหมดเร็ว โดยเฉพาะวันศุกร์ จองที่ penguins.org.au Premium Plus อุโมงค์ใต้ดินน่าตื่นเต้นที่สุด — เพนกวินเดินผ่านระดับสายตา</div>
+</div>
+<div class="card">
+  <h2>🌊 Great Ocean Road</h2>
+  <div class="info-row"><span class="label">ระยะทาง</span><span class="val">Torquay: 100 กม. จากเมลเบิร์น; Twelve Apostles: 270 กม.</span></div>
+  <div class="info-row"><span class="label">เวลาขับ</span><span class="val">2.5 ชั่วโมง ถึง Twelve Apostles (เที่ยวเดียว ผ่าน GOR รวมจุดแวะ)</span></div>
+  <div class="info-row"><span class="label">ลูปเต็ม</span><span class="val">ไปทาง GOR (วิวสวย) กลับทาง Princes Hwy (เร็วกว่า)</span></div>
+  <div class="info-row"><span class="label">จุดหลัก</span><span class="val">Bells Beach → Lorne → Kennett River → Apollo Bay → Apostles → London Bridge</span></div>
+  <div class="info-row"><span class="label">เวลาดีที่สุด</span><span class="val">แสงบ่ายบน Apostles (หันหน้าทิศตะวันตก)</span></div>
+  <div class="info-row"><span class="label">ค่าเข้า</span><span class="val">ฟรี — ไม่มีค่าเข้าอุทยาน Great Ocean Road/Apostles</span></div>
+  <div class="tip-box"><strong>สำคัญ:</strong> แนะนำทำ GOR วัน 3 หรือวัน 5 (ไม่ใช่วันก่อนบินกลับ 09:35) เดินทางกลับใช้เวลา 3–4 ชั่วโมงและจะเหนื่อยมาก</div>
+</div>
+<div class="card">
+  <h2>🎡 กิจกรรมเมลเบิร์นอื่นๆ</h2>
+  <div class="grid-2">
+    <div>
+      <h3>ฟรี</h3>
+      <div class="info-row"><span class="label">Federation Square</span><span class="val">งานอีเวนต์ พิพิธภัณฑ์ ACMI</span></div>
+      <div class="info-row"><span class="label">Royal Botanic Garden</span><span class="val">สวนพฤกษศาสตร์ระดับโลก</span></div>
+      <div class="info-row"><span class="label">Brighton Bathing Boxes</span><span class="val">กระท่อมชายหาดสีสันอันเป็นเอกลักษณ์</span></div>
+      <div class="info-row"><span class="label">Queen Vic Market</span><span class="val">ผลิตผลสด อาทิตย์–เสาร์ ตอนเช้า</span></div>
+      <div class="info-row"><span class="label">ตรอก Street Art</span><span class="val">Hosier, Rutledge, AC/DC Lane</span></div>
+    </div>
+    <div>
+      <h3>มีค่าใช้จ่าย</h3>
+      <div class="info-row"><span class="label">Eureka Skydeck 88</span><span class="val">~$25 ผู้ใหญ่ วิว 360° ทั่วเมือง</span></div>
+      <div class="info-row"><span class="label">Luna Park</span><span class="val">~$50/คน ขึ้นได้ไม่จำกัด</span></div>
+      <div class="info-row"><span class="label">MCG Tour</span><span class="val">~$25 ประวัติสนามกีฬา</span></div>
+      <div class="info-row"><span class="label">NGV International</span><span class="val">ฟรี · พิพิธภัณฑ์ศิลปะที่ใหญ่ที่สุดในออสเตรเลีย</span></div>
+    </div>
+  </div>
+</div>`;
+
+TRANSLATIONS.th['section.car'] = `
+<div class="card">
+  <h2>🚐 รถเช่า 8 ที่นั่ง</h2>
+  <div class="spec-grid">
+    <div class="spec-item"><div class="s-val">8</div><div class="s-lbl">ที่นั่งสูงสุด</div></div>
+    <div class="spec-item"><div class="s-val">7</div><div class="s-lbl">คืนเช่า</div></div>
+    <div class="spec-item"><div class="s-val">MEL</div><div class="s-lbl">รับ/คืน</div></div>
+    <div class="spec-item"><div class="s-val">~720กม.</div><div class="s-lbl">ระยะทางรวม</div></div>
+  </div>
+  <div class="grid-2">
+    <div>
+      <h3>ตัวเลือกรถ</h3>
+      <div class="info-row"><span class="label">ตัวเลือก 1</span><span class="val">Kia Carnival (รถ 8 ที่นั่ง)</span></div>
+      <div class="info-row"><span class="label">ตัวเลือก 2</span><span class="val">Hyundai iMax (แวน/รถ 8 ที่นั่ง)</span></div>
+      <div class="info-row"><span class="label">ตัวเลือก 3</span><span class="val">Toyota HiAce (8 ที่นั่ง ประสิทธิภาพสูง)</span></div>
+      <div class="info-row"><span class="label">กระเป๋า</span><span class="val">กระเป๋าใหญ่ 6 ใบ + เป้ — Carnival พอดีถ้าพับเบาะหลัง</span></div>
+    </div>
+    <div>
+      <h3>บริษัทเช่ารถ</h3>
+      <div class="info-row"><span class="label">Avis</span><span class="val">avis.com.au — สนามบิน T1/T2</span></div>
+      <div class="info-row"><span class="label">Hertz</span><span class="val">hertz.com.au — Ground Transport สนามบิน</span></div>
+      <div class="info-row"><span class="label">Budget</span><span class="val">budget.com.au — Ground Transport สนามบิน</span></div>
+      <div class="info-row"><span class="label">Europcar</span><span class="val">europcar.com.au — ราคาดีสำหรับรถหลายที่นั่ง</span></div>
+      <div class="info-row"><span class="label">ราคาประมาณ</span><span class="val">~$150–$200 AUD/วัน = $1,050–$1,400 รวม + ประกัน</span></div>
+    </div>
+  </div>
+</div>
+<div class="grid-2">
+  <div class="card">
+    <h2>🛣 ขับรถในเมลเบิร์น</h2>
+    <div class="info-row"><span class="label">ฝั่งที่ขับ</span><span class="val">ซ้าย (เหมือนไทย)</span></div>
+    <div class="info-row"><span class="label">จำกัดความเร็ว</span><span class="val">50 กม./ชม. ในเมือง 100 กม./ชม. ทางหลวง 110 บนฟรีเวย์</span></div>
+    <div class="info-row"><span class="label">Hook turns</span><span class="val">ทางแยก CBD — กฎพิเศษเมลเบิร์น! ให้รถรางผ่านก่อน</span></div>
+    <div class="info-row"><span class="label">ค่าทางด่วน</span><span class="val">CityLink/EastLink — ต้องมี e-TAG หรือ Day Pass ($20.22/วัน)</span></div>
+    <div class="info-row"><span class="label">บัตรทางด่วน</span><span class="val">ซื้อที่ transurban.com หรือปั๊มน้ำมัน — ซื้อก่อนขับ</span></div>
+    <div class="info-row"><span class="label">ขีดจำกัดแอลกอฮอล์</span><span class="val">0.05 BAC — ผู้ขับขี่ดื่มไม่ได้</span></div>
+    <div class="info-row"><span class="label">โทรศัพท์</span><span class="val">Hands-free เท่านั้น — ค่าปรับ $500+ ถือขับ</span></div>
+    <div class="info-row"><span class="label">จอดรถ CBD</span><span class="val">ใช้แอป Wilson/Secure Parking งบ $20–$40/วัน</span></div>
+  </div>
+  <div class="card">
+    <h2>🧭 ระยะทางขับโดยประมาณ</h2>
+    <div class="info-row"><span class="label">โรงแรม → สนามบิน</span><span class="val">35 นาที Tullamarine Fwy · 25 กม.</span></div>
+    <div class="info-row"><span class="label">โรงแรม → Belgrave</span><span class="val">55 นาที M1 Monash Fwy · 55 กม.</span></div>
+    <div class="info-row"><span class="label">โรงแรม → Healesville</span><span class="val">1h 15m Maroondah Hwy · 60 กม.</span></div>
+    <div class="info-row"><span class="label">โรงแรม → Yarra Valley</span><span class="val">1h EastLink · 55 กม.</span></div>
+    <div class="info-row"><span class="label">โรงแรม → St Kilda</span><span class="val">20 นาที St Kilda Rd · 7 กม.</span></div>
+    <div class="info-row"><span class="label">โรงแรม → Shrine</span><span class="val">10 นาที St Kilda Rd · 3.5 กม.</span></div>
+    <div class="info-row"><span class="label">โรงแรม → Twelve Apostles</span><span class="val">3h ผ่าน GOR · 270 กม. เที่ยวเดียว</span></div>
+    <div class="info-row"><span class="label">โรงแรม → Brighton</span><span class="val">25 นาที Nepean Hwy · 14 กม.</span></div>
+  </div>
+</div>
+<div class="card">
+  <h2>⛽ น้ำมันและนำทาง</h2>
+  <div class="info-row"><span class="label">ประเภทน้ำมัน</span><span class="val">Unleaded 91 หรือ 95 (ตรวจสอบรถ)</span></div>
+  <div class="info-row"><span class="label">ราคาน้ำมัน</span><span class="val">~$1.70–$2.00 AUD/ลิตร ส.ค. 2026 (ใช้ GasBuddy หรือ FuelWatch)</span></div>
+  <div class="info-row"><span class="label">วันน้ำมันถูก</span><span class="val">เมลเบิร์นมีวัฏจักรราคาน้ำมัน — วันอังคารมักถูกสุด</span></div>
+  <div class="info-row"><span class="label">นำทาง</span><span class="val">Google Maps ใช้ดีมาก — ดาวน์โหลด offline map ก่อนเดินทาง</span></div>
+  <div class="info-row"><span class="label">Waze</span><span class="val">ดีสำหรับการจราจรแบบเรียลไทม์ในเส้นทาง CBD</span></div>
+  <div class="info-row"><span class="label">ซิมข้อมูล</span><span class="val">Optus/Telstra prepaid $30–$40 สำหรับ 30–50GB ซื้อที่สนามบิน</span></div>
+</div>`;
+
+TRANSLATIONS.th['section.tips'] = `
+<div class="grid-2">
+  <div class="card">
+    <div class="tip-category">
+      <h3>🌡 สภาพอากาศเมลเบิร์น เดือนสิงหาคม</h3>
+      <div class="tip-item"><span class="icon">🌡</span><span class="text"><strong>อุณหภูมิ:</strong> 8–15°C ตอนเช้าหนาว บ่ายอากาศดี ต้องสวมเสื้อหลายชั้น</span></div>
+      <div class="tip-item"><span class="icon">🧥</span><span class="text"><strong>เสื้อผ้า:</strong> แจ็คเก็ตหนา ถุงมือยามเช้าตรู่ (Shrine sunrise) เสื้อกันฝน</span></div>
+      <div class="tip-item"><span class="icon">🌦</span><span class="text"><strong>ฝน:</strong> สิงหาคมฝนตก — พกร่มพับได้ "4 ฤดูในวันเดียว" เป็นเรื่องจริงในเมลเบิร์น</span></div>
+      <div class="tip-item"><span class="icon">🌊</span><span class="text"><strong>Great Ocean Road:</strong> ลมแรงและหนาวบนหน้าผา — เตรียมเสื้อกันลมให้เด็กๆ</span></div>
+      <div class="tip-item"><span class="icon">🏖</span><span class="text"><strong>ชายหาด:</strong> ไม่ลงเล่นน้ำ — หนาวเกินไป แต่เหมาะถ่ายรูปและเดินเล่น</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="tip-category">
+      <h3>💰 เงินและการชำระเงิน</h3>
+      <div class="tip-item"><span class="icon">💳</span><span class="text"><strong>บัตรเครดิต:</strong> Visa/Mastercard รับทุกที่ Tap-to-pay ใช้แพร่หลายมากในเมลเบิร์น</span></div>
+      <div class="tip-item"><span class="icon">💵</span><span class="text"><strong>เงินสด:</strong> เตรียม AUD สำหรับคาเฟ่เล็กๆ และตลาด มี ATM ทั่วไป</span></div>
+      <div class="tip-item"><span class="icon">🏧</span><span class="text"><strong>แลกเงิน:</strong> อย่าแลกที่สนามบิน ใช้ Wise card หรือถอนจาก ATM ANZ/CBA</span></div>
+      <div class="tip-item"><span class="icon">🎫</span><span class="text"><strong>myki card:</strong> บัตรขนส่งสาธารณะเมลเบิร์น ซื้อที่ 7-Eleven สนามบิน เติม $40 ต่อคนสำหรับ 7 วัน</span></div>
+      <div class="tip-item"><span class="icon">💰</span><span class="text"><strong>ทิป:</strong> ไม่บังคับ แต่ 10% เหมาะสมที่ร้านอาหารแบบ sit-down</span></div>
+    </div>
+  </div>
+</div>
+<div class="grid-2">
+  <div class="card">
+    <div class="tip-category">
+      <h3>🍽 อาหารและการรับประทาน</h3>
+      <div class="tip-item"><span class="icon">☕</span><span class="text"><strong>วัฒนธรรมกาแฟ:</strong> เมลเบิร์นจริงจังมากกับ flat white ลอง Patricia, Seven Seeds, ST Ali</span></div>
+      <div class="tip-item"><span class="icon">🥩</span><span class="text"><strong>ต้องกิน:</strong> เบอร์เกอร์ที่ Huxtaburger ติ่มซำที่ Flower Drum เบเกอรี่ที่ Tivoli Road Bakery</span></div>
+      <div class="tip-item"><span class="icon">🌏</span><span class="text"><strong>อาหารหลากหลาย:</strong> ฉากอาหารหลายวัฒนธรรมของเมลเบิร์นระดับโลก สำรวจ Chinatown ถนน Little Bourke</span></div>
+      <div class="tip-item"><span class="icon">🛒</span><span class="text"><strong>อาหารเช้าที่อพาร์ตเมนต์:</strong> ซื้อของเตรียมในครัว ประหยัด ~$50–80 AUD/วัน สำหรับ 6 คน</span></div>
+      <div class="tip-item"><span class="icon">🍫</span><span class="text"><strong>ของฝาก:</strong> Haigh's Chocolates, Tim Tams, Vegemite, Bundaberg ginger beer</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="tip-category">
+      <h3>👨‍👩‍👧 เดินทางกับเด็ก</h3>
+      <div class="tip-item"><span class="icon">🎡</span><span class="text"><strong>Luna Park</strong> สนุกมากสำหรับเด็ก — เครื่องเล่นโบราณ บรรยากาศสวนสนุกมรดก</span></div>
+      <div class="tip-item"><span class="icon">🐨</span><span class="text"><strong>Healesville Sanctuary</strong> ไฮไลต์สำหรับเด็ก — อุ้มโคอาล่า (ตรวจสอบว่าอนุญาตปี 2026)</span></div>
+      <div class="tip-item"><span class="icon">🚂</span><span class="text"><strong>Puffing Billy</strong> ทุกคนชอบ — ห้อยขาออกหน้าต่างตู้โดยสารเปิดคือประสบการณ์ที่ดีที่สุด</span></div>
+      <div class="tip-item"><span class="icon">🦘</span><span class="text"><strong>Melbourne Zoo</strong> ใน Royal Park — ครึ่งวันที่ดี จิงโจ้ สิงโต ผีเสื้อ</span></div>
+      <div class="tip-item"><span class="icon">🌿</span><span class="text"><strong>Fitzroy Gardens</strong> มีเส้นทางเดินประติมากรรมนางฟ้า และหมู่บ้าน Tudor จำลองขนาดเล็ก</span></div>
+    </div>
+  </div>
+</div>
+<div class="grid-2">
+  <div class="card">
+    <div class="tip-category">
+      <h3>🌐 อินเทอร์เน็ตและซิม</h3>
+      <div class="tip-item"><span class="icon">📱</span><span class="text"><strong>ซิมที่ดีที่สุด:</strong> Optus หรือ Telstra prepaid ที่สนามบิน ~$30 สำหรับ 40GB/30 วัน</span></div>
+      <div class="tip-item"><span class="icon">📶</span><span class="text"><strong>สัญญาณ:</strong> Telstra มีสัญญาณดีที่สุดในชนบท GOR และ Dandenong Ranges คุ้มค่าจ่ายเพิ่ม $5</span></div>
+      <div class="tip-item"><span class="icon">🗺</span><span class="text"><strong>แผนที่ offline:</strong> ดาวน์โหลด Google Maps offline สำหรับเมลเบิร์นก่อนขึ้นเครื่อง ประหยัดข้อมูล</span></div>
+      <div class="tip-item"><span class="icon">🔌</span><span class="text"><strong>ไฟฟ้า:</strong> ออสเตรเลียใช้ปลั๊ก Type I (3 ขาแบน) ซื้ออแดปเตอร์ที่กรุงเทพฯ หรือสนามบิน MEL</span></div>
+      <div class="tip-item"><span class="icon">⚡</span><span class="text"><strong>แรงดันไฟฟ้า:</strong> 230V/50Hz เหมือนไทย (230V) — อุปกรณ์ส่วนใหญ่ใช้ได้ ตรวจสอบฉลาก</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="tip-category">
+      <h3>🏥 สุขภาพและความปลอดภัย</h3>
+      <div class="tip-item"><span class="icon">🏥</span><span class="text"><strong>ประกันเดินทาง:</strong> ทำประกันครอบคลุมสำหรับ 6 คน รวม rental car excess (~$5,000 AUD)</span></div>
+      <div class="tip-item"><span class="icon">💊</span><span class="text"><strong>ร้านขายยา:</strong> Chemist Warehouse มีทั่วไป ยาหวัด/ไข้ ครีมกันแดดราคาถูก</span></div>
+      <div class="tip-item"><span class="icon">☀️</span><span class="text"><strong>แดดฤดูหนาว:</strong> UV ยังสูงได้ในเดือนสิงหาคม พก SPF 30+</span></div>
+      <div class="tip-item"><span class="icon">🚑</span><span class="text"><strong>ฉุกเฉิน:</strong> โทร 000 สำหรับรถพยาบาล/ตำรวจ/ดับเพลิงในออสเตรเลีย</span></div>
+      <div class="tip-item"><span class="icon">🐍</span><span class="text"><strong>สัตว์ป่า:</strong> เดินตามเส้นทางใน Dandenong Ranges งูอาจออกมาช่วงฤดูหนาวอบอุ่น ห้ามเข้าใกล้</span></div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="tip-category">
+    <h3>📋 เช็กลิสต์ก่อนเดินทาง</h3>
+    <div class="grid-2">
+      <div>
+        <div class="tip-item"><span class="icon">✅</span><span class="text">ETA ออสเตรเลียสำหรับ 6 คน (สมัครผ่านแอป APC ฟรี)</span></div>
+        <div class="tip-item"><span class="icon">✅</span><span class="text">จอง Puffing Billy ออนไลน์ (ขายหมดช่วงวันหยุดโรงเรียน)</span></div>
+        <div class="tip-item"><span class="icon">✅</span><span class="text">จอง Healesville Sanctuary ออนไลน์ (ถูกกว่าและข้ามคิวได้)</span></div>
+        <div class="tip-item"><span class="icon">✅</span><span class="text"><strong>จองคนขับ A Plus Melbourne แล้ว</strong> · 22 ส.ค. · มัดจำ 4,650 บาท ครอบครัว Nalyn จ่าย</span></div>
+        <div class="tip-item"><span class="icon">✅</span><span class="text">จองรถเช่า 8 ที่นั่ง (Carnival/iMax) — จองล่วงหน้า 2+ เดือน</span></div>
+        <div class="tip-item"><span class="icon">✅</span><span class="text">ซื้อ Melbourne Transurban toll day pass ออนไลน์ก่อนเดินทาง</span></div>
+      </div>
+      <div>
+        <div class="tip-item"><span class="icon">✅</span><span class="text">แจ้ง Quay West เรื่องมาถึงล่าช้า 17 ส.ค.</span></div>
+        <div class="tip-item"><span class="icon">✅</span><span class="text">ประกันเดินทาง 6 คน รวม rental car excess waiver</span></div>
+        <div class="tip-item"><span class="icon">✅</span><span class="text">Leica — ฟอร์แมตการ์ด ชาร์จแบตเตอรี่ เตรียมแบตสำรอง × 3</span></div>
+        <div class="tip-item"><span class="icon">✅</span><span class="text">DJI Mini 3 Pro — ตรวจสอบกฎ CASA สำหรับแต่ละสถานที่</span></div>
+        <div class="tip-item"><span class="icon">✅</span><span class="text">ดาวน์โหลด Google Maps offline (เมลเบิร์น, GOR, Yarra Valley)</span></div>
+        <div class="tip-item"><span class="icon">✅</span><span class="text">เตรียมปลั๊กแปลง Type I (ออสเตรเลีย 3 ขาแบน)</span></div>
+      </div>
+    </div>
+  </div>
+</div>`;
+
+TRANSLATIONS.th['section.expenses'] = `
+<div class="card">
+  <h2>💰 บันทึกค่าใช้จ่ายทริป</h2>
+  <p style="font-size:13px;color:var(--gray-400);margin-bottom:16px;">ครอบครัว Lycka = ครอบครัวบุญดิตย์ · ครอบครัว Nalyn = ครอบครัวเพื่อน · จัดการกันที่ปลายทริป</p>
+  <div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <thead>
+        <tr style="background:var(--gray-100);text-align:left;">
+          <th style="padding:10px 12px;font-weight:700;color:var(--navy);border-bottom:2px solid var(--gray-200);">วันที่</th>
+          <th style="padding:10px 12px;font-weight:700;color:var(--navy);border-bottom:2px solid var(--gray-200);">รายการ</th>
+          <th style="padding:10px 12px;font-weight:700;color:var(--navy);border-bottom:2px solid var(--gray-200);">รายละเอียด</th>
+          <th style="padding:10px 12px;font-weight:700;color:var(--navy);border-bottom:2px solid var(--gray-200);text-align:right;">จำนวนเงิน</th>
+          <th style="padding:10px 12px;font-weight:700;color:var(--navy);border-bottom:2px solid var(--gray-200);">จ่ายโดย</th>
+          <th style="padding:10px 12px;font-weight:700;color:var(--navy);border-bottom:2px solid var(--gray-200);">อ้างอิง</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--gray-200);">
+          <td style="padding:11px 12px;color:var(--gray-700);">17–23 ส.ค.</td>
+          <td style="padding:11px 12px;font-weight:600;color:var(--navy);">🏨 Quay West Suites</td>
+          <td style="padding:11px 12px;color:var(--gray-700);">Superior Apt 2BR · 6 คืน · รวมอาหารเช้า<br><span style="font-size:11px;color:var(--gray-400);">ผู้ใหญ่ 4 เด็ก 2 · ชั้น 4–9 · Unravel Ref 4DNAM37SCC</span></td>
+          <td style="padding:11px 12px;font-weight:700;color:var(--navy);text-align:right;">81,007 บาท</td>
+          <td style="padding:11px 12px;"><span style="background:#dbeafe;color:#1e40af;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;">Lycka's</span></td>
+          <td style="padding:11px 12px;font-size:11px;color:var(--gray-400);">4DNAM37SCC</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--gray-200);">
+          <td style="padding:11px 12px;color:var(--gray-700);">เสาร์ 22 ส.ค.</td>
+          <td style="padding:11px 12px;font-weight:600;color:var(--navy);">🚂 Puffing Billy Railway</td>
+          <td style="padding:11px 12px;color:var(--gray-700);">Belgrave → Menzies Creek ไปกลับ · ออก 10:00<br><span style="font-size:11px;color:var(--gray-400);">ผู้ใหญ่ 4 × $43.50 + เด็ก 2 × $22.00</span></td>
+          <td style="padding:11px 12px;font-weight:700;color:var(--navy);text-align:right;">$218.00 AUD</td>
+          <td style="padding:11px 12px;"><span style="background:#dbeafe;color:#1e40af;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;">Lycka's</span></td>
+          <td style="padding:11px 12px;font-size:11px;color:var(--gray-400);">786964<br>164703</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--gray-200);">
+          <td style="padding:11px 12px;color:var(--gray-700);">เสาร์ 22 ส.ค.</td>
+          <td style="padding:11px 12px;font-weight:600;color:var(--navy);">🍷 A Plus Melbourne</td>
+          <td style="padding:11px 12px;color:var(--gray-700);">คนขับคนไทย · ทัวร์ไวน์ Yarra Valley · มัดจำจ่าย 6 พ.ค.<br><span style="font-size:11px;color:var(--gray-400);">จ่ายส่วนที่เหลือวันนั้น · SCB Ref: 202605063m8ftdmOwvPC3gJJ4</span></td>
+          <td style="padding:11px 12px;font-weight:700;color:var(--navy);text-align:right;">4,650 บาท <span style="background:#fef3c7;color:#92400e;border-radius:4px;padding:1px 5px;font-size:10px;font-weight:700;">มัดจำ</span></td>
+          <td style="padding:11px 12px;"><span style="background:#d1fae5;color:#065f46;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;">Nalyn's</span></td>
+          <td style="padding:11px 12px;font-size:11px;color:var(--gray-400);">SCB transfer<br>x-0684</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr style="background:var(--gray-100);">
+          <td colspan="3" style="padding:11px 12px;font-weight:700;color:var(--navy);">ครอบครัว Lycka จ่าย</td>
+          <td style="padding:11px 12px;font-weight:800;color:var(--navy);text-align:right;font-size:13px;line-height:1.8;">81,007 บาท<br>$218.00 AUD</td>
+          <td colspan="2" style="padding:11px 12px;"></td>
+        </tr>
+        <tr style="background:var(--gray-100);border-top:1px solid var(--gray-200);">
+          <td colspan="3" style="padding:11px 12px;font-weight:700;color:var(--navy);">ครอบครัว Nalyn จ่าย</td>
+          <td style="padding:11px 12px;font-weight:800;color:var(--navy);text-align:right;font-size:13px;">4,650 บาท</td>
+          <td colspan="2" style="padding:11px 12px;"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+<div class="grid-2">
+  <div class="card">
+    <h2>📊 ยอดที่ต้องจัดการ</h2>
+    <p style="font-size:13px;color:var(--gray-700);margin-bottom:14px;">แบ่ง 50/50 — แต่ละครอบครัวจ่ายครึ่งหนึ่งของค่าใช้จ่ายรวม:</p>
+    <div class="info-row"><span class="label">โรงแรม · Lycka's จ่าย</span><span class="val" style="font-weight:700;color:var(--navy);">81,007 บาท</span></div>
+    <div class="info-row"><span class="label">A Plus Melbourne · Nalyn's จ่าย</span><span class="val" style="font-weight:700;color:var(--navy);">4,650 บาท</span></div>
+    <div class="info-row"><span class="label">รวม THB ÷ 2</span><span class="val" style="font-weight:700;color:var(--navy);">85,657 ÷ 2 = <strong>42,828.50 บาท ต่อครอบครัว</strong></span></div>
+    <div class="info-row"><span class="label">Puffing Billy (AUD)</span><span class="val" style="font-weight:700;color:var(--navy);">$218.00 ÷ 2 = <strong>$109.00 AUD</strong> <span style="background:#fef3c7;color:#92400e;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:700;">ยังไม่แน่นอน</span></span></div>
+    <div class="tip-box" style="margin-top:12px;"><strong>ครอบครัว Nalyn ต้องจ่ายคืนครอบครัว Lycka:</strong><br>
+      🇹🇭 <strong>38,178.50 บาท</strong> <span style="font-size:12px;opacity:0.8;">(42,828.50 − 4,650 ที่จ่ายไปแล้ว)</span><br>
+      🇦🇺 <strong>$109.00 AUD</strong> <span style="background:#fef3c7;color:#92400e;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:700;">ยังไม่แน่นอน</span> — ขึ้นอยู่กับอัตราแลกเปลี่ยน
+    </div>
+  </div>
+  <div class="card">
+    <h2>💡 หมายเหตุค่าใช้จ่าย</h2>
+    <div class="tip-item"><span class="icon">📋</span><span class="text">เพิ่มค่าใช้จ่ายอื่นเมื่อจอง — Penguin Parade, รถเช่า ฯลฯ</span></div>
+    <div class="tip-item"><span class="icon">💱</span><span class="text">โรงแรมจ่ายเป็นบาท · กิจกรรมเป็น AUD · ชำระแยกหรือตกลงอัตราแลกเปลี่ยน</span></div>
+    <div class="tip-item"><span class="icon">⚠️</span><span class="text">โรงแรมไม่คืนเงินตั้งแต่ 6 พ.ค. 2026 (ค่ายกเลิก: 80,917 บาท)</span></div>
+    <div class="tip-item"><span class="icon">📱</span><span class="text">ยืนยันโรงแรมส่งถึง bunditsn@gmail.com · Puffing Billy Booking No. 786964</span></div>
+  </div>
+</div>`;
+
+TRANSLATIONS.th['section.photos'] = TRANSLATIONS.en['section.photos']; // Photos tab stays in English (camera specs, technical data)
+
+function setLang(lang) {
+  if (lang === currentLang && document.readyState !== 'loading') {
+    // Allow re-apply on initial load
+  }
+  currentLang = lang;
+  localStorage.setItem('melb_lang', lang);
+
+  const btn = document.getElementById('lang-toggle');
+  if (btn) btn.textContent = lang === 'en' ? 'ภาษาไทย' : 'English';
+  document.documentElement.lang = lang;
+
+  const t = TRANSLATIONS[lang];
+
+  // Update data-i18n text content
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+
+  // Update data-i18n-html innerHTML
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.dataset.i18nHtml;
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+
+  // Update placeholder attributes
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.dataset.i18nPlaceholder;
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+
+  // Re-inject expandables after itinerary content may have changed
+  if (typeof injectExpandables === 'function') {
+    // injectExpandables is an IIFE — re-run its core logic
+    document.querySelectorAll('#tab-itinerary .timeline li').forEach(li => {
+      if (li.classList.contains('lm-item')) return;
+      const text = li.textContent;
+      const lmMatch = LM_PATTERNS.find(p => p.re.test(text));
+      if (lmMatch && LANDMARKS[lmMatch.lid]) {
+        attachPanelPublic(li, 'info', () => buildPanel(lmMatch.lid), lmMatch.lid);
+        return;
+      }
+      const flMatch = FLIGHT_PATTERNS.find(p => p.re.test(text));
+      if (flMatch && FLIGHTS[flMatch.fid]) {
+        attachPanelPublic(li, 'details', () => buildFlightPanel(flMatch.fid));
+      }
+    });
+  }
+
+  // Reload hotel photos slideshow if hotel section was replaced
+  if (lang === 'th' && document.getElementById('ss-hotel')) {
+    loadHotelPhotos();
+  }
+}
+
+function toggleLang() {
+  setLang(currentLang === 'en' ? 'th' : 'en');
+}
+
+// Init language on page load
+(function() {
+  const saved = localStorage.getItem('melb_lang');
+  if (saved && saved !== 'en') {
+    setLang(saved);
+  }
+})();
 
 // ── DARK MODE ──
 function toggleDark() {
