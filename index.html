@@ -3459,8 +3459,7 @@ function setLang(lang) {
   });
 
   // Re-inject expandables after itinerary content may have changed
-  if (typeof injectExpandables === 'function') {
-    // injectExpandables is an IIFE — re-run its core logic
+  if (typeof attachPanelPublic === 'function') {
     document.querySelectorAll('#tab-itinerary .timeline li').forEach(li => {
       if (li.classList.contains('lm-item')) return;
       const text = li.textContent;
