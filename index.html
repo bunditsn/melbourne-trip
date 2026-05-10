@@ -2949,6 +2949,11 @@ TRANSLATIONS.th['dayDep.body'] = `<ul class="timeline">
   <li><span class="time">19:00</span> ถึงกรุงเทพฯ (BKK) — กลับบ้าน! 🏠 <span class="note">เวลากรุงเทพฯ (SIN−1h)</span></li>
 </ul>`;
 
+// ── DAY BODY HTML TRANSLATIONS (itinerary tab) ──
+['day0','day1','day2','day3','day4','day5','day6','dayDep'].forEach(k => {
+  TRANSLATIONS.en[k + '.body'] = document.querySelector(`[data-i18n-html="${k}.body"]`)?.innerHTML || '';
+});
+
 // ── SECTION HTML TRANSLATIONS (other tabs) ──
 TRANSLATIONS.en['section.flights'] = document.querySelector('[data-i18n-html="section.flights"]')?.innerHTML || '';
 TRANSLATIONS.en['section.hotel'] = document.querySelector('[data-i18n-html="section.hotel"]')?.innerHTML || '';
