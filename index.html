@@ -111,6 +111,7 @@
     .tag-photo { background: #fce7f3; color: #9d174d; }
     .tag-nature { background: #d1fae5; color: #065f46; }
     .tag-culture { background: #ede9fe; color: #4c1d95; }
+    .map-pin-badge { display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;color:white;font-size:11px;font-weight:800;margin-right:5px;flex-shrink:0;vertical-align:middle;line-height:1; }
     .tip-box { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 10px 14px; font-size: 13px; margin-top: 12px; color: #0369a1; }
     .tip-box strong { display: block; margin-bottom: 2px; }
 
@@ -1623,6 +1624,30 @@ function makeNumberIcon(n, color) {
 
 let activeMarkers = [];
 let activeRoute = null;
+let currentDayFilter = 'all';
+
+function injectMapBadges(day, color) {
+  document.querySelectorAll('.map-pin-badge').forEach(b => b.remove());
+  if (day === 'all' || day === 'dep' || !color) return;
+  const dayCard = document.querySelector(`#tab-itinerary .day-card[data-day="${day}"]`);
+  if (!dayCard) return;
+  const sorted = pinsData.filter(p => p.dayNum === day).sort((a, b) => a.order - b.order);
+  let n = 0;
+  const pinMap = sorted
+    .filter(p => p.emoji !== '🏨')
+    .map(p => ({ num: ++n, key: p.title.split('—')[0].split('·')[0].trim() }));
+  dayCard.querySelectorAll('.timeline li').forEach(li => {
+    const text = li.textContent;
+    const hit = pinMap.find(pm => text.includes(pm.key));
+    if (hit) {
+      const badge = document.createElement('span');
+      badge.className = 'map-pin-badge';
+      badge.style.background = color;
+      badge.textContent = hit.num;
+      li.insertBefore(badge, li.firstChild);
+    }
+  });
+}
 
 function clearMap() {
   activeMarkers.forEach(m => map.removeLayer(m));
@@ -1643,6 +1668,7 @@ async function filterDay(day, btn) {
   document.querySelectorAll('.day-filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   clearMap();
+  currentDayFilter = day;
 
   const bar    = document.getElementById('route-info-bar');
   const label  = document.getElementById('route-label');
@@ -1675,6 +1701,7 @@ async function filterDay(day, btn) {
       m.bindPopup(`<div class="popup-title">${p.emoji} ${p.title}</div><div style="font-size:12px;color:#374151;margin:2px 0;">${p.sub}</div><div class="popup-day">📅 ${DAY_LABEL[p.dayNum]}</div>`);
       activeMarkers.push(m);
     });
+    injectMapBadges(day, null);
     map.setView([-37.88, 144.95], 10);
     return;
   }
@@ -1691,6 +1718,8 @@ async function filterDay(day, btn) {
     m.bindPopup(`<div class="popup-title">${titleLabel}</div><div style="font-size:12px;color:#374151;margin:2px 0;">${p.sub}</div><div class="popup-day">📅 ${DAY_LABEL[day]}</div>`);
     activeMarkers.push(m);
   });
+
+  injectMapBadges(day, color);
 
   map.fitBounds(L.latLngBounds(dayPins.map(p => [p.lat, p.lng])), { padding: [50, 50] });
 
@@ -3740,6 +3769,11 @@ function setLang(lang) {
         attachPanelPublic(li, 'details', () => buildFlightPanel(flMatch.fid));
       }
     });
+  }
+
+  // Re-inject map pin badges after day body HTML may have been replaced
+  if (currentDayFilter !== 'all' && currentDayFilter !== 'dep') {
+    injectMapBadges(currentDayFilter, DAY_COLOR[currentDayFilter]);
   }
 
   // Reload hotel photos slideshow if hotel section was replaced
