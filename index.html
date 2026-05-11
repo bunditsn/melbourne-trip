@@ -2992,7 +2992,7 @@ function checkPw() {
 }
 
 // ── LANGUAGE TOGGLE ──
-let currentLang = localStorage.getItem('melb_lang') || 'en';
+let currentLang = localStorage.getItem('melb_lang') || 'th';
 
 const TRANSLATIONS = {
   en: {
@@ -3792,8 +3792,10 @@ function toggleLang() {
 // Init language on page load
 (function() {
   const saved = localStorage.getItem('melb_lang');
-  if (saved && saved !== 'en') {
+  if (saved) {
     setLang(saved);
+  } else {
+    setLang('th');
   }
 })();
 
