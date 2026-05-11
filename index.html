@@ -472,13 +472,23 @@
         <span class="status-badge tbc" data-i18n="badge.tbc">⏳ TBC</span>
         <span class="day-title" data-i18n="day1.title">— Arrival + Easy Start</span>
       </div>
-      <div data-i18n-html="day1.body"><ul class="timeline">
-        <li><span class="time">11:00</span> <strong>Federation Square</strong> — orientation, landmark architecture <span class="tag tag-photo">📷</span></li>
-        <li><span class="time">12:00</span> Brunch at Southbank Promenade or Crown cafés <span class="tag tag-food">🍳</span></li>
-        <li><span class="time">14:00</span> Check in hotel (if room ready) — rest and recover from jet lag <span class="note">It's 18:00 Bangkok time — your body needs this break</span></li>
-        <li><span class="time">18:30</span> Chill dinner at Crown Riverwalk restaurants or Southbank <span class="tag tag-food">🍽</span></li>
+      <div data-i18n-html="day1.body"><div class="tip-box" style="margin-bottom:12px;"><strong>✈️ Arrival timeline:</strong> Land 08:15 → immigration + bags ~1 hr → pick up Kia Carnival → drive ~35 min → hotel ~10:15. All 8 sights are within a compact 4km walking loop of the CBD — no driving needed once bags are dropped.</div>
+      <ul class="timeline">
+        <li><span class="time">08:15</span> Land at MEL · immigration, baggage, pick up <strong>Kia Carnival</strong> <span class="tag tag-drive">🚐</span></li>
+        <li><span class="time">10:15</span> Arrive <strong>Quay West Suites</strong> · drop bags (room likely not ready until 14:00) <span class="note">Ask for early check-in — often granted before noon</span></li>
+        <li><span class="time">10:45</span> Walk to <strong>Federation Square</strong> — 10 min from hotel · orientation point <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">11:00</span> <strong>St Paul's Cathedral</strong> — Flinders St · neo-Gothic sandstone, directly opposite Fed Square <span class="tag tag-culture">⛪</span></li>
+        <li><span class="time">11:20</span> <strong>Hosier Lane</strong> — 3 min walk · Melbourne's most famous street art laneway <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">11:40</span> <strong>Birrarung Marr</strong> — riverside park · Federation Bells · best CBD skyline view <span class="tag tag-photo">📷</span></li>
+        <li><span class="time">12:15</span> Lunch at Southbank Promenade or South Wharf cafés <span class="tag tag-food">🍳</span></li>
+        <li><span class="time">13:15</span> Walk north up Swanston St · <strong>State Library Victoria</strong> — La Trobe Reading Room dome · Ned Kelly armour · FREE <span class="tag tag-culture">📚</span></li>
+        <li><span class="time">14:00</span> Walk 10 min NE · <strong>Royal Exhibition Building + Carlton Gardens</strong> — UNESCO World Heritage · 1880 great hall <span class="tag tag-culture">🏛</span></li>
+        <li><span class="time">14:45</span> Walk 15 min SE · <strong>Fitzroy Gardens</strong> — English elms, fairy tree, Cook's Cottage <span class="tag tag-nature">🌳</span></li>
+        <li><span class="time">15:10</span> <strong>St Patrick's Cathedral</strong> — adjacent to Fitzroy Gardens · largest Gothic church in Australia <span class="tag tag-culture">⛪</span></li>
+        <li><span class="time">15:30</span> Rideshare back to hotel ~10 min · rest before dinner <span class="note">Jet lag peaks now — it's 12:30 Bangkok time for your body</span></li>
+        <li><span class="time">18:30</span> Chill dinner at Crown Riverwalk or Southbank Promenade <span class="tag tag-food">🍽</span></li>
       </ul>
-      <div class="tip-box"><strong>💡 Arrival day rule:</strong> Do NOT over-schedule. Jet lag hits hardest in the early afternoon. A relaxed first day means far more energy for the remaining days — learned from experience.</div>
+      <div class="tip-box"><strong>💡 First day tip:</strong> All 8 landmarks are flat, walkable, and free (except Cook's Cottage ~$5). If the group tires after Birrarung Marr, the State Library → Carlton Gardens → Fitzroy Gardens loop can shift to Day 4 recovery day — it fits there perfectly too.</div>
       </div>
     </div>
 
@@ -1540,9 +1550,16 @@ const pinsData = [
   { lat: -37.6690, lng: 144.8410, emoji: '✈️', title: 'Melbourne Airport (MEL)', sub: 'Pick up Kia Carnival · Tullamarine', dayNum: 0, order: 0 },
   { ...H, dayNum: 0, order: 1 },
 
-  // Day 1 — Arrival
+  // Day 1 — CBD Walking Loop
   { ...H, dayNum: 1, order: 0 },
-  { lat: -37.8171, lng: 144.9671, emoji: '🏛', title: 'Federation Square', sub: 'Orientation · landmark architecture', dayNum: 1, order: 1 },
+  { lat: -37.8175, lng: 144.9670, emoji: '⛪', title: "St Paul's Cathedral", sub: 'Neo-Gothic · Flinders St opposite Fed Square', dayNum: 1, order: 1 },
+  { lat: -37.8171, lng: 144.9671, emoji: '🏛', title: 'Federation Square', sub: 'Orientation · landmark architecture', dayNum: 1, order: 2 },
+  { lat: -37.8188, lng: 144.9682, emoji: '🎨', title: 'Hosier Lane', sub: 'Street art laneway · Melbourne icon', dayNum: 1, order: 3 },
+  { lat: -37.8202, lng: 144.9727, emoji: '🌿', title: 'Birrarung Marr', sub: 'Riverside park · Federation Bells · CBD skyline', dayNum: 1, order: 4 },
+  { lat: -37.8097, lng: 144.9646, emoji: '📚', title: 'State Library Victoria', sub: 'La Trobe Reading Room · FREE · Ned Kelly armour', dayNum: 1, order: 5 },
+  { lat: -37.8042, lng: 144.9716, emoji: '🏛', title: 'Royal Exhibition Building', sub: 'UNESCO World Heritage · Carlton Gardens · 1880', dayNum: 1, order: 6 },
+  { lat: -37.8143, lng: 144.9793, emoji: '🌳', title: 'Fitzroy Gardens', sub: "English elms · Cook's Cottage · Fairy Tree", dayNum: 1, order: 7 },
+  { lat: -37.8125, lng: 144.9800, emoji: '⛪', title: "St Patrick's Cathedral", sub: 'Largest Gothic church in Australia · East Melbourne', dayNum: 1, order: 8 },
 
   // Day 2 — Zoo + City
   { ...H, dayNum: 2, order: 0 },
@@ -2601,6 +2618,11 @@ const LANDMARKS = {
 
 const LM_PATTERNS = [
   { re: /Federation Square/,        lid: 'fed-sq' },
+  { re: /St Paul's Cathedral/,      lid: 'st-pauls' },
+  { re: /State Library Victoria/,   lid: 'state-lib' },
+  { re: /Royal Exhibition Building|Carlton Gardens/, lid: 'carlton-gardens' },
+  { re: /St Patrick's Cathedral/,   lid: 'st-patricks' },
+  { re: /Birrarung Marr/,           lid: 'birrarung' },
   { re: /Fitzroy Gardens/,          lid: 'fitzroy-gardens' },
   { re: /Hosier Lane/,              lid: 'hosier-lane' },
   { re: /Queen Victoria Market/,    lid: 'qv-market' },
@@ -3085,13 +3107,23 @@ TRANSLATIONS.th['day0.body'] = `<ul class="timeline">
 </ul>
 <div class="tip-box"><strong>💡 มาถึงตอนเช้า:</strong> ลงจอด 08:15 — ช่วงเวลาดีที่สุด ขอ early check-in ตอนจอง ถ้าห้องยังไม่พร้อม ฝากกระเป๋ากับ concierge แล้วไปทานอาหารเช้าที่ Southbank</div>`;
 
-TRANSLATIONS.th['day1.body'] = `<ul class="timeline">
-  <li><span class="time">11:00</span> <strong>Federation Square</strong> — ปฐมนิเทศ สถาปัตยกรรมสำคัญ <span class="tag tag-photo">📷</span></li>
-  <li><span class="time">12:00</span> มื้อสาย Southbank Promenade หรือคาเฟ่ Crown <span class="tag tag-food">🍳</span></li>
-  <li><span class="time">14:00</span> Check in โรงแรม (ถ้าห้องพร้อม) — พักผ่อนแก้ jet lag <span class="note">ตอนนี้เวลากรุงเทพฯ 18:00 — ร่างกายต้องการพัก</span></li>
-  <li><span class="time">18:30</span> กินข้าวเย็นแบบสบายๆ ที่ Crown Riverwalk หรือ Southbank <span class="tag tag-food">🍽</span></li>
+TRANSLATIONS.th['day1.body'] = `<div class="tip-box" style="margin-bottom:12px;"><strong>✈️ ตารางวันมาถึง:</strong> ลงจอด 08:15 → ผ่านด่านตรวจคนเข้าเมือง + รับกระเป๋า ~1 ชั่วโมง → รับ Kia Carnival → ขับ ~35 นาที → ถึงโรงแรม ~10:15 สถานที่ทั้ง 8 อยู่ในรัศมีเดินเท้า 4 กม. ของ CBD — ไม่ต้องขับรถหลังวางกระเป๋า</div>
+<ul class="timeline">
+  <li><span class="time">08:15</span> ลงจอดที่ MEL · ผ่านด่านตรวจคนเข้าเมือง รับกระเป๋า รับ <strong>Kia Carnival</strong> <span class="tag tag-drive">🚐</span></li>
+  <li><span class="time">10:15</span> ถึง <strong>Quay West Suites</strong> · วางกระเป๋า (ห้องมักยังไม่พร้อมก่อน 14:00) <span class="note">ขอ early check-in — มักได้ก่อนเที่ยง</span></li>
+  <li><span class="time">10:45</span> เดินไป <strong>Federation Square</strong> — 10 นาทีจากโรงแรม · จุดปฐมนิเทศ <span class="tag tag-photo">📷</span></li>
+  <li><span class="time">11:00</span> <strong>St Paul's Cathedral</strong> — Flinders St · วิหาร Neo-Gothic หินทราย ตรงข้าม Fed Square <span class="tag tag-culture">⛪</span></li>
+  <li><span class="time">11:20</span> <strong>Hosier Lane</strong> — เดิน 3 นาที · ซอยศิลปะข้างถนนที่มีชื่อที่สุดของเมลเบิร์น <span class="tag tag-photo">📷</span></li>
+  <li><span class="time">11:40</span> <strong>Birrarung Marr</strong> — สวนริมแม่น้ำ · Federation Bells · วิว CBD สวยที่สุด <span class="tag tag-photo">📷</span></li>
+  <li><span class="time">12:15</span> กินข้าวกลางวันที่ Southbank Promenade หรือ South Wharf <span class="tag tag-food">🍳</span></li>
+  <li><span class="time">13:15</span> เดินขึ้นเหนือบน Swanston St · <strong>State Library Victoria</strong> — โดม La Trobe Reading Room · ชุดเกราะ Ned Kelly · ฟรี <span class="tag tag-culture">📚</span></li>
+  <li><span class="time">14:00</span> เดิน 10 นาทีไปทิศตะวันออกเฉียงเหนือ · <strong>Royal Exhibition Building + Carlton Gardens</strong> — มรดกโลก UNESCO · หอประชุมปี 1880 <span class="tag tag-culture">🏛</span></li>
+  <li><span class="time">14:45</span> เดิน 15 นาทีไปทิศตะวันออกเฉียงใต้ · <strong>Fitzroy Gardens</strong> — ต้นเอล์ม ต้นไม้นางฟ้า กระท่อม Cook's Cottage <span class="tag tag-nature">🌳</span></li>
+  <li><span class="time">15:10</span> <strong>St Patrick's Cathedral</strong> — ติดกับ Fitzroy Gardens · โบสถ์ Gothic ที่ใหญ่ที่สุดในออสเตรเลีย <span class="tag tag-culture">⛪</span></li>
+  <li><span class="time">15:30</span> นั่ง rideshare กลับโรงแรม ~10 นาที · พักผ่อนก่อนมื้อเย็น <span class="note">Jet lag รุนแรงที่สุดช่วงนี้ — นาฬิกากรุงเทพฯ ตีบ่ายโมงครึ่งแล้ว</span></li>
+  <li><span class="time">18:30</span> กินข้าวเย็นสบายๆ ที่ Crown Riverwalk หรือ Southbank Promenade <span class="tag tag-food">🍽</span></li>
 </ul>
-<div class="tip-box"><strong>💡 กฎวันแรก:</strong> อย่าจัดตารางแน่นเกินไป Jet lag มักจะหนักช่วงบ่ายต้น วันแรกที่ผ่อนคลายจะทำให้มีพลังงานมากขึ้นสำหรับวันที่เหลือ — ประสบการณ์จริง</div>`;
+<div class="tip-box"><strong>💡 เคล็ดลับวันแรก:</strong> ทั้ง 8 สถานที่เดินเท้าได้ แบนราบ และส่วนใหญ่ฟรี (ยกเว้น Cook's Cottage ~$5) ถ้าทีมเหนื่อยหลัง Birrarung Marr ส่วน State Library → Carlton Gardens → Fitzroy Gardens ย้ายไปวันที่ 4 (Recovery Day) ได้เลย — เหมาะพอดี</div>`;
 
 TRANSLATIONS.th['day2.body'] = `<ul class="timeline">
   <li><span class="time">09:00</span> <strong>Melbourne Zoo</strong> — Royal Park · สิงโต ช้าง กอริลลา บ้านผีเสื้อ <span class="tag tag-nature">🦁</span><span class="note">เปิด 09:00–17:00 · ~$40 ผู้ใหญ่, $19 เด็ก · จองออนไลน์</span></li>
