@@ -1,5 +1,20 @@
 # Melbourne Trip — Developer Notes
 
+## Trip Families
+
+Two families travelling together:
+
+| Family label | Who | Thai spelling |
+|---|---|---|
+| **Lycka's Family** | Bundit's family (the user) | ครอบครัว ลิคกะ |
+| **Nalyn's Family** | Friend's family | ครอบครัว ณาลิณ |
+
+- English content always uses "Lycka's Family" / "Nalyn's Family" (or "Lycka's" / "Nalyn's" in badge labels)
+- Thai content always uses "ครอบครัว ลิคกะ" / "ครอบครัว ณาลิณ" (or "ลิคกะ" / "ณาลิณ" in badge labels)
+- Never write "ครอบครัว Lycka" or "ครอบครัว Nalyn" — those are the old, incorrect forms
+
+---
+
 ## CRITICAL: Thai Translation Sync Rule
 
 **Whenever ANY English content is changed in `index.html`, the corresponding Thai translation in the `TRANSLATIONS.th` object (inside the `<script>` block) MUST also be updated.**
