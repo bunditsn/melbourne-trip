@@ -1419,7 +1419,7 @@
   <div data-i18n-html="section.expenses">
     <div class="card">
       <h2>💰 Trip Expenses Log</h2>
-      <p style="font-size:13px;color:var(--gray-400);margin-bottom:16px;">Lycka's Family = Bundit's family · Nalyn's Family = friend's family · To settle at end of trip</p>
+      <p style="font-size:13px;color:var(--gray-400);margin-bottom:16px;">Lycka's Family = Bundit's family · Nalyn's Family = friend's family · Pre-trip expenses ✅ Settled</p>
 
       <!-- Expense table -->
       <div style="overflow-x:auto;">
@@ -1447,7 +1447,7 @@
               <td style="padding:11px 12px;color:var(--gray-700);">Sat 22 Aug</td>
               <td style="padding:11px 12px;font-weight:600;color:var(--navy);">🚂 Puffing Billy Railway</td>
               <td style="padding:11px 12px;color:var(--gray-700);">Belgrave → Menzies Creek return · 10:00 depart<br><span style="font-size:11px;color:var(--gray-400);">4 Adults × $43.50 + 2 Children × $22.00</span></td>
-              <td style="padding:11px 12px;font-weight:700;color:var(--navy);text-align:right;">$218.00 AUD</td>
+              <td style="padding:11px 12px;font-weight:700;color:var(--navy);text-align:right;">$218.00 AUD<br><span style="font-size:11px;font-weight:400;color:var(--gray-400);">= 5,286.63 THB</span></td>
               <td style="padding:11px 12px;"><span style="background:#dbeafe;color:#1e40af;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;">Lycka's</span></td>
               <td style="padding:11px 12px;font-size:11px;color:var(--gray-400);">786964<br>164703</td>
             </tr>
@@ -1463,7 +1463,7 @@
           <tfoot>
             <tr style="background:var(--gray-100);">
               <td colspan="3" style="padding:11px 12px;font-weight:700;color:var(--navy);">Lycka's Family paid</td>
-              <td style="padding:11px 12px;font-weight:800;color:var(--navy);text-align:right;font-size:13px;line-height:1.8;">81,007 THB<br>$218.00 AUD</td>
+              <td style="padding:11px 12px;font-weight:800;color:var(--navy);text-align:right;font-size:13px;line-height:1.8;">86,293.63 THB<br><span style="font-size:11px;font-weight:400;opacity:0.7;">81,007 + 5,286.63</span></td>
               <td colspan="2" style="padding:11px 12px;"></td>
             </tr>
             <tr style="background:var(--gray-100);border-top:1px solid var(--gray-200);">
@@ -1489,22 +1489,21 @@
           <span class="val" style="font-weight:700;color:var(--navy);">4,650 THB</span>
         </div>
         <div class="info-row">
-          <span class="label">Total THB shared ÷ 2</span>
-          <span class="val" style="font-weight:700;color:var(--navy);">85,657 ÷ 2 = <strong>42,828.50 THB each</strong></span>
+          <span class="label">Puffing Billy · rate confirmed</span>
+          <span class="val" style="font-weight:700;color:var(--navy);">$218.00 AUD = <strong>5,286.63 THB</strong></span>
         </div>
         <div class="info-row">
-          <span class="label">Puffing Billy (AUD)</span>
-          <span class="val" style="font-weight:700;color:var(--navy);">$218.00 ÷ 2 = <strong>$109.00 AUD</strong> <span style="background:#fef3c7;color:#92400e;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:700;">TBC</span></span>
+          <span class="label">Total shared (all THB) ÷ 2</span>
+          <span class="val" style="font-weight:700;color:var(--navy);">90,943.63 ÷ 2 = <strong>45,471.82 THB each</strong></span>
         </div>
-        <div class="tip-box" style="margin-top:12px;"><strong>Nalyn's Family owes Lycka's Family:</strong><br>
-          🇹🇭 <strong>38,178.50 THB</strong> <span style="font-size:12px;opacity:0.8;">(42,828.50 − 4,650 already paid)</span><br>
-          🇦🇺 <strong>$109.00 AUD</strong> <span style="background:#fef3c7;color:#92400e;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:700;">TBC</span> — pending exchange rate
+        <div class="tip-box" style="margin-top:12px;background:#d1fae5;border-color:#6ee7b7;"><strong>✅ SETTLED — Nalyn's Family paid Lycka's Family</strong><br>
+          🇹🇭 <strong>40,821.82 THB</strong> <span style="font-size:12px;opacity:0.8;">(45,471.82 − 4,650 already paid)</span>
         </div>
       </div>
       <div class="card">
         <h2>💡 Expense Notes</h2>
         <div class="tip-item"><span class="icon">📋</span><span class="text">Add more expenses as you book — Penguin Parade, car rental, etc.</span></div>
-        <div class="tip-item"><span class="icon">💱</span><span class="text">Hotel paid in THB · Activities in AUD · settle each currency separately or agree on a rate.</span></div>
+        <div class="tip-item"><span class="icon">💱</span><span class="text">Exchange rate used: $218 AUD = 5,286.63 THB (1 AUD ≈ 24.25 THB).</span></div>
         <div class="tip-item"><span class="icon">⚠️</span><span class="text">Hotel is non-refundable from 6 May 2026 onwards (cancellation charge: 80,917 THB).</span></div>
         <div class="tip-item"><span class="icon">📱</span><span class="text">Hotel confirmation sent to bunditsn@gmail.com · Puffing Billy Booking No. 786964</span></div>
       </div>
@@ -3670,7 +3669,7 @@ TRANSLATIONS.th['section.tips'] = `
 TRANSLATIONS.th['section.expenses'] = `
 <div class="card">
   <h2>💰 บันทึกค่าใช้จ่ายทริป</h2>
-  <p style="font-size:13px;color:var(--gray-400);margin-bottom:16px;">ครอบครัว ลิคกะ = ครอบครัวบุญดิตย์ · ครอบครัว ณาลิณ = ครอบครัวเพื่อน · จัดการกันที่ปลายทริป</p>
+  <p style="font-size:13px;color:var(--gray-400);margin-bottom:16px;">ครอบครัว ลิคกะ = ครอบครัวบุญดิตย์ · ครอบครัว ณาลิณ = ครอบครัวเพื่อน · ค่าใช้จ่ายก่อนทริป ✅ ชำระแล้ว</p>
   <div style="overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;font-size:13px;">
       <thead>
@@ -3696,7 +3695,7 @@ TRANSLATIONS.th['section.expenses'] = `
           <td style="padding:11px 12px;color:var(--gray-700);">เสาร์ 22 ส.ค.</td>
           <td style="padding:11px 12px;font-weight:600;color:var(--navy);">🚂 Puffing Billy Railway</td>
           <td style="padding:11px 12px;color:var(--gray-700);">Belgrave → Menzies Creek ไปกลับ · ออก 10:00<br><span style="font-size:11px;color:var(--gray-400);">ผู้ใหญ่ 4 × $43.50 + เด็ก 2 × $22.00</span></td>
-          <td style="padding:11px 12px;font-weight:700;color:var(--navy);text-align:right;">$218.00 AUD</td>
+          <td style="padding:11px 12px;font-weight:700;color:var(--navy);text-align:right;">$218.00 AUD<br><span style="font-size:11px;font-weight:400;color:var(--gray-400);">= 5,286.63 บาท</span></td>
           <td style="padding:11px 12px;"><span style="background:#dbeafe;color:#1e40af;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;">ลิคกะ</span></td>
           <td style="padding:11px 12px;font-size:11px;color:var(--gray-400);">786964<br>164703</td>
         </tr>
@@ -3712,7 +3711,7 @@ TRANSLATIONS.th['section.expenses'] = `
       <tfoot>
         <tr style="background:var(--gray-100);">
           <td colspan="3" style="padding:11px 12px;font-weight:700;color:var(--navy);">ครอบครัว ลิคกะ จ่าย</td>
-          <td style="padding:11px 12px;font-weight:800;color:var(--navy);text-align:right;font-size:13px;line-height:1.8;">81,007 บาท<br>$218.00 AUD</td>
+          <td style="padding:11px 12px;font-weight:800;color:var(--navy);text-align:right;font-size:13px;line-height:1.8;">86,293.63 บาท<br><span style="font-size:11px;font-weight:400;opacity:0.7;">81,007 + 5,286.63</span></td>
           <td colspan="2" style="padding:11px 12px;"></td>
         </tr>
         <tr style="background:var(--gray-100);border-top:1px solid var(--gray-200);">
@@ -3730,17 +3729,16 @@ TRANSLATIONS.th['section.expenses'] = `
     <p style="font-size:13px;color:var(--gray-700);margin-bottom:14px;">แบ่ง 50/50 — แต่ละครอบครัวจ่ายครึ่งหนึ่งของค่าใช้จ่ายรวม:</p>
     <div class="info-row"><span class="label">โรงแรม · ลิคกะ จ่าย</span><span class="val" style="font-weight:700;color:var(--navy);">81,007 บาท</span></div>
     <div class="info-row"><span class="label">A Plus Melbourne · ณาลิณ จ่าย</span><span class="val" style="font-weight:700;color:var(--navy);">4,650 บาท</span></div>
-    <div class="info-row"><span class="label">รวม THB ÷ 2</span><span class="val" style="font-weight:700;color:var(--navy);">85,657 ÷ 2 = <strong>42,828.50 บาท ต่อครอบครัว</strong></span></div>
-    <div class="info-row"><span class="label">Puffing Billy (AUD)</span><span class="val" style="font-weight:700;color:var(--navy);">$218.00 ÷ 2 = <strong>$109.00 AUD</strong> <span style="background:#fef3c7;color:#92400e;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:700;">ยังไม่แน่นอน</span></span></div>
-    <div class="tip-box" style="margin-top:12px;"><strong>ครอบครัว ณาลิณ ต้องจ่ายคืนครอบครัว ลิคกะ:</strong><br>
-      🇹🇭 <strong>38,178.50 บาท</strong> <span style="font-size:12px;opacity:0.8;">(42,828.50 − 4,650 ที่จ่ายไปแล้ว)</span><br>
-      🇦🇺 <strong>$109.00 AUD</strong> <span style="background:#fef3c7;color:#92400e;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:700;">ยังไม่แน่นอน</span> — ขึ้นอยู่กับอัตราแลกเปลี่ยน
+    <div class="info-row"><span class="label">Puffing Billy · ยืนยันอัตราแล้ว</span><span class="val" style="font-weight:700;color:var(--navy);">$218.00 AUD = <strong>5,286.63 บาท</strong></span></div>
+    <div class="info-row"><span class="label">รวมทั้งหมด (บาท) ÷ 2</span><span class="val" style="font-weight:700;color:var(--navy);">90,943.63 ÷ 2 = <strong>45,471.82 บาท ต่อครอบครัว</strong></span></div>
+    <div class="tip-box" style="margin-top:12px;background:#d1fae5;border-color:#6ee7b7;"><strong>✅ ชำระแล้ว — ครอบครัว ณาลิณ จ่ายคืนครอบครัว ลิคกะ</strong><br>
+      🇹🇭 <strong>40,821.82 บาท</strong> <span style="font-size:12px;opacity:0.8;">(45,471.82 − 4,650 ที่จ่ายไปแล้ว)</span>
     </div>
   </div>
   <div class="card">
     <h2>💡 หมายเหตุค่าใช้จ่าย</h2>
     <div class="tip-item"><span class="icon">📋</span><span class="text">เพิ่มค่าใช้จ่ายอื่นเมื่อจอง — Penguin Parade, รถเช่า ฯลฯ</span></div>
-    <div class="tip-item"><span class="icon">💱</span><span class="text">โรงแรมจ่ายเป็นบาท · กิจกรรมเป็น AUD · ชำระแยกหรือตกลงอัตราแลกเปลี่ยน</span></div>
+    <div class="tip-item"><span class="icon">💱</span><span class="text">อัตราแลกเปลี่ยนที่ใช้: $218 AUD = 5,286.63 บาท (1 AUD ≈ 24.25 บาท)</span></div>
     <div class="tip-item"><span class="icon">⚠️</span><span class="text">โรงแรมไม่คืนเงินตั้งแต่ 6 พ.ค. 2026 (ค่ายกเลิก: 80,917 บาท)</span></div>
     <div class="tip-item"><span class="icon">📱</span><span class="text">ยืนยันโรงแรมส่งถึง bunditsn@gmail.com · Puffing Billy Booking No. 786964</span></div>
   </div>
