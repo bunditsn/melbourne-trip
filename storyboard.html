@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Melbourne Vlog — Storyboard & Shot Plan</title>
+  <style>
+    :root {
+      --navy: #0b2545;
+      --blue: #1b4f8a;
+      --sky: #2e86de;
+      --teal: #00b4d8;
+      --gold: #f4a261;
+      --cream: #fdf8f0;
+      --white: #ffffff;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-400: #9ca3af;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --text: #1e293b;
+      --card-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--gray-100); color: var(--text); line-height: 1.6; }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #1a0533 0%, #2d1b69 50%, #1b4f8a 100%);
+      color: white; padding: 28px 24px 20px; text-align: center; position: relative; overflow: hidden;
+    }
+    header::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/G%3E%3C/svg%3E");
+    }
+    header .badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 4px 14px; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+    header h1 { font-size: clamp(22px, 5vw, 34px); font-weight: 700; letter-spacing: -0.5px; }
+    header p { font-size: 14px; opacity: 0.8; margin-top: 6px; }
+    .header-meta { display: flex; gap: 14px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+    .header-meta span { background: rgba(255,255,255,0.12); border-radius: 8px; padding: 6px 14px; font-size: 13px; }
+
+    /* NAV */
+    nav { background: var(--navy); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
+    .nav-inner { display: flex; overflow-x: auto; scrollbar-width: none; max-width: 900px; margin: 0 auto; }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-btn { flex-shrink: 0; padding: 12px 16px; background: none; border: none; color: rgba(255,255,255,0.6); font-size: 12px; font-weight: 500; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
+    .nav-btn:hover { color: white; }
+    .nav-btn.active { color: var(--teal); border-bottom-color: var(--teal); }
+
+    /* MAIN */
+    main { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+
+    /* CARDS */
+    .card { background: white; border-radius: 14px; padding: 22px 24px; box-shadow: var(--card-shadow); margin-bottom: 18px; }
+    .card h2 { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--teal); margin-bottom: 8px; }
+
+    /* GRID */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    /* STORY ARC */
+    .arc-steps { display: flex; gap: 0; overflow-x: auto; padding-bottom: 4px; margin-bottom: 12px; }
+    .arc-step { flex-shrink: 0; text-align: center; padding: 10px 14px; position: relative; }
+    .arc-step:not(:last-child)::after { content: '→'; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); color: var(--gray-400); font-size: 14px; }
+    .arc-step .arc-icon { font-size: 22px; display: block; margin-bottom: 4px; }
+    .arc-step .arc-label { font-size: 11px; font-weight: 600; color: var(--blue); }
+    .arc-step .arc-day { font-size: 10px; color: var(--gray-400); }
+
+    /* HERO SHOTS */
+    .hero-shot { border: 2px solid #f4a261; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; background: linear-gradient(135deg, #fffbeb, #fff7ed); position: relative; }
+    .hero-shot .hero-num { position: absolute; top: -10px; left: 14px; background: var(--gold); color: white; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; border-radius: 20px; padding: 2px 10px; }
+    .hero-shot .hero-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .hero-shot .hero-desc { font-size: 13px; color: var(--gray-700); margin-bottom: 8px; }
+    .hero-shot .hero-why { font-size: 12px; color: #92400e; font-style: italic; }
+
+    /* DAY BLOCKS */
+    .day-block { border-radius: 14px; margin-bottom: 16px; overflow: hidden; box-shadow: var(--card-shadow); }
+    .day-block-header { padding: 14px 20px; color: white; display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; }
+    .day-block-header .day-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; opacity: 0.8; }
+    .day-block-header .day-name { font-size: 16px; font-weight: 700; flex: 1; }
+    .day-block-header .day-date { font-size: 12px; opacity: 0.75; }
+    .day-block-header .chevron { font-size: 12px; opacity: 0.7; transition: transform 0.2s; }
+    .day-block-header.open .chevron { transform: rotate(90deg); }
+    .day-block-body { background: white; max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .day-block-body.open { max-height: 3000px; padding: 16px 20px; }
+
+    /* SHOT ROWS */
+    .shot-list { display: flex; flex-direction: column; gap: 8px; }
+    .shot-row { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; background: var(--gray-100); border-radius: 10px; font-size: 13px; }
+    .shot-row.hero-row { background: #fffbeb; border: 1px solid #fcd34d; }
+    .shot-row.no-cam { background: #fef2f2; border: 1px solid #fecaca; }
+    .shot-type { flex-shrink: 0; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; border-radius: 6px; padding: 2px 8px; margin-top: 1px; min-width: 80px; text-align: center; }
+    .type-establish { background: #dbeafe; color: #1e40af; }
+    .type-broll    { background: #d1fae5; color: #065f46; }
+    .type-detail   { background: #ede9fe; color: #4c1d95; }
+    .type-movement { background: #ffedd5; color: #c2410c; }
+    .type-reaction { background: #fce7f3; color: #9d174d; }
+    .type-hero     { background: #fef3c7; color: #92400e; border: 1px solid #fbbf24; }
+    .type-nocam    { background: #fee2e2; color: #991b1b; }
+    .type-audio    { background: #f0fdf4; color: #166534; border: 1px solid #86efac; }
+    .shot-content { flex: 1; }
+    .shot-title { font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .shot-note { font-size: 12px; color: var(--gray-400); }
+    .shot-gear { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
+
+    /* GEAR BADGES */
+    .gear-badge { border-radius: 6px; padding: 2px 7px; font-size: 10px; font-weight: 600; }
+    .gear-badge.lumix   { background: #dbeafe; color: #1e40af; }
+    .gear-badge.leica   { background: #f3e8ff; color: #6d28d9; }
+    .gear-badge.osmo { background: #cffafe; color: #0e7490; }
+    .gear-badge.drone   { background: #fce7f3; color: #9d174d; }
+    .gear-badge.insta   { background: #ffedd5; color: #c2410c; }
+    .gear-badge.audio   { background: #f0fdf4; color: #166534; }
+    .gear-badge.phone   { background: var(--gray-100); color: var(--gray-700); }
+
+    /* TOOLKIT */
+    .toolkit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+    .toolkit-item { background: var(--gray-100); border-radius: 10px; padding: 12px 14px; }
+    .toolkit-item .tk-type { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+    .toolkit-item .tk-shots { font-size: 12px; color: var(--gray-700); }
+    .toolkit-item .tk-shots li { margin-bottom: 3px; list-style: none; padding-left: 12px; position: relative; }
+    .toolkit-item .tk-shots li::before { content: '→'; position: absolute; left: 0; color: var(--gray-400); }
+
+    /* SETTINGS TABLE */
+    .settings-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .settings-table th { text-align: left; padding: 8px 10px; background: var(--gray-100); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--gray-400); }
+    .settings-table td { padding: 9px 10px; border-bottom: 1px solid var(--gray-200); vertical-align: top; }
+    .settings-table tr:last-child td { border-bottom: none; }
+    .settings-table td:first-child { font-weight: 600; color: var(--blue); width: 130px; }
+
+    /* CHECKLIST */
+    .checklist { list-style: none; }
+    .checklist li { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid var(--gray-200); font-size: 13px; color: var(--gray-700); }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li::before { content: '☐'; font-size: 15px; flex-shrink: 0; color: var(--sky); }
+    .checklist li strong { color: var(--text); }
+
+    /* TIP BOX */
+    .tip-box { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 10px 14px; font-size: 13px; color: #0369a1; margin-top: 12px; }
+    .tip-box strong { display: block; margin-bottom: 2px; }
+
+    footer { text-align: center; padding: 24px 16px; font-size: 12px; color: var(--gray-400); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div style="position:relative;z-index:1;">
+    <div class="badge">Vlog · Storyboard</div>
+    <h1>🎬 Melbourne Shot Plan</h1>
+    <p>Cinematic travel film · No talking to camera · Lumix S9 primary</p>
+    <div class="header-meta">
+      <span>📅 Aug 16–23, 2026</span>
+      <span>🎥 7 Days · 7 Hero Shots</span>
+      <span>🎞 Observational style</span>
+      <span>👨‍👩‍👧 Two Families</span>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="navScroll('arc',this)">Story Arc</button>
+    <button class="nav-btn" onclick="navScroll('heroes',this)">Hero Shots</button>
+    <button class="nav-btn" onclick="navScroll('days',this)">Day-by-Day</button>
+    <button class="nav-btn" onclick="navScroll('toolkit',this)">Shot Toolkit</button>
+    <button class="nav-btn" onclick="navScroll('gear',this)">Gear Plan</button>
+    <button class="nav-btn" onclick="navScroll('settings',this)">Camera Settings</button>
+    <button class="nav-btn" onclick="navScroll('checklist',this)">Pre-Trip</button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- STORY ARC -->
+  <div id="arc"></div>
+  <div class="card">
+    <h2>🎞 Story Arc</h2>
+    <p style="font-size:13px;color:var(--gray-700);margin-bottom:16px;">The film has a spine — not "7 days in Melbourne" but a feeling. Two families, chasing winter light, steam trains, coastal cliffs, and penguins they couldn't film. Let the silence hold the ending.</p>
+    <div class="arc-steps">
+      <div class="arc-step"><span class="arc-icon">✈️</span><div class="arc-label">Departure</div><div class="arc-day">D0 · Night flight</div></div>
+      <div class="arc-step"><span class="arc-icon">🏙</span><div class="arc-label">Arrival</div><div class="arc-day">D1 · City first look</div></div>
+      <div class="arc-step"><span class="arc-icon">🦁</span><div class="arc-label">Discovery</div><div class="arc-day">D2 · Zoo life</div></div>
+      <div class="arc-step"><span class="arc-icon">🌊</span><div class="arc-label">Epic Day</div><div class="arc-day">D3 · Ocean Road</div></div>
+      <div class="arc-step"><span class="arc-icon">☕</span><div class="arc-label">Slow Day</div><div class="arc-day">D4 · Melbourne pace</div></div>
+      <div class="arc-step"><span class="arc-icon">🐧</span><div class="arc-label">The Moment</div><div class="arc-day">D5 · Penguin night</div></div>
+      <div class="arc-step"><span class="arc-icon">🚂</span><div class="arc-label">Farewell</div><div class="arc-day">D6 · Steam + vines</div></div>
+    </div>
+    <div class="tip-box">
+      <strong>Opening hook — decide before you leave:</strong> Cold open on the 12 Apostles drone shot. Cut to: suitcase being zipped, kids at Bangkok airport, boarding gate. "3 days earlier…" No narration needed. The contrast tells the story.
+    </div>
+  </div>
+
+  <!-- HERO SHOTS -->
+  <div id="heroes"></div>
+  <div class="card">
+    <h2>⭐ Hero Shots — 7 Anchors of the Edit</h2>
+    <p style="font-size:13px;color:var(--gray-700);margin-bottom:16px;">These are the shots worth waking up early for. Everything else supports them. If you only get these seven, the film works.</p>
+
+    <div class="hero-shot">
+      <div class="hero-num">Hero 1</div>
+      <div class="hero-title">12 Apostles — Drone at Golden Hour</div>
+      <div class="hero-desc">Mavic Mini 3 Pro · slow reveal from ocean level pull-back · afternoon light on limestone · D3 Great Ocean Road</div>
+      <div class="shot-gear"><span class="gear-badge drone">Mavic Mini 3 Pro · 4K 60fps · HDR</span></div>
+      <div class="hero-why">The visual centrepiece. Shoot 3 takes: orbit, slow pull-back, top-down compression. Give yourself 45 min minimum at this location.</div>
+    </div>
+
+    <div class="hero-shot">
+      <div class="hero-num">Hero 2</div>
+      <div class="hero-title">Puffing Billy Steam Burst — 90mm Compression</div>
+      <div class="hero-desc">S9 + 90mm APO · position 80–100m back on the track curve · steam explosion as locomotive accelerates · D6 Yarra Valley</div>
+      <div class="shot-gear"><span class="gear-badge lumix">S9 + 90mm APO f/2 · 4K 25fps</span></div>
+      <div class="hero-why">Arrive early to find the curve. The 90mm compresses background trees into a dark mass — steam reads brilliant white against it. Shoot the departure, not the approach.</div>
+    </div>
+
+    <div class="hero-shot">
+      <div class="hero-num">Hero 3</div>
+      <div class="hero-title">Noctilux City Night — Southbank Blue Hour</div>
+      <div class="hero-desc">S9 + 50mm Noctilux f/1.2 · tripod on Princes Bridge · Flinders St Station + Crown reflections on the Yarra · D1 or D4 evening</div>
+      <div class="shot-gear"><span class="gear-badge lumix">S9 + Noctilux f/1.2 · tripod · 4K 25fps</span></div>
+      <div class="hero-why">The Leica Glow at f/1.2 on city lights is your visual signature. No other travel vlogger has this look. Window: 17:30–18:20. Bring GorillaPod or small tripod.</div>
+    </div>
+
+    <div class="hero-shot">
+      <div class="hero-num">Hero 4</div>
+      <div class="hero-title">Brighton Beach Bathing Boxes — Sunrise Walk</div>
+      <div class="hero-desc">S9 + 35mm Summilux · walk parallel to boxes at sunrise · long low shadows between boxes · arrive 06:45 · D1 or D4 morning</div>
+      <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm Summilux f/1.4 · 4K 25fps</span><span class="gear-badge drone">Drone · colour grid aerial</span></div>
+      <div class="hero-why">Drone gets the iconic colour grid from above. S9 walks at box-level for cinematic ground perspective. Combine both angles in the edit.</div>
+    </div>
+
+    <div class="hero-shot">
+      <div class="hero-num">Hero 5</div>
+      <div class="hero-title">Great Ocean Road Drive — Insta360 Cockpit</div>
+      <div class="hero-desc">Insta360 X5 · suction mount on dashboard · full 360° coastal road all day · reframe in post to dramatic widescreen · D3</div>
+      <div class="shot-gear"><span class="gear-badge insta">Insta360 X5 · dashboard mount · 5.7K all day</span></div>
+      <div class="hero-why">The GOR drive IS content. Mount it and forget it. Review in the evening — pick the best 60 seconds of coastline reveal. The cliff reveal near Lorne is the key moment.</div>
+    </div>
+
+    <div class="hero-shot">
+      <div class="hero-num">Hero 6</div>
+      <div class="hero-title">Kids' Reaction — Melbourne Zoo Enclosure</div>
+      <div class="hero-desc">S9 + 35mm · shoot the faces, not the animals · gorilla or lion walkway · hold on the expression · D2</div>
+      <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm Summilux f/1.4</span></div>
+      <div class="hero-why">Don't announce it. Position yourself beside the glass and wait. The kid's face seeing a lion up close is better than any animal shot.</div>
+    </div>
+
+    <div class="hero-shot">
+      <div class="hero-num">Hero 7</div>
+      <div class="hero-title">Penguin Parade — The Uncaptured Moment</div>
+      <div class="hero-desc">NO CAMERA ALLOWED after sunset · capture the anticipation instead: coastline at dusk, crowd gathering, last light over the Southern Ocean</div>
+      <div class="shot-gear"><span class="gear-badge lumix">S9 before sunset only · pack away before parade</span></div>
+      <div class="hero-why">"Some moments you just have to be there." This becomes the most honest shot in the film. In the edit: anticipation shots → cut to black → title card → next morning. The darkness holds the penguins.</div>
+    </div>
+  </div>
+
+  <!-- DAY BY DAY -->
+  <div id="days"></div>
+  <div class="section-label" style="padding:0 4px;margin-bottom:8px;">Day-by-Day Shot Plan</div>
+
+  <!-- D0 -->
+  <div class="day-block">
+    <div class="day-block-header" style="background:linear-gradient(135deg,#4338ca,#6366f1);" onclick="toggleDay(this)">
+      <div><div class="day-label">Day 0</div><div class="day-name">Travel Day</div></div>
+      <div class="day-date">Sun 16 Aug · Bangkok → Singapore → Melbourne</div>
+      <div class="chevron">▶</div>
+    </div>
+    <div class="day-block-body">
+      <div class="shot-list">
+        <div class="shot-row">
+          <div class="shot-type type-establish">Establish</div>
+          <div class="shot-content">
+            <div class="shot-title">Suvarnabhumi departure hall — family with luggage</div>
+            <div class="shot-note">Wide shot. Set the scale of the journey. Check-in counter, baggage belt, boarding gate signage. Osmo out of pocket — no bag stop needed.</div>
+            <div class="shot-gear"><span class="gear-badge osmo">Osmo Pocket 3 · gimbal wide</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-detail">Detail</div>
+          <div class="shot-content">
+            <div class="shot-title">Boarding passes, passports, seat belt clicking</div>
+            <div class="shot-note">Small tactile details anchor the viewer in the journey. Osmo macro mode for close detail on a small table.</div>
+            <div class="shot-gear"><span class="gear-badge osmo">Osmo Pocket 3</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-broll">B-roll</div>
+          <div class="shot-content">
+            <div class="shot-title">Singapore Changi layover — hawker centre food</div>
+            <div class="shot-note">Close-up food shot. Steam rising. 4h 45m layover — use it. This is the visual breath between Bangkok and Melbourne.</div>
+            <div class="shot-gear"><span class="gear-badge osmo">Osmo Pocket 3 · close focus</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-broll">B-roll</div>
+          <div class="shot-content">
+            <div class="shot-title">Night flight window — city lights then ocean darkness</div>
+            <div class="shot-note">Phone pressed against window glass. 21:50 departure. Shoot the takeoff lights then transition to darkness over open water.</div>
+            <div class="shot-gear"><span class="gear-badge phone">Phone · window glass</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-reaction">Reaction</div>
+          <div class="shot-content">
+            <div class="shot-title">Kids asleep on the plane — quiet portrait mid-flight</div>
+            <div class="shot-note">8h 25m flight. A sleeping child on a night flight is a perfect calm shot. Osmo stays low — no elbowing neighbours to get the M10 out.</div>
+            <div class="shot-gear"><span class="gear-badge osmo">Osmo Pocket 3 · low light mode</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D1 -->
+  <div class="day-block">
+    <div class="day-block-header" style="background:linear-gradient(135deg,#0369a1,#0ea5e9);" onclick="toggleDay(this)">
+      <div><div class="day-label">Day 1</div><div class="day-name">Arrival · Melbourne</div></div>
+      <div class="day-date">Mon 17 Aug · First impressions</div>
+      <div class="chevron">▶</div>
+    </div>
+    <div class="day-block-body">
+      <div class="shot-list">
+        <div class="shot-row">
+          <div class="shot-type type-establish">Establish</div>
+          <div class="shot-content">
+            <div class="shot-title">Melbourne skyline first reveal — from the freeway</div>
+            <div class="shot-note">Insta360 on dash captures this automatically. The moment the CBD skyline appears is the film's first arrival beat.</div>
+            <div class="shot-gear"><span class="gear-badge insta">Insta360 X5 · dash mount</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-reaction">Reaction</div>
+          <div class="shot-content">
+            <div class="shot-title">Kids' faces outside the airport — tired but here</div>
+            <div class="shot-note">Tiredness + excitement is a real and honest emotion. Capture it before they adjust to being here. Don't ask them to look at the camera.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm Summilux</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-broll">B-roll</div>
+          <div class="shot-content">
+            <div class="shot-title">Southbank Yarra afternoon walk — first explore</div>
+            <div class="shot-note">Walk parallel to the river. Shoot: Crown towers, pedestrian bridge, café culture, people cycling. 35mm for environment, Osmo for quick candid grabs.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm</span><span class="gear-badge osmo">Osmo Pocket 3 · candid</span></div>
+          </div>
+        </div>
+        <div class="shot-row hero-row">
+          <div class="shot-type type-hero">Hero 3</div>
+          <div class="shot-content">
+            <div class="shot-title">Blue hour — Princes Bridge, Flinders St Station, Noctilux glow</div>
+            <div class="shot-note">Setup by 17:30. Tripod or GorillaPod on bridge railing. Sunset 17:48 → blue hour window closes 18:20. 4K 25fps. This is the shot that defines the film's visual tone.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + Noctilux f/1.2 · tripod</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-audio">Ambient</div>
+          <div class="shot-content">
+            <div class="shot-title">Yarra riverside ambient — 60 seconds stationary</div>
+            <div class="shot-note">S9 on a railing facing the river. Water, distant trams, birds. This audio track can carry multiple cuts in the edit.</div>
+            <div class="shot-gear"><span class="gear-badge audio">S9 internal mic · stationary</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D2 -->
+  <div class="day-block">
+    <div class="day-block-header" style="background:linear-gradient(135deg,#065f46,#10b981);" onclick="toggleDay(this)">
+      <div><div class="day-label">Day 2</div><div class="day-name">Melbourne Zoo</div></div>
+      <div class="day-date">Tue 18 Aug · Royal Park</div>
+      <div class="chevron">▶</div>
+    </div>
+    <div class="day-block-body">
+      <div class="shot-list">
+        <div class="shot-row">
+          <div class="shot-type type-establish">Establish</div>
+          <div class="shot-content">
+            <div class="shot-title">Zoo entrance — shoot from inside looking back as family enters</div>
+            <div class="shot-note">Position yourself just past the gate and let everyone walk through toward you. The scale of anticipation before anything has happened.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm</span></div>
+          </div>
+        </div>
+        <div class="shot-row hero-row">
+          <div class="shot-type type-hero">Hero 6</div>
+          <div class="shot-content">
+            <div class="shot-title">Kids' reaction at enclosure glass — faces not animals</div>
+            <div class="shot-note">Position yourself beside the glass, lens toward the faces. Gorilla enclosure or big cats walkway. Hold for 10+ seconds. Wait for the genuine expression — don't rush it.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm f/1.4</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-broll">B-roll</div>
+          <div class="shot-content">
+            <div class="shot-title">Animals through glass — 3 or 4 species max</div>
+            <div class="shot-note">90mm for compressed close-ups when distance allows. Don't overshoot. Quality over coverage.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 90mm APO f/2</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-detail">Detail</div>
+          <div class="shot-content">
+            <div class="shot-title">Zoo food + entrance map signage</div>
+            <div class="shot-note">Close-up food shot is always a good edit cut. The map sign at the entrance orients the viewer in the space. Osmo out of pocket — no bag needed.</div>
+            <div class="shot-gear"><span class="gear-badge osmo">Osmo Pocket 3 · close focus</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-movement">Movement</div>
+          <div class="shot-content">
+            <div class="shot-title">Walk-with through the zoo path — observe, don't perform</div>
+            <div class="shot-note">S9 at hip height, IBIS on. Walk behind the group. This is the connective tissue between exhibits in the edit.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm · IBIS on</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-audio">Ambient</div>
+          <div class="shot-content">
+            <div class="shot-title">60 sec near bird enclosure — zoo ambient sound</div>
+            <div class="shot-note">Birdsong + distant animal sounds + kids laughing = rich audio layer for any zoo cut.</div>
+            <div class="shot-gear"><span class="gear-badge audio">S9 stationary · 60 sec</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D3 -->
+  <div class="day-block">
+    <div class="day-block-header" style="background:linear-gradient(135deg,#c2410c,#f97316);" onclick="toggleDay(this)">
+      <div><div class="day-label">Day 3</div><div class="day-name">Great Ocean Road</div></div>
+      <div class="day-date">Wed 19 Aug · Epic landscape day</div>
+      <div class="chevron">▶</div>
+    </div>
+    <div class="day-block-body">
+      <div class="shot-list">
+        <div class="shot-row">
+          <div class="shot-type type-detail">Detail</div>
+          <div class="shot-content">
+            <div class="shot-title">Pre-dawn hotel departure — dark corridor, car doors, breath in cold air</div>
+            <div class="shot-note">Osmo Pocket 3 in low-light mode. Grainy is fine — this is atmosphere. Gimbal handles the rushed early-morning movement.</div>
+            <div class="shot-gear"><span class="gear-badge osmo">Osmo Pocket 3 · low light</span></div>
+          </div>
+        </div>
+        <div class="shot-row hero-row">
+          <div class="shot-type type-hero">Hero 5</div>
+          <div class="shot-content">
+            <div class="shot-title">GOR cockpit — Insta360 running all day on the dash</div>
+            <div class="shot-note">Mount before departure. Record 5.7K all day. Review at the hotel — pick best 60–90 seconds. The coastal cliff reveal near Lorne is the key moment to look for.</div>
+            <div class="shot-gear"><span class="gear-badge insta">Insta360 X5 · dash suction mount · 5.7K</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-establish">Establish</div>
+          <div class="shot-content">
+            <div class="shot-title">Loch Ard Gorge — wide from the cliff edge</div>
+            <div class="shot-note">S9 + 35mm for environmental wide. Then 90mm for compressed cliff texture. The wind sound is strong here — let the mic record it.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm then 90mm</span></div>
+          </div>
+        </div>
+        <div class="shot-row hero-row">
+          <div class="shot-type type-hero">Hero 1</div>
+          <div class="shot-content">
+            <div class="shot-title">12 Apostles drone — golden hour slow reveal</div>
+            <div class="shot-note">Arrive by 15:30 to scout. Golden hour 17:15. Check CASA app for Port Campbell National Park fly zone. Three takes: (1) ocean-level pull-back reveal, (2) slow orbit around the stacks, (3) top-down compression. Each take minimum 30 sec continuous. Bring all drone batteries.</div>
+            <div class="shot-gear"><span class="gear-badge drone">Mavic Mini 3 Pro · 4K 60fps · HDR · check CASA</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-reaction">Reaction</div>
+          <div class="shot-content">
+            <div class="shot-title">Family silhouettes at cliff edge — backlit by sunset</div>
+            <div class="shot-note">Position yourself between the group and the sun. Expose for the sky — the family becomes silhouette. Classic travel film ending shot for this location.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm · expose for sky</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-audio">Ambient</div>
+          <div class="shot-content">
+            <div class="shot-title">Southern Ocean waves + wind — 90 seconds stationary</div>
+            <div class="shot-note">Face the ocean with S9 on the ground or a rock. The Southern Ocean here is genuinely powerful audio. This alone can carry a 30-second edit sequence.</div>
+            <div class="shot-gear"><span class="gear-badge audio">S9 stationary · face ocean · 90 sec</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D4 -->
+  <div class="day-block">
+    <div class="day-block-header" style="background:linear-gradient(135deg,#5b21b6,#8b5cf6);" onclick="toggleDay(this)">
+      <div><div class="day-label">Day 4</div><div class="day-name">Melbourne — Slow Day</div></div>
+      <div class="day-date">Thu 20 Aug · CBD culture + recovery</div>
+      <div class="chevron">▶</div>
+    </div>
+    <div class="day-block-body">
+      <div class="shot-list">
+        <div class="shot-row">
+          <div class="shot-type type-establish">Establish</div>
+          <div class="shot-content">
+            <div class="shot-title">Hosier Lane — walk-through of street art, early morning</div>
+            <div class="shot-note">Arrive before 09:00 for an empty lane. S9 + 35mm walking toward the murals. Shoot wide (full lane) and close (texture). Overcast Melbourne winter light = no harsh shadows = perfect diffused light.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm Summilux</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-broll">B-roll</div>
+          <div class="shot-content">
+            <div class="shot-title">Melbourne trams — lock-off, let tram pass through the frame</div>
+            <div class="shot-note">Set S9 on a step or railing. Let 3–4 trams pass through the frame at Flinders St or Swanston St. City rhythm, no movement needed.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm · static lock-off</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-detail">Detail</div>
+          <div class="shot-content">
+            <div class="shot-title">Melbourne coffee culture — flat white poured, hands around the cup</div>
+            <div class="shot-note">Melbourne is internationally known for its café scene. Close-up pour at f/1.4. Steam. Keep it real, not staged.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm · f/1.4</span></div>
+          </div>
+        </div>
+        <div class="shot-row hero-row">
+          <div class="shot-type type-hero">Hero 4 ↩</div>
+          <div class="shot-content">
+            <div class="shot-title">Brighton Beach Bathing Boxes — backup morning if not done on D1</div>
+            <div class="shot-note">Arrive 06:45. Sunrise 07:08. Drone first (colour grid from above), then S9 + 35mm ground walk along the waterline as sun hits the boxes.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm</span><span class="gear-badge drone">Mavic Mini 3 Pro</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-broll">B-roll</div>
+          <div class="shot-content">
+            <div class="shot-title">Federation Square + Flinders St Station — city heartbeat</div>
+            <div class="shot-note">Shoot people, not architecture. Commuters crossing, pigeons, the clock face. Osmo from the hip — gimbal keeps it smooth and it draws zero attention.</div>
+            <div class="shot-gear"><span class="gear-badge osmo">Osmo Pocket 3 · candid from hip</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D5 -->
+  <div class="day-block">
+    <div class="day-block-header" style="background:linear-gradient(135deg,#0f766e,#14b8a6);" onclick="toggleDay(this)">
+      <div><div class="day-label">Day 5</div><div class="day-name">Phillip Island</div></div>
+      <div class="day-date">Fri 21 Aug · Coast + Penguin Parade</div>
+      <div class="chevron">▶</div>
+    </div>
+    <div class="day-block-body">
+      <div class="shot-list">
+        <div class="shot-row">
+          <div class="shot-type type-establish">Establish</div>
+          <div class="shot-content">
+            <div class="shot-title">Driving out of Melbourne — bridge crossing, open road</div>
+            <div class="shot-note">Insta360 on dash. The visual transition from city to island coast — it feels like the trip taking a breath.</div>
+            <div class="shot-gear"><span class="gear-badge insta">Insta360 X5 · dash mount</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-broll">B-roll</div>
+          <div class="shot-content">
+            <div class="shot-title">Cape Woolamai — dramatic basalt cliffs, surf, seabirds</div>
+            <div class="shot-note">S9 + 35mm wide for coast. 90mm for compressed surf and cliff texture. Check CASA drone fly zone before launching here.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm + 90mm</span><span class="gear-badge drone">Drone · check CASA first</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-broll">B-roll</div>
+          <div class="shot-content">
+            <div class="shot-title">Churchill Island Heritage Farm — animals, open paddock, late light</div>
+            <div class="shot-note">Very different visual texture to everything else on the trip. Afternoon golden light on open farmland. Provides breathing room in the edit between coast and penguins.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm</span></div>
+          </div>
+        </div>
+        <div class="shot-row hero-row">
+          <div class="shot-type type-hero">Hero 7 · Setup</div>
+          <div class="shot-content">
+            <div class="shot-title">Penguin Parade approach — dusk coastline, crowd gathering, last light</div>
+            <div class="shot-note">This is the "before" footage that frames the uncaptured moment. Shoot: the viewing platform filling with people, kids in cold air, dusk sky over the Southern Ocean, the crowd going quiet. Everything before sunset.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm · before sunset only</span></div>
+          </div>
+        </div>
+        <div class="shot-row no-cam">
+          <div class="shot-type type-nocam">No Camera</div>
+          <div class="shot-content">
+            <div class="shot-title">Penguin Parade — NO cameras, phones, or screens after sunset</div>
+            <div class="shot-note">Strictly enforced by staff. Penguin eyes are light-sensitive — even screen glow disorients them on the beach. Pack all gear before the parade starts. Be present. This is the only moment on the entire trip you just have to live.</div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-audio">Ambient</div>
+          <div class="shot-content">
+            <div class="shot-title">Ocean + crowd ambient before parade — 60 sec while cameras allowed</div>
+            <div class="shot-note">Waves, seabirds, excited voices, cold wind. In the edit this audio plays over the title card that holds the penguins in darkness.</div>
+            <div class="shot-gear"><span class="gear-badge audio">S9 stationary · before sunset</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D6 -->
+  <div class="day-block">
+    <div class="day-block-header" style="background:linear-gradient(135deg,#991b1b,#dc2626);" onclick="toggleDay(this)">
+      <div><div class="day-label">Day 6</div><div class="day-name">Yarra Valley</div></div>
+      <div class="day-date">Sat 22 Aug · Steam train + vineyard</div>
+      <div class="chevron">▶</div>
+    </div>
+    <div class="day-block-body">
+      <div class="shot-list">
+        <div class="shot-row hero-row">
+          <div class="shot-type type-hero">Hero 2</div>
+          <div class="shot-content">
+            <div class="shot-title">Puffing Billy steam burst — 90mm compression from track curve</div>
+            <div class="shot-note">Arrive 30 min before departure. Walk 80–100m along the track to find the curve. Dark tree background behind. S9 + 90mm at f/2 · manual focus pre-set on the track. 4K 25fps. Shoot at least 3 passes: platform departure, between stations, full steam burst. Don't shoot 60fps here — 25fps makes the steam look heavier.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 90mm APO f/2 · manual focus · 4K 25fps</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-broll">B-roll</div>
+          <div class="shot-content">
+            <div class="shot-title">Inside the carriage — dangling legs, forest tunnel, Insta360</div>
+            <div class="shot-note">Insta360 mounted on carriage roof bar or window sill. The forest canopy passing overhead in 360° is a unique POV unavailable to any other camera on the trip.</div>
+            <div class="shot-gear"><span class="gear-badge insta">Insta360 X5 · carriage mount · 5.7K</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-detail">Detail</div>
+          <div class="shot-content">
+            <div class="shot-title">Steam plume close-up — chimney against dark eucalyptus</div>
+            <div class="shot-note">90mm looking upward at the chimney as the train pulls away. White steam against dark green or grey sky. This is a pure texture shot.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 90mm · aim up at chimney</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-broll">B-roll</div>
+          <div class="shot-content">
+            <div class="shot-title">Yarra Valley vineyard — golden hour walk between the vine rows</div>
+            <div class="shot-note">Late afternoon. S9 + 35mm at f/1.4. Walk between rows. August low sun creates long shadows between vines. This is the visual tone of the farewell sequence — warm, slow, winding down.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + 35mm f/1.4 · golden hour</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-detail">Detail</div>
+          <div class="shot-content">
+            <div class="shot-title">Wine glasses — pour, clink, vineyard background blur</div>
+            <div class="shot-note">Noctilux at f/1.2 on S9. Glass sharp in foreground, vines blurred gold behind. This is the closing toast shot of the film.</div>
+            <div class="shot-gear"><span class="gear-badge lumix">S9 + Noctilux f/1.2</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-audio">Ambient</div>
+          <div class="shot-content">
+            <div class="shot-title">Vineyard wind through the vines — 60 seconds</div>
+            <div class="shot-note">The quietest ambient recording on the trip. Soft rustling leaves, distant birds. Pairs with the farewell sequence in the edit.</div>
+            <div class="shot-gear"><span class="gear-badge audio">S9 stationary · between vine rows</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Departure -->
+  <div class="day-block">
+    <div class="day-block-header" style="background:linear-gradient(135deg,#374151,#6b7280);" onclick="toggleDay(this)">
+      <div><div class="day-label">Departure</div><div class="day-name">Going Home</div></div>
+      <div class="day-date">Sun 23 Aug · Melbourne → Bangkok</div>
+      <div class="chevron">▶</div>
+    </div>
+    <div class="day-block-body">
+      <div class="shot-list">
+        <div class="shot-row">
+          <div class="shot-type type-detail">Detail</div>
+          <div class="shot-content">
+            <div class="shot-title">Hotel checkout — key card returned, bags in the lift</div>
+            <div class="shot-note">The small act of leaving. Osmo in hand — no setup. Just document it honestly.</div>
+            <div class="shot-gear"><span class="gear-badge osmo">Osmo Pocket 3 · candid</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-broll">B-roll</div>
+          <div class="shot-content">
+            <div class="shot-title">Last Melbourne view from the car — CBD receding</div>
+            <div class="shot-note">Same Insta360 dash mount as the D1 arrival. The city disappearing is the visual mirror of the city appearing. The journey closes.</div>
+            <div class="shot-gear"><span class="gear-badge insta">Insta360 X5 · rear window or dash</span></div>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-type type-reaction">Reaction</div>
+          <div class="shot-content">
+            <div class="shot-title">Family at departure gate — tired, happy, sitting together</div>
+            <div class="shot-note">Don't ask them to look at the camera. Shoot from slightly away. The quiet end of a trip has its own emotion — the film earns this shot by now.</div>
+            <div class="shot-gear"><span class="gear-badge osmo">Osmo Pocket 3 · from distance</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHOT TOOLKIT -->
+  <div id="toolkit"></div>
+  <div class="card">
+    <h2>🧰 Shot Toolkit — Every Location Needs These</h2>
+    <p style="font-size:13px;color:var(--gray-700);margin-bottom:14px;">At every new location, run through this sequence before moving on. Three shot types minimum = something editable in post.</p>
+    <div class="toolkit-grid">
+      <div class="toolkit-item">
+        <div class="tk-type" style="color:#1e40af;">Establish · Wide</div>
+        <ul class="tk-shots">
+          <li>Show where we are</li>
+          <li>Include something moving</li>
+          <li>Hold for 8+ seconds</li>
+        </ul>
+      </div>
+      <div class="toolkit-item">
+        <div class="tk-type" style="color:#065f46;">B-roll · Medium</div>
+        <ul class="tk-shots">
+          <li>The activity happening</li>
+          <li>People in the environment</li>
+          <li>Don't announce the shot</li>
+        </ul>
+      </div>
+      <div class="toolkit-item">
+        <div class="tk-type" style="color:#4c1d95;">Detail · Close</div>
+        <ul class="tk-shots">
+          <li>Food, textures, signs, hands</li>
+          <li>Context anchors for the viewer</li>
+          <li>f/1.4 or f/1.2 · soft background</li>
+        </ul>
+      </div>
+      <div class="toolkit-item">
+        <div class="tk-type" style="color:#c2410c;">Movement</div>
+        <ul class="tk-shots">
+          <li>Walk-with: chest height, IBIS on</li>
+          <li>Reveal: start tight, pull back</li>
+          <li>Lock-off: let subject move through</li>
+        </ul>
+      </div>
+      <div class="toolkit-item">
+        <div class="tk-type" style="color:#9d174d;">Reaction</div>
+        <ul class="tk-shots">
+          <li>Faces — not posed</li>
+          <li>Wait for the real expression</li>
+          <li>Kids over adults for authenticity</li>
+        </ul>
+      </div>
+      <div class="toolkit-item">
+        <div class="tk-type" style="color:#166534;">Ambient Audio</div>
+        <ul class="tk-shots">
+          <li>60 sec stationary at each location</li>
+          <li>S9 on ground or railing</li>
+          <li>Don't talk during this take</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- GEAR PLAN -->
+  <div id="gear"></div>
+  <div class="card">
+    <h2>🎒 Gear Assignment by Day</h2>
+    <table class="settings-table">
+      <thead>
+        <tr><th>Day</th><th>Primary</th><th>Support</th><th>Reason</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>D0 · Travel</td>
+          <td><span class="gear-badge osmo">Osmo Pocket 3</span></td>
+          <td><span class="gear-badge phone">Phone</span></td>
+          <td>Osmo slips into a shirt pocket — perfect for airport halls, tight plane seats, Changi layover. Phone for window flight shot.</td>
+        </tr>
+        <tr>
+          <td>D1 · Arrival</td>
+          <td><span class="gear-badge lumix">S9 + 35mm</span></td>
+          <td><span class="gear-badge lumix">+Noctilux (evening)</span> <span class="gear-badge insta">Insta360 (car)</span></td>
+          <td>35mm for first impressions. Swap to Noctilux at 17:30 for blue hour hero shot.</td>
+        </tr>
+        <tr>
+          <td>D2 · Zoo</td>
+          <td><span class="gear-badge lumix">S9 + 35mm</span></td>
+          <td><span class="gear-badge lumix">+90mm (animals)</span> <span class="gear-badge osmo">Osmo Pocket 3</span></td>
+          <td>35mm for family reactions. 90mm when you need reach for animals. Osmo for quick candid grabs without stopping to unpack.</td>
+        </tr>
+        <tr>
+          <td>D3 · GOR</td>
+          <td><span class="gear-badge drone">Mavic Mini 3 Pro</span></td>
+          <td><span class="gear-badge lumix">S9 + 35mm + 90mm</span> <span class="gear-badge insta">Insta360 (dash)</span></td>
+          <td>Drone is the hero of this day. Insta360 runs automatically on the dash all day.</td>
+        </tr>
+        <tr>
+          <td>D4 · CBD</td>
+          <td><span class="gear-badge lumix">S9 + 35mm</span></td>
+          <td><span class="gear-badge osmo">Osmo Pocket 3 (candid)</span> <span class="gear-badge drone">Drone (Brighton, if morning)</span></td>
+          <td>Light kit day. Osmo for street candid — gimbal keeps it smooth hip-height. Drone only if doing Brighton morning.</td>
+        </tr>
+        <tr>
+          <td>D5 · Phillip Is.</td>
+          <td><span class="gear-badge lumix">S9 + 35mm</span></td>
+          <td><span class="gear-badge lumix">+90mm (cliffs)</span> <span class="gear-badge insta">Insta360 (drive)</span></td>
+          <td>No camera after sunset at Penguin Parade. Pack everything away before the session starts.</td>
+        </tr>
+        <tr>
+          <td>D6 · Yarra Valley</td>
+          <td><span class="gear-badge lumix">S9 + 90mm</span></td>
+          <td><span class="gear-badge lumix">+35mm (vineyard)</span> <span class="gear-badge lumix">+Noctilux (wine shot)</span> <span class="gear-badge insta">Insta360 (carriage)</span></td>
+          <td>90mm for Puffing Billy. Swap to 35mm at vineyard. Noctilux for the closing wine shot.</td>
+        </tr>
+        <tr>
+          <td>Departure</td>
+          <td><span class="gear-badge osmo">Osmo Pocket 3 only</span></td>
+          <td><span class="gear-badge insta">Insta360 (car)</span></td>
+          <td>Everything else packed. Osmo in shirt pocket — light and inconspicuous for the goodbye.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CAMERA SETTINGS -->
+  <div id="settings"></div>
+  <div class="card">
+    <h2>⚙️ Lumix S9 — Settings to Lock Before Departure</h2>
+    <div class="grid-2" style="margin-bottom:16px;">
+      <div>
+        <div class="section-label">Video Settings</div>
+        <table class="settings-table">
+          <tbody>
+            <tr><td>Format</td><td>4K 25fps — cinematic international standard</td></tr>
+            <tr><td>Slow-mo</td><td>4K 60fps — steam burst, ocean waves, key moments</td></tr>
+            <tr><td>Profile</td><td>V-Log L for grading, or Leica Look LUT for quick delivery</td></tr>
+            <tr><td>IBIS</td><td>Body stabilisation ON at all times</td></tr>
+            <tr><td>AF Mode</td><td>C-AF + Face/Eye detection for family shots</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="section-label">With Leica M Lenses via Adapter</div>
+        <table class="settings-table">
+          <tbody>
+            <tr><td>Focus</td><td>Manual only — no AF through M-to-L adapter</td></tr>
+            <tr><td>Focus Peaking</td><td>ON · high sensitivity · red highlight colour</td></tr>
+            <tr><td>MF Assist</td><td>ON — magnify on focus ring turn</td></tr>
+            <tr><td>Noctilux f/1.2</td><td>Focus on eyes. DOF at f/1.2 is ~3cm at 1m distance.</td></tr>
+            <tr><td>Leica Glow</td><td>Shoot wide-open. The spherical aberration IS the look.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tip-box">
+      <strong>Card speed:</strong> 4K 60fps requires V90 rated SD cards minimum. Slower cards drop frames mid-clip. Label your cards by day before leaving — swap at the hotel each evening and back up overnight.
+    </div>
+  </div>
+
+  <!-- PRE-TRIP CHECKLIST -->
+  <div id="checklist"></div>
+  <div class="card">
+    <h2>✅ Pre-Trip Checklist</h2>
+    <div class="grid-2">
+      <div>
+        <div class="section-label">Gear</div>
+        <ul class="checklist">
+          <li><strong>Format all SD cards</strong> — fresh start for the trip</li>
+          <li><strong>4× Lumix S9 batteries</strong> — ~300 shots each at 4K</li>
+          <li><strong>2× Mavic Mini 3 Pro batteries</strong> — 34 min each</li>
+          <li><strong>Insta360 X5 batteries + both mounts</strong> — suction cup + dash clip</li>
+          <li><strong>Joby GorillaPod or small tripod</strong> — blue hour + Puffing Billy lock-off</li>
+          <li><strong>DJI Mic 2 or Rode VideoMicro II</strong> — optional but improves ambience capture</li>
+          <li><strong>V90 cards × 4 minimum</strong> — 4K 60fps fills fast</li>
+          <li><strong>M-to-L adapter</strong> — all three Leica M lenses on S9</li>
+        </ul>
+      </div>
+      <div>
+        <div class="section-label">Admin</div>
+        <ul class="checklist">
+          <li><strong>Register Mavic Mini 3 Pro</strong> at casa.gov.au before departure</li>
+          <li><strong>Download CASA app</strong> — check no-fly zone each morning per location</li>
+          <li><strong>Set S9 clock to Melbourne time</strong> before Day 1 — metadata timestamps matter in edit</li>
+          <li><strong>Confirm Penguin Parade booking</strong> — note: no cameras after sunset, strictly enforced</li>
+          <li><strong>Check 12 Apostles drone clearance</strong> — Port Campbell National Park</li>
+          <li><strong>Backup drive or high-capacity card</strong> — 7 days of 4K fills fast</li>
+          <li><strong>Check Puffing Billy departure time</strong> — arrive early to scout track position</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>Storyboard · Melbourne Trip 2026 · Lycka's Family · Lumix S9 · Cinematic observational style</footer>
+
+<script>
+  function toggleDay(header) {
+    header.classList.toggle('open');
+    header.nextElementSibling.classList.toggle('open');
+  }
+
+  function navScroll(id, btn) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // open D0 by default
+    const first = document.querySelector('.day-block-header');
+    if (first) toggleDay(first);
+  });
+</script>
+</body>
+</html>
