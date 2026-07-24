@@ -291,6 +291,7 @@
     <button class="nav-btn" onclick="navScroll('gear',this)" data-i18n="nav.gear">Gear Plan</button>
     <button class="nav-btn" onclick="navScroll('settings',this)" data-i18n="nav.settings">Settings</button>
     <button class="nav-btn" onclick="navScroll('checklist',this)" data-i18n="nav.checklist">Pre-Trip</button>
+    <button class="nav-btn" onclick="navScroll('grade',this)" data-i18n="nav.grade">Color Grade</button>
     <button class="nav-btn" onclick="navScroll('edit-philosophy',this)" data-i18n="nav.edit">Edit</button>
 
   </div>
@@ -624,6 +625,37 @@
   </div>
 </div>
 
+<div id="grade"></div>
+<div class="card" data-i18n-html="sb.grade">
+  <h2>🎨 Color Grade — Zelda BotW-Inspired Vista Look</h2>
+  <p style="font-size:13px;color:var(--gray-700);margin-bottom:16px;">Australia's open coastlines and vineyard ranges have that same painterly, hazy-horizon quality as Breath of the Wild's landscapes. Borrow the look — but only where the land earns it. Two grades, applied selectively, not one LUT over everything.</p>
+  <div class="principles-grid">
+    <div class="principle"><div class="p-label">Documentary Grade — default</div><div class="p-body">True-to-moment warmth, matching the existing edit philosophy below. Real skin tones, gentle amber balance against Melbourne's cool winter light. Used for family days, reactions, city texture — anywhere the story is about people, not land.</div></div>
+    <div class="principle"><div class="p-label">Vista Grade — BotW-inspired</div><div class="p-body">Soft golden highlights, hazy blue-green atmospheric depth on the horizon, desaturated sage greens instead of neon grass, lifted matte shadows instead of crushed black. Reserved for wide open-landscape shots only.</div></div>
+  </div>
+  <div class="section-label" style="margin:16px 0 10px;">Vista Grade Recipe</div>
+  <div class="edit-row"><div class="edit-label">Highlights</div><div class="edit-val">Push warm/golden, gentle bloom on the brightest edges — avoid hard clipping. This is where the "BotW glow" lives.</div></div>
+  <div class="edit-row"><div class="edit-label">Shadows</div><div class="edit-val">Lift slightly, cool/teal tint. Painterly flatness, not deep cinematic black — BotW shadows are never crushed.</div></div>
+  <div class="edit-row"><div class="edit-label">Saturation</div><div class="edit-val">Pull back ~15–20% overall. Greens especially — push toward sage/olive, away from neon lawn-green.</div></div>
+  <div class="edit-row"><div class="edit-label">Distance</div><div class="edit-val">Add atmospheric haze to background elements — desaturate and cool the far cliffs/ranges so the eye reads depth, the same trick BotW uses on its distant mountains.</div></div>
+  <div class="edit-row"><div class="edit-label">Contrast</div><div class="edit-val">Lower overall — soft matte curve, not a punchy S-curve. Let the wide shot breathe instead of popping.</div></div>
+  <div class="section-label" style="margin:16px 0 10px;">Where Each Grade Applies</div>
+  <table class="settings-table">
+    <thead><tr><th>Day</th><th>Grade</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>D0 · Travel</td><td>Documentary</td><td>Airport/plane interiors — no landscape to earn the vista look</td></tr>
+      <tr><td>D1 · Arrival</td><td>Documentary <span style="color:var(--gray-400);">(+ Night grade for Hero 3)</span></td><td>City reactions + the Noctilux blue hour stays cool, not warm — don't fight the Leica Glow with BotW gold</td></tr>
+      <tr><td>D2 · Zoo</td><td>Documentary</td><td>Reaction-driven day — kids' faces need true colour, not stylisation</td></tr>
+      <tr><td>D3 · GOR</td><td><strong>Vista</strong></td><td>The whole point of the grade. 12 Apostles, Loch Ard Gorge, the coastal drive — full treatment</td></tr>
+      <tr><td>D4 · Phillip Is.</td><td>Mixed</td><td><strong>Vista</strong> for Brighton sunrise + Cape Woolamai cliffs. <strong>Documentary</strong> for Maru Koala, Cowes, Penguin approach — those are people/animal moments, not landscape</td></tr>
+      <tr><td>D5 · Recovery + CBD</td><td>Documentary</td><td>Market, arcade, laneway texture — keep it true-colour and grounded</td></tr>
+      <tr><td>D6 · Yarra Valley</td><td><strong>Vista</strong></td><td>Vineyard rows + Dandenong forest tunnel — bare August vines against hazy ranges is pure BotW</td></tr>
+      <tr><td>Departure</td><td>Documentary</td><td>Airport goodbye — stay grounded, not cinematic</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box" style="margin-top:16px;"><strong>💡 Shooting tip:</strong> The S9 shoots V-Log natively — shoot flat on D3 and D6 specifically to keep grading latitude for the Vista look. Documentary days can shoot standard profile straight out of camera to save edit time. Don't shoot V-Log for the Penguin Parade or other low-light interiors — you'll lose too much to noise pushing the shadows back up.</div>
+</div>
+
 <div id="edit-philosophy"></div>
 <div class="card" data-i18n-html="sb.edit">
   <h2>✂️ Edit Philosophy — GiftLee + D'Avella Method</h2>
@@ -631,7 +663,7 @@
   <div class="edit-row"><div class="edit-label">Structure</div><div class="edit-val">Cold open (12 Apostles) → "3 days earlier…" → Act I (D0–D2) → Act II (D3–D5, peaks at Penguins) → Act III (D6–Departure). One title card only: at the Penguin cut-to-black.</div></div>
   <div class="edit-row"><div class="edit-label">Pacing</div><div class="edit-val">8–12 second average shot length. No quick cuts except D3 ocean road energy. Act III slows to 12–15 sec — let the vineyard breathe.</div></div>
   <div class="edit-row"><div class="edit-label">Music</div><div class="edit-val">Understated, no drop beats. Instrumental — piano, acoustic guitar, or minimal ambient. No music over the Penguin sequence — ambient audio only.</div></div>
-  <div class="edit-row"><div class="edit-label">Colour</div><div class="edit-val">Warm, slightly desaturated. The Leica Glow is the visual signature — don't fight it. Melbourne winter light is naturally cool — balance toward amber, not blue.</div></div>
+  <div class="edit-row"><div class="edit-label">Colour</div><div class="edit-val">Two grades, not one LUT: Documentary (warm, true-to-moment, the Leica Glow signature) for family/city days, Vista — BotW-inspired painterly landscape look — for D3 GOR and D6 Yarra Valley plus D4's coastal vistas. Full breakdown above.</div></div>
   <div class="edit-row"><div class="edit-label">Silence</div><div class="edit-val">Cut to black at Penguin Parade. Hold 3+ seconds. Title card: "Phillip Island, 21 August. No cameras allowed after sunset." Hold 2 sec. Cut to next morning.</div></div>
   <div class="edit-row"><div class="edit-label">What to cut</div><div class="edit-val">If you're watching a shot thinking "this proves we were there" — cut it. If you're thinking "this is what it felt like" — keep it.</div></div>
   <div class="tip-box" style="margin-top:16px;"><strong>GiftLee's edit rule:</strong> If a slightly blurry moment of a child's genuine laugh is in your footage, it belongs in the film. The technically perfect shot of the same child posed for the camera does not.</div>
@@ -1176,7 +1208,7 @@ Object.assign(TRANSLATIONS.th, {
 'hdr.m3': '🎞 เฝ้าสังเกต · ไม่พูดใส่กล้อง',
 'hdr.m4': '👨‍👩‍👧 สองครอบครัว',
 'nav.philosophy': 'ปรัชญา', 'nav.arc': 'โครงเรื่อง', 'nav.away': 'เก็บกล้อง', 'nav.heroes': 'ช็อตฮีโร่', 'nav.days': 'รายวัน',
-'nav.toolkit': 'ชุดช็อต', 'nav.gear': 'แผนอุปกรณ์', 'nav.settings': 'ตั้งค่ากล้อง', 'nav.checklist': 'ก่อนเดินทาง', 'nav.edit': 'ตัดต่อ',
+'nav.toolkit': 'ชุดช็อต', 'nav.gear': 'แผนอุปกรณ์', 'nav.settings': 'ตั้งค่ากล้อง', 'nav.checklist': 'ก่อนเดินทาง', 'nav.grade': 'เกรดสี', 'nav.edit': 'ตัดต่อ',
 'days.label': 'แผนถ่ายทำรายวัน',
 'footer': 'เมลเบิร์น · หนังของการได้อยู่ตรงนั้น · 2026 · ครอบครัว ลิคกะ · วิถี GiftLee',
 'd0.label': 'วันที่ 0 · องก์ 1', 'd0.name': 'วันเดินทาง — การเดินทางเริ่มต้น', 'd0.date': 'อา. 16 ส.ค. · กรุงเทพฯ → สิงคโปร์ → เมลเบิร์น',
@@ -1443,13 +1475,42 @@ TRANSLATIONS.th['sb.checklist'] = `
     </div>
   </div>`;
 
+TRANSLATIONS.th['sb.grade'] = `
+  <h2>🎨 เกรดสี — โทน Zelda BotW บนวิวธรรมชาติ</h2>
+  <p style="font-size:13px;color:var(--gray-700);margin-bottom:16px;">ชายฝั่งเปิดโล่งและเทือกเขาไร่องุ่นของออสเตรเลียมีความรู้สึกแบบภาพวาด ขอบฟ้าเลือนราง เหมือนแลนด์สเคปใน Breath of the Wild ยืมลุคนี้มาใช้ — แต่เฉพาะจุดที่ผืนดินสมควรได้รับมัน สองเกรด ใช้อย่างเลือกสรร ไม่ใช่ LUT เดียวทั่วทั้งเรื่อง</p>
+  <div class="principles-grid">
+    <div class="principle"><div class="p-label">Documentary Grade — ค่าเริ่มต้น</div><div class="p-body">โทนอุ่นตามความจริง ตรงกับปรัชญาการตัดต่อด้านล่าง สีผิวจริง บาลานซ์แอมเบอร์เบาๆ ตัดกับแสงหน้าหนาวเมลเบิร์นที่เย็น ใช้กับวันครอบครัว ปฏิกิริยา เท็กซ์เจอร์เมือง — ที่ใดก็ตามที่เรื่องราวอยู่ที่คน ไม่ใช่ผืนดิน</div></div>
+    <div class="principle"><div class="p-label">Vista Grade — แรงบันดาลใจจาก BotW</div><div class="p-body">ไฮไลต์สีทองนุ่มๆ หมอกฟ้า-เขียวที่ขอบฟ้าให้ความลึกบรรยากาศ สีเขียวลดความอิ่มตัวเป็นโทนเสจแทนสีเขียวสนามหญ้าจัดจ้าน เงาที่ยกขึ้นแบบแมตต์แทนสีดำจม สงวนไว้สำหรับช็อตแลนด์สเคปกว้างเท่านั้น</div></div>
+  </div>
+  <div class="section-label" style="margin:16px 0 10px;">สูตร Vista Grade</div>
+  <div class="edit-row"><div class="edit-label">ไฮไลต์</div><div class="edit-val">ดันโทนทอง/อุ่น เบลอเรืองแสงเบาๆ ที่ขอบสว่างที่สุด — หลีกเลี่ยงการ clip แข็งๆ นี่คือจุดที่ "แสงเรือง BotW" อยู่</div></div>
+  <div class="edit-row"><div class="edit-label">เงา</div><div class="edit-val">ยกขึ้นนิดหน่อย โทนเขียวอมฟ้า ความแบนแบบภาพวาด ไม่ใช่สีดำลึกแบบหนัง — เงาของ BotW ไม่เคยจมดำ</div></div>
+  <div class="edit-row"><div class="edit-label">ความอิ่มตัวสี</div><div class="edit-val">ลดลง ~15–20% โดยรวม โดยเฉพาะสีเขียว — ดันไปทางเสจ/มะกอก ออกห่างจากเขียวสนามหญ้าจัดจ้าน</div></div>
+  <div class="edit-row"><div class="edit-label">ระยะไกล</div><div class="edit-val">เพิ่มหมอกบรรยากาศให้ฉากหลัง — ลดความอิ่มตัวและทำให้หน้าผา/เทือกเขาไกลๆ เย็นลง เพื่อให้ตาอ่านความลึกได้ เทคนิคเดียวกับที่ BotW ใช้กับภูเขาไกลๆ</div></div>
+  <div class="edit-row"><div class="edit-label">คอนทราสต์</div><div class="edit-val">ลดโดยรวม — เคิร์ฟแมตต์นุ่มๆ ไม่ใช่ S-curve จัดจ้าน ให้ช็อตกว้างได้หายใจแทนที่จะตัดจัด</div></div>
+  <div class="section-label" style="margin:16px 0 10px;">แต่ละเกรดใช้ที่ไหน</div>
+  <table class="settings-table">
+    <thead><tr><th>วัน</th><th>เกรด</th><th>เหตุผล</th></tr></thead>
+    <tbody>
+      <tr><td>D0 · เดินทาง</td><td>Documentary</td><td>ในสนามบิน/เครื่องบิน — ไม่มีแลนด์สเคปที่สมควรได้ vista</td></tr>
+      <tr><td>D1 · มาถึง</td><td>Documentary <span style="color:var(--gray-400);">(+ Night grade สำหรับ Hero 3)</span></td><td>ปฏิกิริยาในเมือง + บลูอาวร์ Noctilux ต้องเย็นไว้ ไม่ใช่อุ่น — อย่าฝืน Leica Glow ด้วยโทนทอง BotW</td></tr>
+      <tr><td>D2 · สวนสัตว์</td><td>Documentary</td><td>วันที่ขับเคลื่อนด้วยปฏิกิริยา — หน้าเด็กๆ ต้องการสีจริง ไม่ใช่การจัดสไตล์</td></tr>
+      <tr><td>D3 · GOR</td><td><strong>Vista</strong></td><td>ประเด็นหลักของเกรดนี้ 12 Apostles, Loch Ard Gorge, ถนนเลียบชายฝั่ง — ใช้เต็มสูตร</td></tr>
+      <tr><td>D4 · Phillip Is.</td><td>ผสม</td><td><strong>Vista</strong> สำหรับพระอาทิตย์ขึ้น Brighton + หน้าผา Cape Woolamai <strong>Documentary</strong> สำหรับ Maru Koala, Cowes, ทางเข้า Penguin Parade — เป็นช่วงเวลาคน/สัตว์ ไม่ใช่แลนด์สเคป</td></tr>
+      <tr><td>D5 · พักฟื้น + CBD</td><td>Documentary</td><td>เท็กซ์เจอร์ตลาด อาร์เคด ตรอกกาแฟ — คงสีจริงและความเป็นจริง</td></tr>
+      <tr><td>D6 · Yarra Valley</td><td><strong>Vista</strong></td><td>แถวเถาองุ่น + อุโมงค์ป่า Dandenong — เถาองุ่นโล้นเดือนสิงหาคมตัดกับเทือกเขาเลือนราง คือ BotW แท้ๆ</td></tr>
+      <tr><td>วันกลับ</td><td>Documentary</td><td>ร่ำลาที่สนามบิน — คงความเป็นจริง ไม่ใช่ภาพยนตร์จัด</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box" style="margin-top:16px;"><strong>💡 เคล็ดลับการถ่าย:</strong> S9 ถ่าย V-Log ได้ในตัว — ถ่ายแบบแฟลตเฉพาะ D3 กับ D6 เพื่อเก็บช่วงไดนามิกไว้เกรดสีแบบ Vista วันแบบ Documentary ถ่ายโปรไฟล์มาตรฐานตรงจากกล้องได้เลยเพื่อประหยัดเวลาตัดต่อ อย่าถ่าย V-Log ที่ Penguin Parade หรือที่แสงน้อยในร่ม — จะเสียรายละเอียดมากเกินไปตอนดันเงากลับขึ้นมา</div>`;
+
 TRANSLATIONS.th['sb.edit'] = `
   <h2>✂️ ปรัชญาการตัดต่อ — วิถี GiftLee + D'Avella</h2>
   <p style="font-size:13px;color:var(--gray-700);margin-bottom:16px;"><strong>ปล่อยให้ช็อตหายใจ เชื่อความเงียบ และตัดก่อนคนดูพร้อม</strong> พื้นที่ว่างคือที่ที่อารมณ์อาศัยอยู่</p>
   <div class="edit-row"><div class="edit-label">โครงสร้าง</div><div class="edit-val">ฉากเปิด (12 Apostles) → "3 วันก่อนหน้า…" → องก์ 1 (D0–D2) → องก์ 2 (D3–D5 พีคที่เพนกวิน) → องก์ 3 (D6–วันกลับ) ไตเติลการ์ดเดียวเท่านั้น: ตอนตัดดำที่เพนกวิน</div></div>
   <div class="edit-row"><div class="edit-label">จังหวะ</div><div class="edit-val">ความยาวช็อตเฉลี่ย 8–12 วินาที ไม่มีคัตเร็วยกเว้นพลังถนนเลียบทะเลของ D3 องก์ 3 ช้าลงเป็น 12–15 วินาที — ปล่อยให้ไร่องุ่นหายใจ</div></div>
   <div class="edit-row"><div class="edit-label">ดนตรี</div><div class="edit-val">เรียบง่าย ไม่มีบีตดรอป ดนตรีบรรเลง — เปียโน กีตาร์โปร่ง หรือแอมเบียนต์มินิมอล ห้ามมีดนตรีทับซีเควนซ์เพนกวิน — เสียงแอมเบียนต์เท่านั้น</div></div>
-  <div class="edit-row"><div class="edit-label">สี</div><div class="edit-val">โทนอุ่น ลดความอิ่มตัวนิดๆ Leica Glow คือลายเซ็นภาพ — อย่าฝืนมัน แสงหน้าหนาวเมลเบิร์นเย็นโดยธรรมชาติ — บาลานซ์ไปทางแอมเบอร์ ไม่ใช่ฟ้า</div></div>
+  <div class="edit-row"><div class="edit-label">สี</div><div class="edit-val">สองเกรด ไม่ใช่ LUT เดียว: Documentary (โทนอุ่น ตามความจริง ลายเซ็น Leica Glow) สำหรับวันครอบครัว/เมือง, Vista — โทน BotW บนแลนด์สเคป — สำหรับ D3 GOR และ D6 Yarra Valley รวมถึงวิวชายฝั่งของ D4 รายละเอียดเต็มอยู่ด้านบน</div></div>
   <div class="edit-row"><div class="edit-label">ความเงียบ</div><div class="edit-val">ตัดดำที่ Penguin Parade ค้าง 3+ วินาที ไตเติลการ์ด: "Phillip Island, 21 สิงหาคม ห้ามใช้กล้องหลังพระอาทิตย์ตก" ค้าง 2 วินาที ตัดไปเช้าวันถัดไป</div></div>
   <div class="edit-row"><div class="edit-label">สิ่งที่ตัดทิ้ง</div><div class="edit-val">ถ้าดูช็อตแล้วคิดว่า "อันนี้พิสูจน์ว่าเรามาถึง" — ตัดทิ้ง ถ้าคิดว่า "นี่แหละความรู้สึกตอนนั้น" — เก็บไว้</div></div>
   <div class="tip-box" style="margin-top:16px;"><strong>กฎตัดต่อของ GiftLee:</strong> ถ้ามีช็อตเบลอนิดๆ ของเสียงหัวเราะจริงๆ ของเด็กอยู่ในฟุตเทจ มันควรอยู่ในหนัง ช็อตเพอร์เฟกต์ทางเทคนิคของเด็กคนเดียวกันที่โพสให้กล้อง ไม่ควร</div>`;
