@@ -1930,13 +1930,13 @@ const WEATHER_WMO = {
 
 const WEATHER_FALLBACK = {
   '0':  { icon:'✈️', desc:'Travel day · BKK → MEL', special:true },
-  '1':  { icon:'⛅', min:7,  max:13, desc:'Partly cloudy',                precip:30, wind:18 },
-  '2':  { icon:'⛅', min:7,  max:14, desc:'Partly cloudy',                precip:25, wind:15 },
-  '3':  { icon:'🌧', min:6,  max:12, desc:'Coastal · Showers likely',     precip:50, wind:28 },
-  '4':  { icon:'🌤', min:7,  max:13, desc:'Partly sunny',                 precip:20, wind:14 },
-  '5':  { icon:'🌦', min:6,  max:11, desc:'Coastal · Showers possible',   precip:40, wind:25 },
-  '6':  { icon:'⛅', min:4,  max:14, desc:'Valley · Cold start, mild PM', precip:20, wind:12 },
-  'dep':{ icon:'🌤', min:7,  max:13, desc:'Partly cloudy',                precip:15, wind:15 },
+  '1':  { icon:'🌤', min:7,  max:14, desc:'Mostly sunny',                 precip:15, wind:18 },
+  '2':  { icon:'⛅', min:8,  max:14, desc:'Partly sunny',                 precip:25, wind:15 },
+  '3':  { icon:'🌧', min:8,  max:14, desc:'Coastal · Showers likely',     precip:50, wind:28 },
+  '4':  { icon:'🌧', min:10, max:16, desc:'Afternoon showers',            precip:45, wind:14 },
+  '5':  { icon:'🌧', min:10, max:15, desc:'Showers likely',               precip:45, wind:25 },
+  '6':  { icon:'🌤', min:9,  max:15, desc:'Valley · Mostly sunny',        precip:15, wind:12 },
+  'dep':{ icon:'☁️', min:10, max:16, desc:'Cloudy',                      precip:20, wind:15 },
 };
 
 function renderWeatherStrip(dayKey, d) {
